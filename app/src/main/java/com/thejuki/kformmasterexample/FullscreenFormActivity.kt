@@ -17,7 +17,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.redmadrobot.inputmask.MaskedTextChangedListener.ValueListener
 import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy
@@ -198,51 +197,6 @@ class FullscreenFormActivity : AppCompatActivity() {
                         // Uncomment to replace all text elements with the form_element_custom layout
                         //text = R.layout.form_element_custom
                 )) {
-            imageView(ImageViewElement.ordinal) {
-                displayDivider = false
-                imageTransformation = CircleTransform(borderColor = Color.WHITE, borderRadius = 3) //Default value for this is CircleTransform(null) so it makes image round without borders
-                required = false
-                theme = R.style.CustomDialogPicker // This is to theme the default dialog when onClickListener is not used.
-                //defaultImage = R.drawable.default_image
-                //value = "https://via.placeholder.com/200" //(String) This needs to be an image URL, data URL, or an image FILE (absolutePath)
-                imagePickerOptions = {
-                    // This lets you customize the ImagePicker library, specifying Crop, Dimensions and MaxSize options
-                    it.cropX = 3f
-                    it.cropY = 4f
-                    it.maxWidth = 150
-                    it.maxHeight = 200
-                    it.maxSize = 500
-                }
-                onSelectImage = { file ->
-                    // If file is null, that means an error occurred trying to select the image
-                    if (file != null) {
-                        Toast.makeText(this@FullscreenFormActivity, file.name, LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this@FullscreenFormActivity, "Error getting the image", LENGTH_LONG).show()
-                    }
-                }
-
-                // Optional: Handle onClickListener yourself. Here I am using a BottomSheet instead of the
-                // the default AlertDialog
-                bottomSheetDialog.image_bottom_sheet_camera.setOnClickListener {
-                    bottomSheetDialog.dismiss()
-                    this.openImagePicker(ImageProvider.CAMERA)
-                }
-                bottomSheetDialog.image_bottom_sheet_gallery.setOnClickListener {
-                    bottomSheetDialog.dismiss()
-                    this.openImagePicker(ImageProvider.GALLERY)
-                }
-                bottomSheetDialog.image_bottom_sheet_remove.setOnClickListener {
-                    bottomSheetDialog.dismiss()
-                    this.clearImage()
-                }
-                bottomSheetDialog.image_bottom_sheet_close.setOnClickListener {
-                    bottomSheetDialog.dismiss()
-                }
-                onClick = {
-                    bottomSheetDialog.show()
-                }
-            }
             header {
                 title = getString(R.string.PersonalInfo)
                 collapsible = true

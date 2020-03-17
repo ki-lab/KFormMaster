@@ -103,7 +103,6 @@ class PartialScreenFormActivity : AppCompatActivity() {
         }
 
         formBuilder = form(this, recyclerView, listener, true) {
-            imageView(ImageViewElement.ordinal) {}
             header { title = getString(R.string.PersonalInfo) }
             email(Email.ordinal) {
                 title = getString(R.string.email)

@@ -19,7 +19,6 @@ import com.thejuki.kformmaster.model.FormButtonElement;
 import com.thejuki.kformmaster.model.FormCheckBoxElement;
 import com.thejuki.kformmaster.model.FormEmailEditTextElement;
 import com.thejuki.kformmaster.model.FormHeader;
-import com.thejuki.kformmaster.model.FormImageElement;
 import com.thejuki.kformmaster.model.FormLabelElement;
 import com.thejuki.kformmaster.model.FormMultiLineEditTextElement;
 import com.thejuki.kformmaster.model.FormNumberEditTextElement;
@@ -153,17 +152,6 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
     }
 
     private void addEditTexts(List<BaseFormElement<?>> elements) {
-        FormImageElement imageView = new FormImageElement(Tag.ImageViewElement.ordinal());
-        imageView.setOnSelectImage((file) -> {
-            if (file != null) {
-                Toast.makeText(this, file.getName(), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Error getting the image", Toast.LENGTH_LONG).show();
-            }
-            return Unit.INSTANCE;
-        });
-        elements.add(imageView);
-
         elements.add(new FormHeader(getString(R.string.PersonalInfo)));
 
         FormEmailEditTextElement email = new FormEmailEditTextElement(Tag.Email.ordinal());
