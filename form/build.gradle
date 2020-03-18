@@ -143,10 +143,10 @@ dependencies {
 
 publish {
     version = project.version
-    group = "com.thejuki"
-    userOrg = 'thejuki'
+    group = "com.ki-lab"
+    userOrg = 'ki-lab'
     artifactId = 'k-form-master'
-    desc = 'Easily build generic forms with minimal effort (A Kotlin port of FormMaster)'
-    website = 'https://github.com/TheJuki/KFormMaster'
+    desc = 'Easily build generic forms with minimal effort (A Kotlin port of FormMaster) (fork)'
+    website = 'https://github.com/ki-lab/KFormMaster'
 }
 
