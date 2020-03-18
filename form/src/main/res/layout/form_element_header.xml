@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/colorFormMasterHeaderBackground"
-    android:layout_height="wrap_content">
+    android:elevation="6sp"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/formElementDivider"
+        android:layout_width="0sp"
+        android:layout_height="1sp"
+        android:background="@color/colorFormMasterDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/formElementTitle"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="8sp"
+        android:elevation="3sp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:padding="3sp"
+        android:singleLine="false"
+        android:textColor="@color/colorFormMasterHeaderText"
         android:textSize="@dimen/headerTextSize"
-        tools:text="Personal Info"
-        android:textColor="@color/colorFormMasterHeaderText" />
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
+        tools:text="Personal Info" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

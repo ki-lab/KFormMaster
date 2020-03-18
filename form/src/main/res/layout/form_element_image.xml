@@ -1,68 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/formElementMainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorFormMasterElementImageBackground"
-    android:orientation="vertical"
-    android:tag="formImage">
+    android:orientation="vertical">
 
     <View
         android:id="@+id/formElementDivider"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/colorFormMasterDivider" />
+        android:layout_width="0sp"
+        android:layout_height="1sp"
+        android:background="@color/colorFormMasterDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top">
-
-        <ImageView
-            android:id="@+id/formElementValue"
-            android:layout_marginTop="5dp"
-            android:layout_width="175sp"
-            android:layout_height="175sp"
-            android:layout_gravity="center_horizontal|top"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription"
-            tools:layout_conversion_wrapHeight="0"
-            tools:layout_conversion_wrapWidth="0" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/formElementValue"
+        android:layout_width="175sp"
+        android:layout_height="175sp"
+        android:layout_marginTop="8sp"
+        android:scaleType="fitCenter"
+        android:elevation="1sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/formElementImageLabel"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="8sp"
+        android:gravity="center"
+        android:padding="3sp"
         android:text="@string/form_master_picker_change_image"
-        android:textAlignment="center"
         android:textColor="@color/colorFormMasterElementImageChangeImageTextColor"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/formElementValue"
+        app:layout_constraintStart_toStartOf="@+id/formElementValue"
+        app:layout_constraintTop_toBottomOf="@+id/formElementValue"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/formElementError"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
-        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="8sp"
+        android:gravity="center"
+        android:padding="3sp"
         android:textColor="@color/colorFormMasterElementErrorTitle"
         android:textSize="@dimen/elementErrorTitleSize"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/formElementValue"
+        app:layout_constraintStart_toStartOf="@+id/formElementValue"
+        app:layout_constraintTop_toBottomOf="@+id/formElementValue"
         tools:text="Personal Info" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

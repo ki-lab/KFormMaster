@@ -1,68 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorFormMasterElementBackground"
-    android:orientation="vertical"
-    android:paddingBottom="16dp">
+    android:orientation="vertical">
 
     <View
         android:id="@+id/formElementDivider"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/colorFormMasterDivider" />
-
-    <LinearLayout
-        android:id="@+id/formElementMainLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
+        android:layout_width="0sp"
+        android:layout_height="1sp"
+        android:background="@color/colorFormMasterDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <com.thejuki.kformmaster.widget.IconTextView
             android:id="@+id/formElementTitle"
-            android:layout_width="0dp"
+            android:layout_width="0sp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_marginTop="8sp"
+            android:layout_marginEnd="3sp"
+            android:layout_marginRight="3sp"
+            android:layout_marginBottom="8sp"
+            android:gravity="center"
+            android:maxLines="2"
+            android:padding="3sp"
+            android:singleLine="false"
             android:textColor="@color/colorFormMasterElementTextTitle"
             android:textSize="@dimen/elementTextTitleSize"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintHorizontal_bias="0.21"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
             tools:text="Personal Info" />
 
-        <RelativeLayout
-            android:id="@+id/formElementRelativeLayout"
-            android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/formElementRelativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/formElementValue"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:orientation="vertical">
-
-            <ProgressBar
-                android:id="@+id/formElementValue"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                tools:progress="100"
-                android:max="100" />
-        </RelativeLayout>
-
-    </LinearLayout>
+            android:indeterminate="true"
+            android:max="100"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:progress="100" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/formElementError"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="8sp"
+        android:gravity="center"
         android:textColor="@color/colorFormMasterElementErrorTitle"
         android:textSize="@dimen/elementErrorTitleSize"
+        android:textStyle="italic"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/formElementTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
         tools:text="Personal Info" />
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="158sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

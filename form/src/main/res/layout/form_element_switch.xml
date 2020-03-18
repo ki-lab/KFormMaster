@@ -1,64 +1,81 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/colorFormMasterElementBackground"
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
 
     <View
         android:id="@+id/formElementDivider"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/colorFormMasterDivider" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorFormMasterDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/formElementMainLayout"
-        android:layout_width="match_parent"
+    <com.thejuki.kformmaster.widget.IconTextView
+        android:id="@+id/formElementTitle"
+        android:layout_width="0sp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:padding="16dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="8sp"
+        android:layout_marginEnd="3sp"
+        android:layout_marginRight="3sp"
+        android:layout_marginBottom="8sp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:padding="3sp"
+        android:singleLine="false"
+        android:textColor="@color/colorFormMasterElementTextTitle"
+        android:textSize="@dimen/elementTextTitleSize"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
+        tools:text="Personal Info" />
 
-        <com.thejuki.kformmaster.widget.IconTextView
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            android:layout_height="wrap_content"
-            android:id="@+id/formElementTitle"
-            tools:text="Personal Info"
-            android:textSize="@dimen/elementTextTitleSize"
-            android:textColor="@color/colorFormMasterElementTextTitle" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="end">
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/formElementValue"
-                android:layout_width="wrap_content"
-                android:paddingBottom="7dp"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/formElementValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/formElementError"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="8dp"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="8sp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:padding="3sp"
+        android:singleLine="false"
         android:textColor="@color/colorFormMasterElementErrorTitle"
         android:textSize="@dimen/elementErrorTitleSize"
+        android:textStyle="italic"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
         tools:text="Personal Info" />
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="158sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
