@@ -10,6 +10,7 @@ import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.util.*
 
 /**
@@ -227,9 +228,9 @@ class FormPickerDateElement(tag: Int = -1) : FormPickerElement<FormPickerDateEle
         val datePickerDialog = DatePickerDialog(editTextView.context,
                 theme,
                 dateDialogListener(editTextView),
-                value?.year ?: 0,
-                if ((value?.month ?: 0) == 0) 0 else (value?.month ?: 0) - 1,
-                value?.dayOfMonth ?: 0)
+                value?.year ?: Calendar.YEAR,
+                value?.month?.let { it-1 }?:Calendar.MONTH,
+                value?.dayOfMonth ?: Calendar.DAY_OF_WEEK_IN_MONTH)
 
         maximumDate?.let {
             datePickerDialog.datePicker.maxDate = it.time

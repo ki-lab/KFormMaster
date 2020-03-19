@@ -5,8 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorFormMasterElementBackground"
-    android:orientation="vertical">
+    android:background="@color/colorFormMasterElementBackground">
 
     <View
         android:id="@+id/formElementDivider"
@@ -39,41 +38,62 @@
         app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
         tools:text="Personal Info" />
 
-    <androidx.appcompat.widget.AppCompatCheckBox
+    <com.thejuki.kformmaster.widget.ClearableEditText
         android:id="@+id/formElementValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3sp"
         android:layout_marginLeft="3sp"
         android:layout_marginTop="8sp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
         android:layout_marginBottom="8sp"
         android:background="@null"
-        android:gravity="center"
+        android:gravity="end"
+        android:imeOptions="actionNext"
+        android:inputType="textNoSuggestions"
+        android:maxLines="1"
         android:padding="3sp"
         android:textColor="@drawable/edit_text_selector"
         android:textColorHint="@color/colorFormMasterElementHint"
         android:textSize="@dimen/elementTextValueSize"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/formElementDropIcon"
+        app:layout_constraintHorizontal_bias="0.56"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
         tools:text="Riddhiman Adib" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/formElementError"
+    <ImageView
+        android:id="@+id/formElementDropIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_arrow_drop_down_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/formElementValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/formElementValue" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/formElementError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8sp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3sp"
         android:layout_marginBottom="8sp"
+        android:gravity="center"
         android:textColor="@color/colorFormMasterElementErrorTitle"
         android:textSize="@dimen/elementErrorTitleSize"
+        android:textStyle="italic"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
-        tools:text="Personal Info" />
+        tools:text="Personal Info"
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

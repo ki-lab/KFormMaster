@@ -18,4 +18,14 @@ class FormLabelElement(tag: Int = -1) : BaseFormElement<String>(tag) {
             }
         }
     }
+
+    fun setTextSize(size: Float){
+        editView?.let {
+            if (it is TextView) {
+                it.textSize = size
+            }
+        }
+    }
+
+
 }

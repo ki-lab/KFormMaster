@@ -1,6 +1,7 @@
 package com.thejuki.kformmaster.view
 
 import android.content.Context
+import android.content.res.Resources
 import android.text.InputType
 import android.view.View
 import android.widget.LinearLayout
@@ -25,7 +26,7 @@ import com.thejuki.kformmaster.state.FormEditTextViewState
  */
 class FormPickerDropDownViewBinder(private val context: Context, private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewBinder() {
     val viewBinder = ViewBinder(layoutID
-            ?: R.layout.form_element, FormPickerDropDownElement::class.java, { model, finder, _ ->
+            ?: R.layout.form_element_selector, FormPickerDropDownElement::class.java, { model, finder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView

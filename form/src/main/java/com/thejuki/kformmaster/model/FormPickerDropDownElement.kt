@@ -200,6 +200,7 @@ class FormPickerDropDownElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
 
         itemView?.setOnClickListener(listener)
         editTextView?.setOnClickListener(listener)
+
     }
 
     override fun displayNewValue() {
