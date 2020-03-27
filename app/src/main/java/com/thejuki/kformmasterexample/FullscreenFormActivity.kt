@@ -305,7 +305,6 @@ class FullscreenFormActivity : AppCompatActivity() {
                 enabled = true
                 updateOnFocusChange = true
                 imeOptions = EditorInfo.IME_ACTION_DONE
-                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
                 clearable = true
                 clearOnFocus = false
                 valueObservers.add { newValue, element ->

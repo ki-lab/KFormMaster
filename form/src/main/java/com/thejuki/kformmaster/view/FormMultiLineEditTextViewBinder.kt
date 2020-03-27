@@ -26,7 +26,7 @@ import com.thejuki.kformmaster.state.FormEditTextViewState
  */
 class FormMultiLineEditTextViewBinder(private val context: Context, private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewBinder() {
     val viewBinder = ViewBinder(layoutID
-            ?: R.layout.form_element, FormMultiLineEditTextElement::class.java, { model, finder, _ ->
+            ?: R.layout.form_element_text_area, FormMultiLineEditTextElement::class.java, { model, finder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
