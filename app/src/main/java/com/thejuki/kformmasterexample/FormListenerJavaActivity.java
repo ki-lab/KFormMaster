@@ -225,7 +225,7 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
         dropDown.setValue(new ListItem(1L, "Banana"));
         elements.add(dropDown);
 
-        FormPickerMultiCheckBoxElement<List<ListItem>> multiCheckBox = new FormPickerMultiCheckBoxElement<>(Tag.MultiItems.ordinal());
+        FormPickerMultiCheckBoxElement<ListItem> multiCheckBox = new FormPickerMultiCheckBoxElement<>(Tag.MultiItems.ordinal());
         multiCheckBox.setTitle(getString(R.string.MultiItems));
         multiCheckBox.setDialogTitle(getString(R.string.MultiItems));
         multiCheckBox.setOptions(fruits);

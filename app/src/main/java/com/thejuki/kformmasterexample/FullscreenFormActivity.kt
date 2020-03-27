@@ -33,6 +33,7 @@ import com.thejuki.kformmasterexample.item.ListItem
 import com.thejuki.kformmasterexample.item.SegmentedListItem
 import kotlinx.android.synthetic.main.activity_fullscreen_form.*
 import kotlinx.android.synthetic.main.bottomsheet_image.*
+import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Date
@@ -153,11 +154,12 @@ class FullscreenFormActivity : AppCompatActivity() {
         }
     }
 
-    private val fruits = listOf(ListItem(id = 1, name = "Banana"),
-            ListItem(id = 2, name = "Orange"),
-            ListItem(id = 3, name = "Mango"),
-            ListItem(id = 4, name = "Guava"),
-            ListItem(id = 5, name = "Apple")
+    private val fruits = listOf(
+            Pair<Int, String>(1, "Banana"),
+            Pair<Int, String>(2, "Orange"),
+            Pair<Int, String>(3, "Mango"),
+            Pair<Int, String>(4, "Guava"),
+            Pair<Int, String>(5, "Apple")
     )
 
     private val fruitsSegmented = listOf(SegmentedListItem(id = 1, name = "Banana", drawableDirection = FormSegmentedElement.DrawableDirection.Top),
@@ -296,6 +298,7 @@ class FullscreenFormActivity : AppCompatActivity() {
                 value = "123 Street"
                 rightToLeft = false
                 displayDivider = false
+                minLines = 3
                 maxLines = 2
                 maxLength = 100
                 required = true
@@ -383,7 +386,7 @@ class FullscreenFormActivity : AppCompatActivity() {
                 }
             }
             header { title = getString(R.string.PreferredItems); collapsible = true }
-            dropDown<ListItem>(SingleItem.ordinal) {
+            dropDown<Pair<Int, String>>(SingleItem.ordinal) {
                 title = getString(R.string.SingleItem)
                 dialogTitle = getString(R.string.SingleItem)
                 options = fruits
@@ -393,7 +396,7 @@ class FullscreenFormActivity : AppCompatActivity() {
                 theme = R.style.CustomDialogPicker
                 displayValueFor = {
                     if (it != null) {
-                        it.name + " (" + options?.indexOf(it) + ")"
+                        it.second + " (" + options?.indexOf(it) + ")"
                     } else {
                         ""
                     }
@@ -402,24 +405,31 @@ class FullscreenFormActivity : AppCompatActivity() {
                 displayRadioButtons = true
                 maxLines = 3
                 displayDivider = false
-                value = ListItem(id = 1, name = "Banana")
+                value = Pair<Int, String>(1, "Banana")
                 required = true
                 clearable = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
                 }
             }
-            multiCheckBox<List<ListItem>>(MultiItems.ordinal) {
+            multiCheckBox<Pair<Int, String>>(MultiItems.ordinal) {
                 title = getString(R.string.MultiItems)
                 dialogTitle = getString(R.string.MultiItems)
                 theme = R.style.CustomDialogPicker
                 options = fruits
+                displayValueFor = {
+                    if (it != null) {
+                        it.second + " (" + options?.indexOf(it) + ")"
+                    } else {
+                        ""
+                    }
+                }
                 enabled = true
                 maxLines = 3
                 confirmEdit = true
                 rightToLeft = false
                 displayDivider = false
-                value = listOf(ListItem(id = 1, name = "Banana"))
+                value = Pair<Int, String>(1, "Banana")
                 required = true
                 clearable = true
                 valueObservers.add { newValue, element ->

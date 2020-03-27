@@ -107,7 +107,7 @@ fun <T> FormBuildHelper.dropDown(tag: Int = -1, init: FormPickerDropDownElement<
 }
 
 /** FormBuildHelper extension to add a FormPickerMultiCheckBoxElement */
-fun <T : List<*>> FormBuildHelper.multiCheckBox(tag: Int = -1, init: FormPickerMultiCheckBoxElement<T>.() -> Unit): FormPickerMultiCheckBoxElement<T> {
+fun <T> FormBuildHelper.multiCheckBox(tag: Int = -1, init: FormPickerMultiCheckBoxElement<T>.() -> Unit): FormPickerMultiCheckBoxElement<T> {
     return addFormElement(FormPickerMultiCheckBoxElement<T>(tag).apply(init))
 }
 

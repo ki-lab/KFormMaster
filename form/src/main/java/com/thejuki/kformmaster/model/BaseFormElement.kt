@@ -82,7 +82,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     /**
      * Form Element Value
      */
-    var value: T? by Delegates.observable<T?>(null) { _, _, newValue ->
+    open var value: T? by Delegates.observable<T?>(null) { _, _, newValue ->
         valueObservers.forEach { it(newValue, this) }
         editView?.let {
             displayNewValue()
@@ -135,6 +135,19 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 if (it is TextView && it !is AppCompatCheckBox && it !is AppCompatButton && it !is SwitchCompat) {
                     it.setSingleLine(maxLines == 1)
                     it.maxLines = maxLines
+                }
+            }
+        }
+
+    /**
+     * Form Element Max Lines
+     */
+    var minLines: Int = 1
+        set(value) {
+            field = value
+            editView?.let {
+                if (it is TextView && it !is AppCompatCheckBox && it !is AppCompatButton && it !is SwitchCompat) {
+                    it.minLines = if(it.maxLines==1) 1 else minLines
                 }
             }
         }

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
+import kotlin.properties.Delegates
 
 /**
  * Form Picker MultiCheckBox Element
@@ -16,12 +17,12 @@ import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
  * @author **TheJuki** ([GitHub](https://github.com/TheJuki))
  * @version 1.0
  */
-class FormPickerMultiCheckBoxElement<T : List<*>>(tag: Int = -1) : FormPickerElement<T>(tag) {
+class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
 
     override val isValid: Boolean
         get() = validityCheck()
 
-    override var validityCheck = { !required || (value != null && value?.isEmpty() == false) }
+    override var validityCheck = { !required || (value != null && (value as List<T>?)?.isEmpty() == false) }
 
     override fun clear() {
         super.clear()
@@ -29,9 +30,49 @@ class FormPickerMultiCheckBoxElement<T : List<*>>(tag: Int = -1) : FormPickerEle
     }
 
     /**
+     * Form Element Value Observers
+     */
+    val listValueObservers = mutableListOf<(value: List<T>?, element: BaseFormElement<T>) -> Unit>()
+
+    /**
+     * Form Element Value
+     */
+    var listValue: List<T>? by Delegates.observable<List<T>?>(null) { _, _, newValue ->
+        listValueObservers.forEach { it(newValue, this) }
+        editView?.let {
+            displayNewValue()
+        }
+    }
+
+    override var value: T? by Delegates.observable<T?>(null) { _, _, newValue ->
+//        valueObservers.forEach { it(newValue, this) }
+        val newListValue: MutableList<T> = mutableListOf()
+        listValue?.let { newListValue.addAll(it) }
+        newValue?.let { newListValue.add(it) }
+        listValue = newListValue
+    }
+    /**
+     * Value builder setter
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun setListValue(value: List<T>): BaseFormElement<T> {
+        listValue = value
+//        value.forEach {newValue ->
+//            listValue?.also {list ->
+//                if(!list.contains(newValue)) newValue?.let { list.add(it) }
+//            } ?: run{listValue = mutableListOf<T>().also {list-> newValue?.let { list.add(it) } }}
+//        }
+//        editView?.let {
+//            displayNewValue()
+//        }
+        return this
+    }
+
+
+    /**
      * Form Element Options
      */
-    var options: T? = null
+    var options: List<T>? = null
         set(value) {
             field = value
             reInitDialog()
@@ -42,6 +83,14 @@ class FormPickerMultiCheckBoxElement<T : List<*>>(tag: Int = -1) : FormPickerEle
      * Used to call reInitDialog without needing context again.
      */
     private var alertDialogBuilder: AlertDialog.Builder? = null
+
+    /**
+     * Display Value For
+     * Used to specify a string value to be displayed
+     */
+    var displayValueFor: ((T?) -> String?) = {
+        it?.toString() ?: ""
+    }
 
     /**
      * Alert Dialog Title
@@ -84,7 +133,7 @@ class FormPickerMultiCheckBoxElement<T : List<*>>(tag: Int = -1) : FormPickerEle
                 options[i] = obj.toString()
                 optionsSelected[i] = false
 
-                if (this.value?.contains(obj) == true) {
+                if ((this.listValue as List<T>?)?.contains(obj) == true) {
                     optionsSelected[i] = true
                     mSelectedItems.add(i)
                 }
@@ -123,15 +172,21 @@ class FormPickerMultiCheckBoxElement<T : List<*>>(tag: Int = -1) : FormPickerEle
         }
 
         alertDialogBuilder?.let { builder ->
-            if (this.options?.isEmpty() == true) {
+            if ((this.options as List<T>)?.isEmpty() == true) {
                 builder.setTitle(this.dialogTitle)
                         .setMessage(dialogEmptyMessage)
                         .setPositiveButton(null, null)
                         .setNegativeButton(null, null)
             } else {
+                val optionsDisplayed = arrayOfNulls<CharSequence>(this.options?.size ?: 0)
+                this.options?.let {
+                    for (i in it.indices) {
+                        optionsDisplayed[i] = this.displayValueFor(it[i])
+                    }
+                }
                 builder.setTitle(this.dialogTitle)
                         .setMessage(null)
-                        .setMultiChoiceItems(options, optionsSelected) { _, which, isChecked ->
+                        .setMultiChoiceItems(optionsDisplayed, optionsSelected) { _, which, isChecked ->
                             if (isChecked) {
                                 // If the user checked the item, add it to the selected items
                                 mSelectedItems.add(which)
@@ -148,7 +203,7 @@ class FormPickerMultiCheckBoxElement<T : List<*>>(tag: Int = -1) : FormPickerEle
                                         .map { x -> option[x] }
 
                                 this.error = null
-                                this.setValue(selectedOptions)
+                                this.setListValue(selectedOptions)
                                 listener?.onValueChanged(this)
                             }
                         }
@@ -163,9 +218,9 @@ class FormPickerMultiCheckBoxElement<T : List<*>>(tag: Int = -1) : FormPickerEle
             // Invoke onClick Unit
             this.onClick?.invoke()
 
-            if (!confirmEdit || value == null || value?.isEmpty() == true) {
+            if (!confirmEdit || listValue == null || (listValue as List<T>?)?.isEmpty() == true) {
                 alertDialog.show()
-            } else if (confirmEdit && value != null) {
+            } else if (confirmEdit && listValue != null) {
                 alertDialogBuilder
                         ?.setTitle(confirmTitle)
                         ?.setMessage(confirmMessage)
@@ -185,11 +240,9 @@ class FormPickerMultiCheckBoxElement<T : List<*>>(tag: Int = -1) : FormPickerEle
 
         this.options?.let {
             for (i in it.indices) {
-                val obj = it[i]
+                options[i] = this.displayValueFor(it[i])
 
-                options[i] = obj.toString()
-
-                if (this.value?.contains(obj) == true) {
+                if ((this.listValue as List<T>?)?.contains(it[i]) == true) {
                     mSelectedItems.add(i)
                 }
             }
