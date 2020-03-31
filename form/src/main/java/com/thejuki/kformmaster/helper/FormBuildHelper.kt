@@ -122,6 +122,9 @@ class FormBuildHelper
         // Progress
         this.formAdapter.registerRenderer(FormProgressViewBinder(context, this, formLayouts?.progress).viewBinder)
 
+        // Tree
+        this.formAdapter.registerRenderer(FormTreeViewBinder(context, this, formLayouts?.tree).viewBinder)
+
         // Pickers
         registerPickers(context)
 

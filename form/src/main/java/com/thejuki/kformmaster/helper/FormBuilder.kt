@@ -96,6 +96,10 @@ fun FormBuildHelper.time(tag: Int = -1, init: FormPickerTimeElement.() -> Unit):
     return addFormElement(FormPickerTimeElement(tag).apply(init))
 }
 
+fun <T>FormBuildHelper.tree(tag: Int = -1, init: FormTreeElement<T>.() -> Unit): FormTreeElement<T> {
+    return addFormElement(FormTreeElement<T>(tag).apply(init))
+}
+
 /** FormBuildHelper extension to add a FormPickerDateTimeElement */
 fun FormBuildHelper.dateTime(tag: Int = -1, init: FormPickerDateTimeElement.() -> Unit): FormPickerDateTimeElement {
     return addFormElement(FormPickerDateTimeElement(tag).apply(init))

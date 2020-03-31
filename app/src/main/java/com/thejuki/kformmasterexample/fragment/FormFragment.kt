@@ -92,6 +92,11 @@ class FormFragment : Fragment() {
 
         formBuilder = form(context, recyclerView, cacheForm = true) {
             header { title = getString(R.string.PersonalInfo); collapsible = true }
+
+            tree<Int> {
+                title = "TreeTest"
+            }
+
             email(Email.ordinal) {
                 title = getString(R.string.email)
                 hint = getString(R.string.email_hint)
