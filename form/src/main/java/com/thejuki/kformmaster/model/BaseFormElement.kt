@@ -347,11 +347,11 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var valueTextColor: Int? = null
         set(value) {
             field = value
-            editView?.let {
-                if (it is TextView) {
-                    if (valueTextColor != null) {
-                        it.setTextColor(valueTextColor ?: 0)
-                    }
+            editView?.let {view ->
+                when{
+                    view is TextView && view !is AppCompatCheckBox && view !is AppCompatButton && view !is SwitchCompat -> value?.let { view.setTextColor(it)}
+                    view is IconButton -> value?.let { view.setTextColor(it) }
+                    else ->  {}
                 }
             }
         }

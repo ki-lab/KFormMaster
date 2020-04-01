@@ -15,7 +15,7 @@ import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.model.FormSliderElement
 import com.thejuki.kformmaster.state.FormSliderViewState
-import kotlin.math.roundToInt
+import kotlin.math.truncate
 
 /**
  * Form Slider Binder

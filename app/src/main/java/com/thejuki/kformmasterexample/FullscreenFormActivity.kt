@@ -3,7 +3,6 @@ package com.thejuki.kformmasterexample
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
-import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -29,11 +27,8 @@ import com.thejuki.kformmasterexample.FullscreenFormActivity.Tag.*
 import com.thejuki.kformmasterexample.adapter.ContactAutoCompleteAdapter
 import com.thejuki.kformmasterexample.adapter.EmailAutoCompleteAdapter
 import com.thejuki.kformmasterexample.item.ContactItem
-import com.thejuki.kformmasterexample.item.ListItem
 import com.thejuki.kformmasterexample.item.SegmentedListItem
 import kotlinx.android.synthetic.main.activity_fullscreen_form.*
-import kotlinx.android.synthetic.main.bottomsheet_image.*
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Date
@@ -501,11 +496,11 @@ class FullscreenFormActivity : AppCompatActivity() {
             }
             slider<Double>(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
-                value = 100
-                min = 100
-                max = 1000
+                setValue(37.5)
+                min = 0.toDouble()
+                max = 100.toDouble()
+                steps = 4.toDouble()
                 displayDivider = false
-                incrementBy = 50
                 enabled = true
                 required = true
                 valueObservers.add { newValue, element ->
