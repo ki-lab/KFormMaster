@@ -279,12 +279,12 @@ class FormFragment : Fragment() {
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
-            slider(SliderElement.ordinal) {
+            slider<Double>(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
-                value = 50
-                min = 0
-                max = 100
-                steps = 20
+                value = 50.toDouble()
+                min = 0.toDouble()
+                max = 100.toDouble()
+                steps = 20.toDouble()
                 enabled = true
                 required = true
                 valueObservers.add { newValue, element ->

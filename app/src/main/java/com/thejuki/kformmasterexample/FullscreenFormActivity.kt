@@ -409,6 +409,12 @@ class FullscreenFormActivity : AppCompatActivity() {
                 clearable = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
+                    valueTextColor = when((value as Pair<Int, String>).first){
+                        1 -> Color.GREEN
+                        3,4 -> Color.YELLOW
+                        5 -> Color.RED
+                        else -> null
+                    }
                 }
             }
             multiCheckBox<Pair<Int, String>>(MultiItems.ordinal) {
@@ -493,7 +499,7 @@ class FullscreenFormActivity : AppCompatActivity() {
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
                 }
             }
-            slider(SliderElement.ordinal) {
+            slider<Double>(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
                 value = 100
                 min = 100
@@ -503,7 +509,12 @@ class FullscreenFormActivity : AppCompatActivity() {
                 enabled = true
                 required = true
                 valueObservers.add { newValue, element ->
-                    Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
+                    valueTextColor = value?.let { when(it){
+                        in "38.5".toDouble().."42".toDouble()-> Color.RED
+                        in "37.5".toDouble().."38".toDouble() -> Color.parseColor("#FFFF5722")
+                        in min .. "37".toDouble() -> Color.GREEN
+                        else -> null
+                    }}
                 }
             }
             checkBox<Boolean>(CheckBoxElement.ordinal) {

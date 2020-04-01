@@ -187,12 +187,12 @@ class PartialScreenFormActivity : AppCompatActivity() {
                 onValue = "Yes"
                 offValue = "No"
             }
-            slider(SliderElement.ordinal) {
+            slider<Double>(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
-                value = 50
-                min = 0
-                max = 100
-                steps = 20
+                value = 50.toDouble()
+                min = 0.toDouble()
+                max = 100.toDouble()
+                steps = 20.toDouble()
             }
             checkBox<Boolean>(CheckBoxElement.ordinal) {
                 title = getString(R.string.CheckBox)

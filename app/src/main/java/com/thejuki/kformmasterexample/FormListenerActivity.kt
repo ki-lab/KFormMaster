@@ -180,12 +180,12 @@ class FormListenerActivity : AppCompatActivity(), OnFormElementValueChangedListe
                 onValue = "Yes"
                 offValue = "No"
             }
-            slider(SliderElement.ordinal) {
+            slider<Int>(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
                 value = 50
                 min = 0
                 max = 100
-                steps = 20
+                incrementBy = 20
             }
             checkBox<Boolean>(CheckBoxElement.ordinal) {
                 title = getString(R.string.CheckBox)
