@@ -40,10 +40,29 @@
             android:textColor="@color/colorFormMasterElementTextTitle"
             android:textSize="@dimen/elementTextTitleSize"
             android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/formElementAdd"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
             tools:text="Personal Info" />
+
+        <com.thejuki.kformmaster.widget.IconTextView
+            android:id="@+id/formElementTip"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:maxLines="2"
+            android:padding="3sp"
+            android:singleLine="false"
+            android:textColor="@color/colorFormMasterElementTextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/formElementAdd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/formElementTitle"
+            tools:text="(Liste des comorbidités du pat)" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/formElementError"
@@ -66,12 +85,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8sp"
             android:layout_marginBottom="8dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp"
             android:text="+ Ajouter"
+            android:textColor="@color/colorFormMasterElementFocusedTitle"
+            android:textStyle="bold"
+            android:background="@null"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="@dimen/elementErrorTitleSize"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/formElementTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/formElementTip" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/formElementRecyclerView"
@@ -81,6 +104,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
