@@ -215,6 +215,20 @@ class FormBuildHelper
     }
 
     /**
+     * unlock all form element
+     */
+    fun unlockAll() {
+        this.elements.forEach { it.enabled = true; it.clickable = true;}
+    }
+
+    /**
+     * lock all form element
+     */
+    fun lockAll() {
+        this.elements.forEach { it.enabled = false; it.clickable = false; }
+    }
+
+    /**
      * Gets a form element with the given [tag]
      */
     @Suppress("UNCHECKED_CAST")

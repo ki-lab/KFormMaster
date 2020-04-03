@@ -1,6 +1,8 @@
 package com.thejuki.kformmaster.model
 
+import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.appcompat.widget.AppCompatTextView
+import com.thejuki.kformmaster.R
 
 /**
  * Form Slider Element
@@ -64,10 +66,18 @@ open class FormSliderElement<T: Number>(tag: Int = -1) : BaseFormElement<T>(tag)
 
     var decimalNumberFormat : String = "%.1f"
 
+    override fun onEnabled(enable: Boolean) {
+        super.onEnabled(enable)
+        this.itemView?.findViewById<AppCompatSeekBar>(R.id.formElementValue)?.let{
+            it.isEnabled = enable
+            it.isClickable = enable
+        }
+    }
+
     override fun displayNewValue() {
         editView?.let {
-            if (it is AppCompatTextView) {
-                it.text = valueToString()
+            if (it is AppCompatSeekBar) {
+                this.itemView?.findViewById<AppCompatTextView>(R.id.formElementProgress)?.text = valueToString()
             }
         }
     }

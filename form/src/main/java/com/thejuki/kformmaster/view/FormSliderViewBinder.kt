@@ -39,7 +39,7 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
         val maxDisplayValueView = finder.find<AppCompatTextView>(R.id.formElementMaxValue)
         val minDisplayValueView = finder.find<AppCompatTextView>(R.id.formElementMinValue)
         val progressValue = finder.find<AppCompatTextView>(R.id.formElementProgress)
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, progressValue)
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, slider)
 
 
         model.maxLabel.takeUnless { it.isBlank()}?.let {

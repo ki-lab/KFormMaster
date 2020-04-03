@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.*
 import com.github.vivchar.rendererrecyclerviewadapter.ViewModel
+import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.extensions.dpToPx
 import com.thejuki.kformmaster.extensions.setMargins
 import com.thejuki.kformmaster.helper.FormDsl
@@ -351,6 +352,8 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 when{
                     view is TextView && view !is AppCompatCheckBox && view !is AppCompatButton && view !is SwitchCompat -> value?.let { view.setTextColor(it)}
                     view is IconButton -> value?.let { view.setTextColor(it) }
+                    view is AppCompatSeekBar -> this.itemView?.findViewById<AppCompatTextView>(R.id.formElementProgress)
+                            ?.let {textView -> value?.let{textView.setTextColor(it)} }
                     else ->  {}
                 }
             }
