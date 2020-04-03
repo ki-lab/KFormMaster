@@ -22,11 +22,13 @@
         android:id="@+id/formElementTitle"
         android:layout_width="0sp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8sp"
         android:layout_marginEnd="3sp"
         android:layout_marginRight="3sp"
         android:layout_marginBottom="8sp"
-        android:gravity="center"
+        android:gravity="start|center_vertical"
         android:maxLines="2"
         android:padding="3sp"
         android:singleLine="false"
@@ -85,6 +87,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="158sp" />
+        app:layout_constraintGuide_begin="192sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

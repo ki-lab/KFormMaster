@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Form Master</string>
+    <string name="form_master_pick_one">Sélectionner un</string>
+    <string name="form_master_empty">Vide</string>
+    <string name="form_master_pick_one_or_more">Sélectionner un ou plusieur</string>
+    <string name="form_master_okay">Ok</string>
+    <string name="form_master_cancel">Annuler</string>
+    <string name="form_master_confirm_title">Confirmation de changement</string>
+    <string name="form_master_confirm_message">Sohaitez-vous éditer cette valeur ?</string>
+    <string name="form_master_picker_camera">Appareil photo</string>
+    <string name="form_master_picker_gallery">Galerie</string>
+    <string name="form_master_picker_remove">Retirer</string>
+    <string name="form_master_picker_change_image">Changer l\'image</string>
+</resources>

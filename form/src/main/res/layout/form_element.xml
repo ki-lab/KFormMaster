@@ -20,11 +20,13 @@
         android:id="@+id/formElementTitle"
         android:layout_width="0sp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8sp"
         android:layout_marginEnd="3sp"
         android:layout_marginRight="3sp"
         android:layout_marginBottom="8sp"
-        android:gravity="center"
+        android:gravity="start|center_vertical"
         android:maxLines="2"
         android:padding="3sp"
         android:singleLine="false"
@@ -71,15 +73,15 @@
         android:layout_marginEnd="3dp"
         android:layout_marginRight="3sp"
         android:layout_marginBottom="8sp"
-        android:gravity="center"
+        android:gravity="start|center_vertical"
         android:textColor="@color/colorFormMasterElementErrorTitle"
         android:textSize="@dimen/elementErrorTitleSize"
         android:textStyle="italic"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
+        app:layout_constraintBottom_toBottomOf="@id/formElementTitle"
+        app:layout_constraintEnd_toEndOf="@+id/formElementTitle"
+        app:layout_constraintStart_toStartOf="@id/formElementTitle"
+        app:layout_constraintTop_toTopOf="@+id/formElementTitle"
         tools:text="Personal Info"
         tools:visibility="visible" />
 
@@ -88,6 +90,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="158sp" />
+        app:layout_constraintGuide_begin="192sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
