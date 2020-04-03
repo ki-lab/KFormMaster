@@ -30,21 +30,26 @@ import kotlinx.android.synthetic.main.tree_list_item.view.*
 
 class FormTreeViewBinder(private val context: Context, private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewBinder() {
 
-    private val input = arrayListOf<FormTreeElement.TreeItem>()
+    private lateinit var model:  FormTreeElement<*>
+    
     private val displayedItems
-        get() = input.flatMap{ it.children.filter { child -> child.selected } }
+        get() = model.items.flatMap{ it.children.filter { child -> child.selected } }
 
     val viewBinder = ViewBinder(layoutID
-            ?: R.layout.form_element_tree, FormTreeElement::class.java, { model, finder, _ ->
+            ?: R.layout.form_element_tree, FormTreeElement::class.java) { _model, finder, _ ->
+        model = _model
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? ConstraintLayout
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val recyclerView = finder.find(R.id.formElementRecyclerView) as? RecyclerView
+        val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
         val button = finder.find(R.id.formElementAdd) as? AppCompatButton
         val itemView = finder.getRootView() as View
 
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView = null)
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView = recyclerView)
+
+        tip?.text = model.tip
 
         // Delay setting to make sure editView is set first
         model.mainLayoutView = mainViewLayout
@@ -53,48 +58,20 @@ class FormTreeViewBinder(private val context: Context, private val formBuilder: 
             openDialog(recyclerView)
         }
 
-        /****
-        val val1 = TempModel().apply {
-            name = "val1"
-            children.add(TempModel().apply { name = "child1"; required = true })
-            children.add(TempModel().apply { name = "child2"; selected = true })
-            children.add(TempModel().apply { name = "child3" })
-        }
-        val val2 = TempModel().apply {
-            name = "val2"
-        }
-        val val3 = TempModel().apply {
-            name = "val3"
-            children.add(TempModel().apply { name = "child1" })
-            children.add(TempModel().apply { name = "child2"; selected = true })
-        }
-        input.add(val1)
-        input.add(val2)
-        input.add(val3)
-        // ****/
-
         recyclerView?.layoutManager = LinearLayoutManager(context)
         recyclerView?.adapter = ListAdapter()
-
-    }, object : ViewStateProvider<FormTreeElement<*>, ViewHolder> {
-        override fun createViewStateID(model: FormTreeElement<*>): Int {
-            return model.id
-        }
-
-        override fun createViewState(holder: ViewHolder): ViewState<ViewHolder> {
-            return FormCheckBoxViewState(holder) //TODO
-        }
-    })
+    }
 
     private fun openDialog(recyclerView: RecyclerView?) {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("TITRE")
+        builder.setTitle(model.title)
 
         val expandableListView = ExpandableListView(context)
 
-        val expandableListAdapter = TreeAdapter(input)
-        builder.setPositiveButton("OK") { dialog: DialogInterface, id: Int ->
+        val expandableListAdapter = TreeAdapter(model.items)
+        builder.setPositiveButton("OK") { dialog: DialogInterface, _ : Int ->
             recyclerView?.adapter?.notifyDataSetChanged()
+            model.callback()
             dialog.dismiss()
         }
         builder.setNegativeButton("ANNULER") { dialog: DialogInterface, id: Int -> dialog.dismiss() }
@@ -141,13 +118,13 @@ class FormTreeViewBinder(private val context: Context, private val formBuilder: 
         }
 
         override fun isChildSelectable(groupPosition: Int, childPosition: Int) = false
-        override fun hasStableIds() = true
+        override fun hasStableIds() = false // true
         override fun getGroup(groupPosition: Int) = input.getOrNull(groupPosition)
         override fun getChild(groupPosition: Int, childPosition: Int) = input.getOrNull(groupPosition)?.children?.getOrNull(childPosition)
-        override fun getGroupId(groupPosition: Int) = input.getOrNull(groupPosition)?.id?.toLong()
+        override fun getGroupId(groupPosition: Int) = 0L // input.getOrNull(groupPosition)?.id?.toLong()
                 ?: 0L
 
-        override fun getChildId(groupPosition: Int, childPosition: Int) = input.getOrNull(groupPosition)?.children?.getOrNull(childPosition)?.id?.toLong()
+        override fun getChildId(groupPosition: Int, childPosition: Int) = 0L //input.getOrNull(groupPosition)?.children?.getOrNull(childPosition)?.id?.toLong()
                 ?: 0L
 
         override fun getGroupCount() = input.size
@@ -162,6 +139,7 @@ class FormTreeViewBinder(private val context: Context, private val formBuilder: 
             return ViewHolder(itemView).apply {
                 itemView.removeButton.setOnClickListener {
                     displayedItems[adapterPosition].selected = !displayedItems[adapterPosition].selected
+                    model.callback()
                     notifyDataSetChanged()
                 }
             }
