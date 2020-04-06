@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorFormMasterElementBackground"
+    android:elevation="6sp"
     android:orientation="vertical">
 
     <View
@@ -17,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.thejuki.kformmaster.widget.IconButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/formElementValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

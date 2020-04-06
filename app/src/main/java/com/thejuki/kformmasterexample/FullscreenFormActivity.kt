@@ -580,12 +580,8 @@ class FullscreenFormActivity : AppCompatActivity() {
             button(ButtonElement.ordinal) {
                 value = getString(R.string.Button)
                 displayDivider = false
-                titleIcon = ContextCompat.getDrawable(this@FullscreenFormActivity, R.drawable.ic_email_blue_24dp)
-                titleIconLocation = IconTextView.Location.LEFT
-                titleIconPadding = 5
-                padding = FormElementPadding(165, 0, 165, 0)
-                centerText = true
-                enabled = true
+                valueTextColor = Color.WHITE
+                valueBackgroundColor = Color.BLACK
                 valueObservers.add { newValue, element ->
                     val confirmAlert = AlertDialog.Builder(this@FullscreenFormActivity).create()
                     confirmAlert.setTitle(this@FullscreenFormActivity.getString(R.string.Confirm))

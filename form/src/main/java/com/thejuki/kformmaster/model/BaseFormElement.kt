@@ -351,10 +351,25 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             editView?.let {view ->
                 when{
                     view is TextView && view !is AppCompatCheckBox && view !is AppCompatButton && view !is SwitchCompat -> value?.let { view.setTextColor(it)}
-                    view is IconButton -> value?.let { view.setTextColor(it) }
+                    view is AppCompatButton -> value?.let { view.setTextColor(it) }
                     view is AppCompatSeekBar -> this.itemView?.findViewById<AppCompatTextView>(R.id.formElementProgress)
                             ?.let {textView -> value?.let{textView.setTextColor(it)} }
                     else ->  {}
+                }
+            }
+        }
+
+    /**
+     * Form Element Value Text Color
+     */
+    @ColorInt
+    var valueBackgroundColor: Int? = null
+        set(value) {
+            field = value
+            editView?.let {view ->
+                when (view) {
+                    is AppCompatButton -> value?.let { view.setBackgroundColor(it) }
+                    else -> {}
                 }
             }
         }

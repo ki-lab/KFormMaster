@@ -1,6 +1,8 @@
 package com.thejuki.kformmaster.model
 
+import android.graphics.drawable.Drawable
 import android.widget.TextView
+import com.thejuki.kformmaster.widget.IconButton
 
 /**
  * Form Button Element
@@ -19,6 +21,12 @@ class FormButtonElement(tag: Int = -1) : BaseFormElement<String>(tag) {
         get() = validityCheck()
 
     override var validityCheck = { true }
+
+    var iconLocation: IconButton.Location = IconButton.Location.LEFT
+
+    var icon: Drawable? = null
+
+    var iconPadding: Int = 20
 
     /**
      * Nothing to clear

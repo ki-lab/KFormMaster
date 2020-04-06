@@ -1,8 +1,11 @@
 package com.thejuki.kformmaster.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.Button
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatButton
 import com.github.vivchar.rendererrecyclerviewadapter.ViewHolder
 import com.github.vivchar.rendererrecyclerviewadapter.ViewState
 import com.github.vivchar.rendererrecyclerviewadapter.ViewStateProvider
@@ -26,7 +29,7 @@ class FormButtonViewBinder(private val context: Context, private val formBuilder
             ?: R.layout.form_element_button, FormButtonElement::class.java, { model, finder, _ ->
         val itemView = finder.getRootView() as View
         val dividerView = finder.find(R.id.formElementDivider) as? View
-        val button = finder.find(R.id.formElementValue) as IconButton
+        val button = finder.find(R.id.formElementValue) as AppCompatButton
         baseSetup(model, dividerView, itemView = itemView, editView = button)
 
         button.text = model.valueAsString
@@ -39,11 +42,11 @@ class FormButtonViewBinder(private val context: Context, private val formBuilder
             formBuilder.onValueChanged(model)
         }
 
-        button.iconLocation = IconButton.Location.valueOf(model.titleIconLocation.toString())
-        button.icon = model.titleIcon
-        button.iconPadding = model.titleIconPadding
+        model.iconLocation = IconButton.Location.valueOf(model.titleIconLocation.toString())
+        model.icon = model.titleIcon
+        model.iconPadding = model.titleIconPadding
 
-        button.reInitIcon()
+        setIconVisible(button, model.icon, model.iconLocation, model.iconPadding)
 
     }, object : ViewStateProvider<FormButtonElement, ViewHolder> {
         override fun createViewStateID(model: FormButtonElement): Int {
@@ -54,4 +57,20 @@ class FormButtonViewBinder(private val context: Context, private val formBuilder
             return FormButtonViewState(holder)
         }
     })
+
+    private fun setIconVisible(button : AppCompatButton, icon: Drawable?, location: IconButton.Location, iconPadding: Int) {
+        val cd = button.compoundDrawables
+
+        // Reset icons
+        if (cd[0] == icon) {
+            cd[0] = null
+        }
+        if (cd[2] == icon) {
+            cd[2] = null
+        }
+
+        button.setCompoundDrawables(if (location == IconButton.Location.LEFT) icon else cd[0], cd[1], if (location == IconButton.Location.RIGHT) icon else cd[2],
+                cd[3])
+        button.compoundDrawablePadding = iconPadding
+    }
 }
