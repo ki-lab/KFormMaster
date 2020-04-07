@@ -149,6 +149,7 @@ class FormBuildHelper
         this.formAdapter.registerRenderer(FormPickerDateTimeViewBinder(context, this, formLayouts?.dateTime).viewBinder)
         this.formAdapter.registerRenderer(FormPickerMultiCheckBoxViewBinder(context, this, formLayouts?.multiCheckBox).viewBinder)
         this.formAdapter.registerRenderer(FormPickerDropDownViewBinder(context, this, formLayouts?.dropDown).viewBinder)
+        this.formAdapter.registerRenderer(FormPickerRadioViewBinder(context, this, formLayouts?.radio).viewBinder)
     }
 
     /**

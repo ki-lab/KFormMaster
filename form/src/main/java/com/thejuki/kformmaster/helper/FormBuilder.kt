@@ -106,6 +106,11 @@ fun FormBuildHelper.dateTime(tag: Int = -1, init: FormPickerDateTimeElement.() -
 }
 
 /** FormBuildHelper extension to add a FormPickerDropDownElement */
+fun <T> FormBuildHelper.radio(tag: Int = -1, init: FormPickerRadioElement<T>.() -> Unit): FormPickerRadioElement<T> {
+    return addFormElement(FormPickerRadioElement<T>(tag).apply(init))
+}
+
+/** FormBuildHelper extension to add a FormPickerDropDownElement */
 fun <T> FormBuildHelper.dropDown(tag: Int = -1, init: FormPickerDropDownElement<T>.() -> Unit): FormPickerDropDownElement<T> {
     return addFormElement(FormPickerDropDownElement<T>(tag).apply(init))
 }

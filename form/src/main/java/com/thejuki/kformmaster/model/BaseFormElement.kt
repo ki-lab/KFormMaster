@@ -1,5 +1,6 @@
 package com.thejuki.kformmaster.model
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.text.InputFilter
 import android.text.InputType
@@ -17,6 +18,7 @@ import com.thejuki.kformmaster.extensions.setMargins
 import com.thejuki.kformmaster.helper.FormDsl
 import com.thejuki.kformmaster.helper.InputMaskOptions
 import com.thejuki.kformmaster.widget.*
+import com.whygraphics.multilineradiogroup.MultiLineRadioGroup
 import kotlin.properties.Delegates
 
 
@@ -148,7 +150,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             field = value
             editView?.let {
                 if (it is TextView && it !is AppCompatCheckBox && it !is AppCompatButton && it !is SwitchCompat) {
-                    it.minLines = if(it.maxLines==1) 1 else minLines
+                    it.minLines = if (it.maxLines == 1) 1 else minLines
                 }
             }
         }
@@ -348,13 +350,24 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var valueTextColor: Int? = null
         set(value) {
             field = value
-            editView?.let {view ->
-                when{
-                    view is TextView && view !is AppCompatCheckBox && view !is AppCompatButton && view !is SwitchCompat -> value?.let { view.setTextColor(it)}
+            editView?.let { view ->
+                when {
+                    view is TextView && view !is AppCompatCheckBox && view !is AppCompatButton && view !is SwitchCompat -> value?.let { view.setTextColor(it) }
                     view is AppCompatButton -> value?.let { view.setTextColor(it) }
                     view is AppCompatSeekBar -> this.itemView?.findViewById<AppCompatTextView>(R.id.formElementProgress)
-                            ?.let {textView -> value?.let{textView.setTextColor(it)} }
-                    else ->  {}
+                            ?.let { textView -> value?.let { textView.setTextColor(it) } }
+                    view is MultiLineRadioGroup -> (editView as? MultiLineRadioGroup)?.let { view ->
+                        (0 until view.radioButtonCount).forEach { index ->
+                            view.getRadioButtonAt(index)?.setTextColor(
+                                    if (index == view.checkedRadioButtonIndex) {
+                                        value ?: Color.BLACK
+                                    } else {
+                                        Color.BLACK
+                                    })
+                        }
+                    }
+                    else -> {
+                    }
                 }
             }
         }
@@ -366,10 +379,11 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var valueBackgroundColor: Int? = null
         set(value) {
             field = value
-            editView?.let {view ->
+            editView?.let { view ->
                 when (view) {
                     is AppCompatButton -> value?.let { view.setBackgroundColor(it) }
-                    else -> {}
+                    else -> {
+                    }
                 }
             }
         }

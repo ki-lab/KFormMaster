@@ -34,4 +34,5 @@ class FormLayouts(@LayoutRes var header: Int? = null,
                   @LayoutRes var segmented: Int? = null,
                   @LayoutRes var progress: Int? = null,
                   @LayoutRes var tree: Int? = null,
+                  @LayoutRes var radio: Int? = null,
                   @LayoutRes var image: Int? = null)

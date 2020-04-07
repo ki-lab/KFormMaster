@@ -380,6 +380,33 @@ class FullscreenFormActivity : AppCompatActivity() {
                 }
             }
             header { title = getString(R.string.PreferredItems); collapsible = true }
+            radio<Pair<Int, String>>(SingleItem.ordinal) {
+                title = getString(R.string.SingleItem)
+                options = fruits
+                enabled = true
+                rightToLeft = false
+                theme = R.style.CustomDialogPicker
+                displayValueFor = {
+                    if (it != null) {
+                        it.second + " (" + options?.indexOf(it) + ")"
+                    } else {
+                        ""
+                    }
+                }
+                displayDivider = false
+                value = Pair<Int, String>(1, "Banana")
+                required = true
+                clearable = true
+                valueObservers.add { newValue, element ->
+                    Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
+                    valueTextColor = when((value as Pair<Int, String>).first){
+                        1 -> Color.GREEN
+                        3,4 -> Color.YELLOW
+                        5 -> Color.RED
+                        else -> null
+                    }
+                }
+            }
             dropDown<Pair<Int, String>>(SingleItem.ordinal) {
                 title = getString(R.string.SingleItem)
                 dialogTitle = getString(R.string.SingleItem)
