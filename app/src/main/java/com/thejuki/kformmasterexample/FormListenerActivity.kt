@@ -119,7 +119,7 @@ class FormListenerActivity : AppCompatActivity(), OnFormElementValueChangedListe
             }
             number(ZipCode.ordinal) {
                 title = getString(R.string.ZipCode)
-                value = "1000"
+                value = 1000
             }
             header { title = getString(R.string.Schedule) }
             date(Tag.Date.ordinal) {

@@ -8,11 +8,19 @@ package com.thejuki.kformmaster.model
  * @author **TheJuki** ([GitHub](https://github.com/TheJuki))
  * @version 1.0
  */
-class FormNumberEditTextElement(tag: Int = -1) : BaseFormElement<String>(tag) {
+class FormNumberEditTextElement(tag: Int = -1) : BaseFormElement<Number>(tag) {
 
     /**
      * By default, the number field can contain numbers and symbols (.,-).
      * Set to true to only allow numbers.
      */
     var numbersOnly: Boolean = false
+
+    override fun setValue(value: Any?): BaseFormElement<Number> {
+        return super.setValue(when{
+            value is String && (value as? String)?.contains('.')==true -> (value as? String)?.toDouble()
+            value is String && (value as? String)?.contains('.')==false -> (value as? String)?.toInt()
+            else -> value
+        })
+    }
 }

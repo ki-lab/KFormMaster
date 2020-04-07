@@ -154,7 +154,7 @@ class FormFragment : Fragment() {
             }
             number(ZipCode.ordinal) {
                 title = getString(R.string.ZipCode)
-                value = "123456"
+                value = 123456
                 numbersOnly = true
                 rightToLeft = false
                 required = true

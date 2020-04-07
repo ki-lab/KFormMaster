@@ -308,7 +308,7 @@ class FullscreenFormActivity : AppCompatActivity() {
             }
             number(ZipCode.ordinal) {
                 title = getString(R.string.ZipCode)
-                value = "12345"
+                value = 12345
                 numbersOnly = true
                 rightToLeft = false
                 displayDivider = false
