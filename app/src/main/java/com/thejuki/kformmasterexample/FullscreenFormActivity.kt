@@ -396,7 +396,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                     }
                 }
                 displayDivider = false
-                value = Pair<Int, String>(1, "Banana")
+                setValue(Pair<Int, String>(1, "Banana"))
                 required = true
                 clearable = true
                 valueObservers.add { newValue, element ->

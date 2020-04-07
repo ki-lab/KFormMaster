@@ -64,6 +64,6 @@ class FormPickerRadioElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
         return valuesToDisplay
     }
 
-    private fun getOptionsFromDisplay(valueDisplayed: String) =  options?.find { displayValueFor(it) == valueDisplayed}
+    fun getOptionsFromDisplay(valueDisplayed: String) =  options?.find { displayValueFor(it) == valueDisplayed}
 }
 

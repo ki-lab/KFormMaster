@@ -37,9 +37,11 @@ class FormPickerRadioViewBinder(private val context: Context, private val formBu
 
         editValue.removeAllButtons()
 
-        model.optionsToDisplay().forEach {
-            it.let{editValue.addButtons(it)}
+        model.optionsToDisplay().forEachIndexed { index, string ->
+            editValue.addButtons(index, string)
         }
+
+        editValue.check(model.valueAsString)
 
         editValue.setOnCheckedChangeListener { _: ViewGroup?, radioButton: RadioButton? ->
             radioButton?.let{
