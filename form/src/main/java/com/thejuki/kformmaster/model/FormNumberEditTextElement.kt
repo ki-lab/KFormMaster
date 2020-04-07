@@ -18,8 +18,9 @@ class FormNumberEditTextElement(tag: Int = -1) : BaseFormElement<Number>(tag) {
 
     override fun setValue(value: Any?): BaseFormElement<Number> {
         return super.setValue(when{
-            value is String && (value as? String)?.contains('.')==true -> (value as? String)?.toDouble()
-            value is String && (value as? String)?.contains('.')==false -> (value as? String)?.toInt()
+            (value as? String)?.isBlank() == true -> null
+            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.contains('.')==true -> (value as? String)?.toDouble()
+            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.contains('.')==false -> (value as? String)?.toInt()
             else -> value
         })
     }
