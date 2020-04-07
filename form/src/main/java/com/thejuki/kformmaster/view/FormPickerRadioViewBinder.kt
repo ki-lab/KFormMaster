@@ -35,12 +35,17 @@ class FormPickerRadioViewBinder(private val context: Context, private val formBu
         val editValue = finder.find(R.id.formElementValue) as MultiLineRadioGroup
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView =  editValue)
 
+        editValue.removeAllButtons()
+
         model.optionsToDisplay().forEach {
             it.let{editValue.addButtons(it)}
         }
 
         editValue.setOnCheckedChangeListener { _: ViewGroup?, radioButton: RadioButton? ->
-            radioButton?.let{ model.setValue(model.getOptionsFromDisplay(it.text.toString()))}
+            radioButton?.let{
+                model.onSelectValue(it.text.toString())
+                formBuilder.onValueChanged(model)
+            }
         }
 
         if (model.options?.size?:0 < 2) {

@@ -19,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.redmadrobot.inputmask.MaskedTextChangedListener.ValueListener
 import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy
 import com.thejuki.kformmaster.helper.*
+import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
 import com.thejuki.kformmaster.model.*
 import com.thejuki.kformmaster.widget.FormElementMargins
 import com.thejuki.kformmaster.widget.FormElementPadding
@@ -42,7 +43,7 @@ import java.util.Date
  * @author **TheJuki** ([GitHub](https://github.com/TheJuki))
  * @version 1.0
  */
-class FullscreenFormActivity : AppCompatActivity() {
+class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedListener {
 
     private lateinit var formBuilder: FormBuildHelper
     private lateinit var bottomSheetDialog: BottomSheetDialog
@@ -308,17 +309,18 @@ class FullscreenFormActivity : AppCompatActivity() {
             }
             number(ZipCode.ordinal) {
                 title = getString(R.string.ZipCode)
-                value = 12345
+                value = 12
                 numbersOnly = true
                 rightToLeft = false
                 displayDivider = false
                 maxLength = 5
                 required = true
                 enabled = true
-                clearable = true
+                clearable = false
                 clearOnFocus = false
                 valueObservers.add { newValue, element ->
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
+                    newValue?.let{value -> if(value.toInt() > 10) valueTextColor = Color.RED}
                 }
             }
             header { title = getString(R.string.Schedule); collapsible = true }
@@ -431,7 +433,7 @@ class FullscreenFormActivity : AppCompatActivity() {
                 clearable = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
-                    valueTextColor = when((value as Pair<Int, String>).first){
+                    valueTextColor = when((value as? Pair<Int, String>?)?.first){
                         1 -> Color.GREEN
                         3,4 -> Color.YELLOW
                         5 -> Color.RED
@@ -523,10 +525,10 @@ class FullscreenFormActivity : AppCompatActivity() {
             }
             slider<Double>(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
-                setValue(37.5)
-                min = 0.toDouble()
-                max = 100.toDouble()
-                steps = 4.toDouble()
+                value = 37.5
+                min = 36.toDouble()
+                max = 42.toDouble()
+                steps = 0.5.toDouble()
                 displayDivider = false
                 enabled = true
                 required = true
@@ -630,4 +632,10 @@ class FullscreenFormActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onValueChanged(formElement: BaseFormElement<*>) {
+        Toast.makeText(this@FullscreenFormActivity, formElement.title, LENGTH_SHORT).show()
+    }
+
+
 }

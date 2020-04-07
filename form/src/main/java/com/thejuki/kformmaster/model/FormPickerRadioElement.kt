@@ -30,40 +30,6 @@ class FormPickerRadioElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
     }
 
     /**
-     * Enable to display the radio buttons
-     */
-    var displayRadioButtons: Boolean = false
-
-    /**
-     * Alert Dialog Builder
-     * Used to call reInitDialog without needing context again.
-     */
-    private var alertDialogBuilder: AlertDialog.Builder? = null
-
-    /**
-     * Alert Dialog Title
-     * (optional - uses R.string.form_master_pick_one)
-     */
-    var dialogTitle: String? = null
-
-    /**
-     * Alert Dialog Empty Message
-     * (optional - uses R.string.form_master_empty)
-     */
-    var dialogEmptyMessage: String? = null
-
-    /**
-     * ArrayAdapter for Alert Dialog
-     * (optional - uses setItems(options))
-     */
-    var arrayAdapter: ArrayAdapter<*>? = null
-
-    /**
-     * Hold the [OnFormElementValueChangedListener] from [FormBuildHelper]
-     */
-    private var listener: OnFormElementValueChangedListener? = null
-
-    /**
      * Theme
      */
     var theme: Int = 0
@@ -88,12 +54,16 @@ class FormPickerRadioElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
         }
     }
 
+    fun onSelectValue(textValue: String){
+        setValue(getOptionsFromDisplay(textValue))
+    }
+
     fun optionsToDisplay(): List<String>{
         val valuesToDisplay: MutableList<String> = mutableListOf()
         options?.forEach { valuesToDisplay.add(displayValueFor(it)?:"")}
         return valuesToDisplay
     }
 
-    fun getOptionsFromDisplay(valueDisplayed: String) =  options?.find { displayValueFor(it) == valueDisplayed}
+    private fun getOptionsFromDisplay(valueDisplayed: String) =  options?.find { displayValueFor(it) == valueDisplayed}
 }
 

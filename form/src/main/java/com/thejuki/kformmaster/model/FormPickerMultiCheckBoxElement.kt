@@ -22,7 +22,7 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
     override val isValid: Boolean
         get() = validityCheck()
 
-    override var validityCheck = { !required || (value != null && (value as List<T>?)?.isEmpty() == false) }
+    override var validityCheck = { !required || (listValue != null && (listValue as List<T>?)?.isEmpty() == false) }
 
     override fun clear() {
         super.clear()
