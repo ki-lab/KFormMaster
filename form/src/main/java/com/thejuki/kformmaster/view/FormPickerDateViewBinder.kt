@@ -45,7 +45,7 @@ class FormPickerDateViewBinder(private val context: Context, private val formBui
         with(model.value)
         {
             if (this == null) {
-                model.setValue(FormPickerDateElement.DateHolder(model.dateValue, model.dateFormat))
+                model.setValue(FormPickerDateElement.DateHolder(model.dateValue, model.dateFormat, model.startDate))
             }
             this?.validOrCurrentDate()
         }
