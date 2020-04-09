@@ -350,27 +350,31 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var valueTextColor: Int? = null
         set(value) {
             field = value
-            editView?.let { view ->
-                when {
-                    view is TextView && view !is AppCompatCheckBox && view !is AppCompatButton && view !is SwitchCompat -> value?.let { view.setTextColor(it) }
-                    view is AppCompatButton -> value?.let { view.setTextColor(it) }
-                    view is AppCompatSeekBar -> this.itemView?.findViewById<AppCompatTextView>(R.id.formElementProgress)
-                            ?.let { textView -> value?.let { textView.setTextColor(it) } }
-                    view is MultiLineRadioGroup -> (editView as? MultiLineRadioGroup)?.let { view ->
-                        (0 until view.radioButtonCount).forEach { index ->
-                            view.getRadioButtonAt(index)?.setTextColor(
-                                    if (index == view.checkedRadioButtonIndex) {
-                                        value ?: Color.BLACK
-                                    } else {
-                                        Color.BLACK
-                                    })
-                        }
+            refreshValueTextColor()
+   }
+
+    private fun refreshValueTextColor() {
+        editView?.let { view ->
+            when {
+                view is TextView && view !is AppCompatCheckBox && view !is AppCompatButton && view !is SwitchCompat -> valueTextColor?.let { view.setTextColor(it) }
+                view is AppCompatButton -> valueTextColor?.let { view.setTextColor(it) }
+                view is AppCompatSeekBar -> this.itemView?.findViewById<AppCompatTextView>(R.id.formElementProgress)
+                        ?.let { textView -> valueTextColor?.let { textView.setTextColor(it) } }
+                view is MultiLineRadioGroup -> (editView as? MultiLineRadioGroup)?.let { view ->
+                    (0 until view.radioButtonCount).forEach { index ->
+                        view.getRadioButtonAt(index)?.setTextColor(
+                                if (index == view.checkedRadioButtonIndex) {
+                                    valueTextColor ?: Color.BLACK
+                                } else {
+                                    Color.BLACK
+                                })
                     }
-                    else -> {
-                    }
+                }
+                else -> {
                 }
             }
         }
+    }
 
     /**
      * Form Element Value Text Color
@@ -608,9 +612,15 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
         set(value) {
             field = value
             editView?.let {
+                enabled = enabled
                 it.isEnabled = enabled
                 it.isClickable = clickable
                 it.isFocusable = focusable
+
+                if (valueTextColor != null) {
+                    refreshValueTextColor()
+                }
+
                 if (it is TextView && it !is AppCompatCheckBox && it !is AppCompatButton && it !is SwitchCompat) {
                     if (centerText) {
                         it.gravity = Gravity.CENTER
@@ -627,17 +637,10 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                             it.filters = arrayOf<InputFilter>()
                         }
                     }
-                    if (valueTextColor != null) {
-                        it.setTextColor(valueTextColor ?: 0)
-                    }
                     if (hintTextColor != null) {
                         it.setHintTextColor(hintTextColor ?: 0)
                     }
                 } else if (it is IconButton) {
-                    if (valueTextColor != null) {
-                        it.setTextColor(valueTextColor ?: 0)
-                    }
-
                     if (centerText) {
                         it.gravity = Gravity.CENTER
                     } else {

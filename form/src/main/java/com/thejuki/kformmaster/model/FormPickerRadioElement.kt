@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
+import com.whygraphics.multilineradiogroup.MultiLineRadioGroup
 
 
 /**
@@ -65,5 +66,14 @@ class FormPickerRadioElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
     }
 
     fun getOptionsFromDisplay(valueDisplayed: String) =  options?.find { displayValueFor(it) == valueDisplayed}
+
+    override fun onEnabled(enable: Boolean) {
+        super.onEnabled(enable)
+        (editView as? MultiLineRadioGroup)?.let { view ->
+            (0 until view.radioButtonCount).forEach { index ->
+                view.getRadioButtonAt(index)?.isEnabled = false
+            }
+        }
+    }
 }
 

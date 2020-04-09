@@ -33,7 +33,7 @@ class FormPickerRadioViewBinder(private val context: Context, private val formBu
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
         val editValue = finder.find(R.id.formElementValue) as MultiLineRadioGroup
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView =  editValue)
+
 
         editValue.removeAllButtons()
 
@@ -55,6 +55,8 @@ class FormPickerRadioViewBinder(private val context: Context, private val formBu
         } else {
             editValue.maxInRow = 1
         }
+
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView =  editValue)
 
         setClearableListener(model)
 

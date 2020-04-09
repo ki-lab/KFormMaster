@@ -65,7 +65,12 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
 
         slider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                updateSeekValue(model, slider, progress)
+                model.error = null
+                val displayedValue = getDisplayedValue(progress, model)
+                model.setValue(displayedValue)
+                progressValue.text = displayedValue.toString()
+                slider.progress = getProgressValue(model.value?:model.min, model)
+                formBuilder.onValueChanged(model)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
@@ -85,17 +90,6 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
             return FormSliderViewState(holder)
         }
     })
-
-    private fun updateSeekValue(model: FormSliderElement<*>,
-                                slider: AppCompatSeekBar,
-                                sliderValue: Int) {
-
-        model.error = null
-        model.setValue(getDisplayedValue(sliderValue, model))
-        formBuilder.onValueChanged(model)
-
-        slider.progress = getProgressValue(model.value?:model.min, model)
-    }
 
     // Calcul of the value to be displayed
     private fun getDisplayedValue(progressVal: Int, model : FormSliderElement<*>) = when {
