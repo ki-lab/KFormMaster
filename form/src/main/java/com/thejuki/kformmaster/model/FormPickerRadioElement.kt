@@ -71,7 +71,7 @@ class FormPickerRadioElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
         super.onEnabled(enable)
         (editView as? MultiLineRadioGroup)?.let { view ->
             (0 until view.radioButtonCount).forEach { index ->
-                view.getRadioButtonAt(index)?.isEnabled = false
+                view.getRadioButtonAt(index)?.isEnabled = enable
             }
         }
     }
