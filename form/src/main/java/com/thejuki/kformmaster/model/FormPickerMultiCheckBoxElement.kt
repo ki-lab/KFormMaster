@@ -1,6 +1,10 @@
 package com.thejuki.kformmaster.model
 
+import android.graphics.Color
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
+import android.widget.TableLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
@@ -30,11 +34,6 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
     }
 
     /**
-     * Form Element Value Observers
-     */
-    val listValueObservers = mutableListOf<(value: List<T>?, element: BaseFormElement<T>) -> Unit>()
-
-    /**
      * Form Element Value
      */
     var listValue: List<T>? by Delegates.observable<List<T>?>(null) { _, _, newValue ->
@@ -45,26 +44,18 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
     }
 
     override var value: T? by Delegates.observable<T?>(null) { _, _, newValue ->
-//        valueObservers.forEach { it(newValue, this) }
         val newListValue: MutableList<T> = mutableListOf()
         listValue?.let { newListValue.addAll(it) }
         newValue?.let { newListValue.add(it) }
         listValue = newListValue
     }
+
     /**
      * Value builder setter
      */
     @Suppress("UNCHECKED_CAST")
     fun setListValue(value: List<T>): BaseFormElement<T> {
         listValue = value
-//        value.forEach {newValue ->
-//            listValue?.also {list ->
-//                if(!list.contains(newValue)) newValue?.let { list.add(it) }
-//            } ?: run{listValue = mutableListOf<T>().also {list-> newValue?.let { list.add(it) } }}
-//        }
-//        editView?.let {
-//            displayNewValue()
-//        }
         return this
     }
 
@@ -153,7 +144,7 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
             }
         }
 
-        val editTextView = this.editView as? AppCompatEditText
+        val editTextView = this.editView as? TableLayout
 
         if (alertDialogBuilder == null && editTextView?.context != null) {
             alertDialogBuilder = AlertDialog.Builder(editTextView.context, theme)
@@ -172,7 +163,7 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
         }
 
         alertDialogBuilder?.let { builder ->
-            if ((this.options as List<T>)?.isEmpty() == true) {
+            if (this.options?.isEmpty() == true) {
                 builder.setTitle(this.dialogTitle)
                         .setMessage(dialogEmptyMessage)
                         .setPositiveButton(null, null)
@@ -218,7 +209,7 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
             // Invoke onClick Unit
             this.onClick?.invoke()
 
-            if (!confirmEdit || listValue == null || (listValue as List<T>?)?.isEmpty() == true) {
+            if (!confirmEdit || listValue == null || listValue?.isEmpty() == true) {
                 alertDialog.show()
             } else if (confirmEdit && listValue != null) {
                 alertDialogBuilder
@@ -231,39 +222,32 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
         }
 
         itemView?.setOnClickListener(listener)
-        editTextView?.setOnClickListener(listener)
+        editView?.setOnClickListener(listener)
     }
 
-    fun getSelectedItemsText(): String {
-        val options = arrayOfNulls<CharSequence>(this.options?.size ?: 0)
-        val mSelectedItems = ArrayList<Int>()
+    fun getSelectedItems(): List<String> {
+        val mSelectedItems = mutableListOf<String>()
 
-        this.options?.let {
-            for (i in it.indices) {
-                options[i] = this.displayValueFor(it[i])
-
-                if ((this.listValue as List<T>?)?.contains(it[i]) == true) {
-                    mSelectedItems.add(i)
-                }
-            }
+        this.options?.filter { this.listValue?.contains(it) == true }?.forEach { selectedOption ->
+            this.displayValueFor(selectedOption)?.let { mSelectedItems.add(it) }
         }
 
-        var selectedItems = ""
-        for (i in mSelectedItems.indices) {
-            selectedItems += options[mSelectedItems[i]]
-
-            if (i < mSelectedItems.size - 1) {
-                selectedItems += ", "
-            }
-        }
-
-        return selectedItems
+        return mSelectedItems
     }
+
 
     override fun displayNewValue() {
-        editView?.let {
-            if (it is TextView) {
-                it.text = getSelectedItemsText()
+        (editView as? TableLayout)?.let {editLayout ->
+            editLayout.removeAllViewsInLayout()
+            getSelectedItems().forEach { selectedItemText ->
+                editLayout.addView(
+                        TextView(editLayout.context).also {textView ->
+                            textView.text = selectedItemText
+                            textView.gravity = Gravity.START
+                            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16.toFloat())
+                            this.valueTextColor?.let { textView.setTextColor(it) }
+                        }
+                )
             }
         }
     }

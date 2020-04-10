@@ -448,7 +448,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 options = fruits
                 displayValueFor = {
                     if (it != null) {
-                        it.second + " (" + options?.indexOf(it) + ")"
+                        it.second + " (" + it.first + ")"
                     } else {
                         ""
                     }
@@ -458,11 +458,21 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 confirmEdit = true
                 rightToLeft = false
                 displayDivider = false
-                value = Pair<Int, String>(1, "Banana")
+                setListValue( listOf<Pair<Int, String>>(Pair<Int, String>(1, "Banana")))
                 required = true
                 clearable = true
-                valueObservers.add { newValue, element ->
+                listValueObservers.add { newValue, element ->
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
+                    if (newValue != null) {
+                        val list = mutableListOf<Int>()
+                        newValue.forEach { list.add(it.first) }
+                        valueTextColor = when(list.maxBy { it }){
+                            1 -> Color.GREEN
+                            3,4 -> Color.YELLOW
+                            5 -> Color.RED
+                            else -> null
+                        }
+                    }
                 }
             }
             autoComplete<ContactItem>(AutoCompleteElement.ordinal) {
@@ -635,6 +645,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
 
     override fun onValueChanged(formElement: BaseFormElement<*>) {
         Toast.makeText(this@FullscreenFormActivity, formElement.title, LENGTH_SHORT).show()
+
     }
 
 

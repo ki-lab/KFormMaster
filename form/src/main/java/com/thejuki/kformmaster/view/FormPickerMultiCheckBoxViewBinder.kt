@@ -4,6 +4,8 @@ import android.content.Context
 import android.text.InputType
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TableLayout
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import com.github.vivchar.rendererrecyclerviewadapter.ViewHolder
@@ -25,24 +27,27 @@ import com.thejuki.kformmaster.state.FormEditTextViewState
  */
 class FormPickerMultiCheckBoxViewBinder(private val context: Context, private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewBinder() {
     val viewBinder = ViewBinder(layoutID
-            ?: R.layout.form_element_selector, FormPickerMultiCheckBoxElement::class.java, { model, finder, _ ->
+            ?: R.layout.form_element_selector_multi, FormPickerMultiCheckBoxElement::class.java, { model, finder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
-        val editTextValue = finder.find(R.id.formElementValue) as com.thejuki.kformmaster.widget.ClearableEditText
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editTextValue)
+        val editValue = finder.find(R.id.formElementValue) as TableLayout
 
-        editTextValue.hint = model.hint ?: ""
-        editTextValue.alwaysShowClear = true
+        editValue.isFocusable = false
 
-        editTextValue.setRawInputType(InputType.TYPE_NULL)
-        editTextValue.isFocusable = false
-
-        model.reInitDialog(formBuilder)
         setClearableListener(model)
-        editTextValue.setText(model.getSelectedItemsText())
+        editValue.removeAllViewsInLayout()
+        model.getSelectedItems().forEach {selectedItemText ->
+            editValue.addView(
+                    TextView(context).also { it.text = selectedItemText }
+            )
+        }
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editValue)
+        model.reInitDialog(formBuilder)
+
+
 
     }, object : ViewStateProvider<FormPickerMultiCheckBoxElement<*>, ViewHolder> {
         override fun createViewStateID(model: FormPickerMultiCheckBoxElement<*>): Int {

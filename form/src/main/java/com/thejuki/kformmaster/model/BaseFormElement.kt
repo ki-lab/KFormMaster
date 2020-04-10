@@ -58,6 +58,11 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     val valueObservers = mutableListOf<(value: T?, element: BaseFormElement<T>) -> Unit>()
 
     /**
+     * Form Element Value Observers
+     */
+    val listValueObservers = mutableListOf<(value: List<T>?, element: BaseFormElement<T>) -> Unit>()
+
+    /**
      * Form Element onClick Unit
      */
     open var onClick: (() -> Unit)? = null
