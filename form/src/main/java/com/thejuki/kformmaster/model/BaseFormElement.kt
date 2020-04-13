@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.TableLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.*
@@ -374,6 +375,9 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                                     Color.BLACK
                                 })
                     }
+                }
+                view is TableLayout -> (0 until view.childCount).forEach { itemIndex ->
+                    this.valueTextColor?.let { (view.getChildAt(itemIndex) as TextView).setTextColor(it) }
                 }
                 else -> {
                 }

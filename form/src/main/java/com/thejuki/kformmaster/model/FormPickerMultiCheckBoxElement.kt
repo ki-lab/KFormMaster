@@ -1,13 +1,11 @@
 package com.thejuki.kformmaster.model
 
-import android.graphics.Color
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatEditText
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
@@ -59,7 +57,9 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
         return this
     }
 
-
+    fun initValue(){
+        listValue?.let { setListValue(it) }
+    }
     /**
      * Form Element Options
      */

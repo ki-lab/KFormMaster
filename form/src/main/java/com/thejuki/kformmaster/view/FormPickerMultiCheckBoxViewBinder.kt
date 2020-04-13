@@ -1,11 +1,9 @@
 package com.thejuki.kformmaster.view
 
 import android.content.Context
-import android.text.InputType
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TableLayout
-import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import com.github.vivchar.rendererrecyclerviewadapter.ViewHolder
@@ -35,19 +33,13 @@ class FormPickerMultiCheckBoxViewBinder(private val context: Context, private va
         val itemView = finder.getRootView() as View
         val editValue = finder.find(R.id.formElementValue) as TableLayout
 
-        editValue.isFocusable = false
-
-        setClearableListener(model)
-        editValue.removeAllViewsInLayout()
-        model.getSelectedItems().forEach {selectedItemText ->
-            editValue.addView(
-                    TextView(context).also { it.text = selectedItemText }
-            )
-        }
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editValue)
+
+        model.initValue()
+
         model.reInitDialog(formBuilder)
 
-
+        setClearableListener(model)
 
     }, object : ViewStateProvider<FormPickerMultiCheckBoxElement<*>, ViewHolder> {
         override fun createViewStateID(model: FormPickerMultiCheckBoxElement<*>): Int {
