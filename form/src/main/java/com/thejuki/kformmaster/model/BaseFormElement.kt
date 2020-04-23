@@ -629,6 +629,9 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 if (valueTextColor != null) {
                     refreshValueTextColor()
                 }
+                if(value != null) {
+                    displayNewValue()
+                }
 
                 if (it is TextView && it !is AppCompatCheckBox && it !is AppCompatButton && it !is SwitchCompat) {
                     if (centerText) {

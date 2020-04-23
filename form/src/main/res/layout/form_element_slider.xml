@@ -41,7 +41,6 @@
         android:id="@+id/formElementProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
         android:layout_weight="3"
         android:gravity="center|end"
@@ -51,9 +50,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formElementValue"
+        app:layout_constraintTop_toBottomOf="@+id/formElementTitle"
         app:layout_constraintVertical_bias="0.0"
         tools:text="50.0" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/clearSlider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/ic_close_black_24dp"
+        android:tint="@color/colorFormMasterElementHint"
+        app:layout_constraintBottom_toBottomOf="@+id/formElementProgress"
+        app:layout_constraintStart_toEndOf="@+id/formElementProgress"
+        app:layout_constraintTop_toTopOf="@+id/formElementProgress" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/formElementValue"
@@ -61,7 +72,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginLeft="6dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
         android:layout_marginBottom="8sp"
@@ -77,7 +87,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/formElementMaxValue"
         app:layout_constraintStart_toEndOf="@+id/formElementMinValue"
-        app:layout_constraintTop_toBottomOf="@+id/formElementTitle"
+        app:layout_constraintTop_toBottomOf="@+id/formElementProgress"
         app:layout_constraintVertical_bias="0.24000001"
         tools:text="Riddhiman Adib" />
 
@@ -109,7 +119,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/formElementValue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/formElementValue"
-        tools:text="texte" />
+        tools:text="X" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/formElementMaxValue"
@@ -121,7 +131,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/formElementValue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/formElementValue"
-        tools:text="texte" />
+        tools:text="X" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/formElementMinLabel"
@@ -135,7 +145,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/formElementMinValue"
-        app:layout_constraintVertical_bias="0.769" />
+        app:layout_constraintVertical_bias="0.769"
+        tools:text="minLabel"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/formElementMaxLabel"
@@ -146,6 +157,7 @@
         android:padding="2sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formElementMaxValue" />
+        app:layout_constraintTop_toBottomOf="@+id/formElementMaxValue"
+        tools:text="maxLabel"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

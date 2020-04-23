@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.appcompat.widget.AppCompatTextView
 import com.github.vivchar.rendererrecyclerviewadapter.ViewHolder
@@ -15,7 +16,7 @@ import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.model.FormSliderElement
 import com.thejuki.kformmaster.state.FormSliderViewState
-import kotlin.math.truncate
+import kotlin.math.roundToInt
 
 /**
  * Form Slider Binder
@@ -31,46 +32,40 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
+        val textViewMinValue = finder.find(R.id.formElementMinValue) as? AppCompatTextView
+        val textViewMaxValue = finder.find(R.id.formElementMaxValue) as? AppCompatTextView
+        val textViewMinLabel = finder.find(R.id.formElementMinLabel) as? AppCompatTextView
+        val textViewMaxLabel = finder.find(R.id.formElementMaxLabel) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
+        val clearSlider = finder.find(R.id.clearSlider) as? AppCompatImageView
         val itemView = finder.getRootView() as View
-        val slider = finder.find<AppCompatSeekBar>(R.id.formElementValue)
-        val maxLabelView = finder.find<AppCompatTextView>(R.id.formElementMaxLabel)
-        val minLabelView = finder.find<AppCompatTextView>(R.id.formElementMinLabel)
-        val maxDisplayValueView = finder.find<AppCompatTextView>(R.id.formElementMaxValue)
-        val minDisplayValueView = finder.find<AppCompatTextView>(R.id.formElementMinValue)
-        val progressValue = finder.find<AppCompatTextView>(R.id.formElementProgress)
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, progressValue)
+        val slider = finder.find(R.id.formElementValue) as AppCompatSeekBar
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, slider)
+
+        val progressValue = finder.find(R.id.formElementProgress) as AppCompatTextView
+
+        textViewMinValue?.text = model.minValueString
+        textViewMaxValue?.text = model.maxValueString
+        textViewMinLabel?.text = model.minLabel
+        textViewMaxLabel?.text = model.maxLabel
 
 
-        model.maxLabel.takeUnless { it.isBlank()}?.let {
-            maxLabelView.text = it
-        } ?: run{ maxLabelView.visibility = View.GONE }
+        slider.progress = model.sliderValue
+        slider.max = model.sliderLength
 
-        model.minLabel.takeUnless { it.isBlank()}?.let {
-            minLabelView.text = it
-        } ?: run{ minLabelView.visibility = View.GONE }
-
-        maxDisplayValueView.text = model.max.toString()
-        minDisplayValueView.text = model.min.toString()
-
-
-        if (model.value == null) {
-            model.setValue(model.min)
+        if(model.value == null) {
+            progressValue.visibility = View.INVISIBLE
+            clearSlider?.visibility = View.INVISIBLE
         }
+        progressValue.text = model.value?.toString()
 
-        slider.progress = getProgressValue(model.value?:model.min,model)
-        slider.max = 100
-
-        progressValue.text = model.value.toString()
+        clearSlider?.setOnClickListener {
+            model.clear()
+        }
 
         slider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                model.error = null
-                val displayedValue = getDisplayedValue(progress, model)
-                model.setValue(displayedValue)
-                progressValue.text = displayedValue.toString()
-                slider.progress = getProgressValue(model.value?:model.min, model)
-                formBuilder.onValueChanged(model)
+                updateSeekValue(model, slider, progress, progressValue, clearSlider)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
@@ -81,8 +76,8 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
             // Invoke onClick Unit
             model.onClick?.invoke()
         }
-    }, object : ViewStateProvider<FormSliderElement<*>, ViewHolder> {
-        override fun createViewStateID(model: FormSliderElement<*>): Int {
+    }, object : ViewStateProvider<FormSliderElement, ViewHolder> {
+        override fun createViewStateID(model: FormSliderElement): Int {
             return model.id
         }
 
@@ -91,40 +86,54 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
         }
     })
 
-    // Calcul of the value to be displayed
-    private fun getDisplayedValue(progressVal: Int, model : FormSliderElement<*>) = when {
-        progressVal <= 0 ->
-            model.min.toDouble()
-        progressVal >= 100 ->
-            model.max.toDouble()
-        model.steps != null ->
-        {
-            if (model.steps!!.toDouble() >= 1.toDouble()) {
-                val wantedValue = ((progressVal.toDouble() * ((model.max.toDouble() - model.min.toDouble() )/(100))) + model.min.toDouble() )
-                val increment = ((model.max.toDouble() - model.min.toDouble()) / ( model.steps?.toDouble() ?:1.toDouble()))
-                val stepAmountBeforMax: Double = truncate((model.max.toDouble() - wantedValue) / increment)
-                val stepAmount: Double = ((model.max.toDouble() - model.min.toDouble() ) / increment)
-                (((stepAmount - stepAmountBeforMax) * increment) + model.min.toDouble() )
-            } else {model.min }
-        }
-        model.incrementBy != null -> {
-            val wantedValue = ((progressVal.toDouble() * ((model.max.toDouble() - model.min.toDouble() )/(100))) + model.min.toDouble() )
-            val stepAmountBeforMax: Double = truncate((model.max.toDouble() - wantedValue) / ( model.incrementBy?.toDouble() ?:1.toDouble()))
-            val stepAmount: Double = ((model.max.toDouble() - model.min.toDouble() ) / ( model.incrementBy?.toDouble() ?:1.toDouble()))
-            (((stepAmount - stepAmountBeforMax) * ( model.incrementBy?.toDouble() ?:1.toDouble())) + model.min.toDouble() )
-        }
-        model.incrementBy == null && model.steps == null ->
-            ((progressVal.toDouble() * ((model.max.toDouble() - model.min.toDouble() )/(100))) + model.min.toDouble() ).toDouble()
-        else ->
-            model.min
-    }.let { if(model.value is Int) it.toInt() else it }
+    private fun updateSeekValue(model: FormSliderElement,
+                                slider: AppCompatSeekBar,
+                                sliderValue: Int,
+                                progressValue: AppCompatTextView,
+                                clearSlider: AppCompatImageView?) {
+        if(model.value != null || sliderValue != 0) {
+            var roundedValue = 0
+            val minimumValue = 0
+            val maximumValue = model.sliderLength
 
-    // Calcul of the value to be set on the seekbar
-    private fun getProgressValue(valueToDisplay: Number, model : FormSliderElement<*>) = when {
-        (valueToDisplay.toDouble()) <= model.min.toDouble() -> 0
-        (valueToDisplay.toDouble()) >= model.max.toDouble() -> 100
-        else -> (((valueToDisplay.toDouble() - model.min.toDouble()) / (model.max.toDouble() - model.min.toDouble())) * 100).toInt()
+            if (model.steps != null) {
+                model.steps?.let {
+                    val steps: Double = it.toDouble()
+                    val stepValue: Int = ((sliderValue - minimumValue) / (maximumValue - minimumValue) * steps).roundToInt()
+                    val stepAmount: Int = ((maximumValue - minimumValue) / steps).roundToInt()
+                    roundedValue = stepValue * stepAmount + model.sliderMin
+                }
+            } else if (model.steps == null && model.sliderIncrementBy != null) {
+                model.sliderIncrementBy?.let {
+                    val offset = minimumValue % it
+                    val stepValue: Int = ((sliderValue - offset) / it)
+                    roundedValue = stepValue * it + offset
+                }
+            } else if (model.steps == null && model.incrementBy == null) {
+                roundedValue = sliderValue
+            }
 
+            roundedValue += model.sliderMin
+
+            if (roundedValue < model.sliderMin) {
+                roundedValue = model.sliderMin
+            } else if (roundedValue > model.sliderMax) {
+                roundedValue = model.sliderMax
+            }
+
+            model.error = null
+            model.setValue(roundedValue / model.multiplicator)
+        }
+
+        formBuilder.onValueChanged(model)
+
+        if(model.value == null) {
+            progressValue.visibility = View.INVISIBLE
+            clearSlider?.visibility = View.INVISIBLE
+        } else {
+            progressValue.visibility = View.VISIBLE
+            clearSlider?.visibility = View.VISIBLE
+            progressValue.text = model.value?.toString()
+        }
     }
-
 }
