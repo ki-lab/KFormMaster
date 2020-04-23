@@ -535,10 +535,9 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
             }
             slider<Double>(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
-                value = 37.5
-                min = 36.toDouble()
-                max = 42.toDouble()
-                steps = 0.5.toDouble()
+                value = 37.5f
+                min = 36.toFloat()
+                max = 42.toFloat()
                 displayDivider = false
                 enabled = true
                 required = true
@@ -546,7 +545,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                     valueTextColor = value?.let { when(it){
                         in "38.5".toDouble().."42".toDouble()-> Color.RED
                         in "37.5".toDouble().."38".toDouble() -> Color.parseColor("#FFFF5722")
-                        in min .. "37".toDouble() -> Color.GREEN
+                        in min .. "37".toFloat() -> Color.GREEN
                         else -> null
                     }}
                 }

@@ -271,7 +271,7 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
         switchElement.setOffValue("No");
         elements.add(switchElement);
 
-        FormSliderElement slider = new FormSliderElement<Integer>(Tag.SliderElement.ordinal());
+        FormSliderElement slider = new FormSliderElement(Tag.SliderElement.ordinal());
         slider.setTitle(getString(R.string.Slider));
         slider.setMin(0);
         slider.setMax(100);
