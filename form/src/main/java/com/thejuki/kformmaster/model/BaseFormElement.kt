@@ -867,6 +867,12 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
         get() = this.value?.toString() ?: ""
 
     /**
+     * Form Element Value String value
+     */
+    open val valueAsStringOrNull: String?
+        get() = this.value?.toString()
+
+    /**
      * Base validation
      */
     open val isValid: Boolean

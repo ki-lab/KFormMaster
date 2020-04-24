@@ -61,6 +61,8 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
 
         clearSlider?.setOnClickListener {
             model.clear()
+            progressValue.visibility = View.INVISIBLE
+            clearSlider.visibility = View.INVISIBLE
         }
 
         slider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -127,10 +129,7 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
 
         formBuilder.onValueChanged(model)
 
-        if(model.value == null) {
-            progressValue.visibility = View.INVISIBLE
-            clearSlider?.visibility = View.INVISIBLE
-        } else {
+        if(model.value != null) {
             progressValue.visibility = View.VISIBLE
             clearSlider?.visibility = View.VISIBLE
             progressValue.text = model.value?.toString()
