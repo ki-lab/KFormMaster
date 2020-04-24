@@ -180,7 +180,7 @@ class FormListenerActivity : AppCompatActivity(), OnFormElementValueChangedListe
                 onValue = "Yes"
                 offValue = "No"
             }
-            slider<Int>(SliderElement.ordinal) {
+            slider(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
                 value = 50f
                 min = 0f

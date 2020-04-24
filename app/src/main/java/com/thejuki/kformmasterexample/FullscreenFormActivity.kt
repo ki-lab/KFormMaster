@@ -533,7 +533,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
                 }
             }
-            slider<Double>(SliderElement.ordinal) {
+            slider(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
                 value = 37.5f
                 min = 36.toFloat()

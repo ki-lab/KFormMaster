@@ -187,7 +187,7 @@ class PartialScreenFormActivity : AppCompatActivity() {
                 onValue = "Yes"
                 offValue = "No"
             }
-            slider<Double>(SliderElement.ordinal) {
+            slider(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
                 value = 50.toFloat()
                 min = 0.toFloat()

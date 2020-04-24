@@ -279,7 +279,7 @@ class FormFragment : Fragment() {
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
-            slider<Double>(SliderElement.ordinal) {
+            slider(SliderElement.ordinal) {
                 title = getString(R.string.Slider)
                 value = 50.toFloat()
                 min = 0.toFloat()
