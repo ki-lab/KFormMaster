@@ -136,7 +136,7 @@ fun <T> FormBuildHelper.checkBox(tag: Int = -1, init: FormCheckBoxElement<T>.() 
 }
 
 /** FormBuildHelper extension to add a FormSliderElement */
-fun <T:Number> FormBuildHelper.slider(tag: Int = -1, init: FormSliderElement.() -> Unit): FormSliderElement {
+fun FormBuildHelper.slider(tag: Int = -1, init: FormSliderElement.() -> Unit): FormSliderElement {
     return addFormElement(FormSliderElement(tag).apply(init))
 }
 
