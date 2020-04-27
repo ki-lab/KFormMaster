@@ -82,6 +82,9 @@ open class FormSliderElement(tag: Int = -1) : BaseFormElement<Float>(tag) {
     val sliderValue
         get() = (value?.times(multiplicator)?:min).toInt() - sliderMin
 
+    override val valueAsString: String
+        get() = if(decimalsCount == 0) value?.toInt()?.toString()?:"" else value?.toString()?:""
+
     override fun displayNewValue() {
         editView?.let {
             if (it is AppCompatSeekBar) {

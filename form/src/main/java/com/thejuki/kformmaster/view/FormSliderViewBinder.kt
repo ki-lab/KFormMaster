@@ -57,7 +57,7 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
             progressValue.visibility = View.INVISIBLE
             clearSlider?.visibility = View.INVISIBLE
         }
-        progressValue.text = model.value?.toString()
+        progressValue.text = model.valueAsString
 
         clearSlider?.setOnClickListener {
             model.clear()
@@ -132,7 +132,7 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
         if(model.value != null) {
             progressValue.visibility = View.VISIBLE
             clearSlider?.visibility = View.VISIBLE
-            progressValue.text = model.value?.toString()
+            progressValue.text = model.valueAsString
         }
     }
 }
