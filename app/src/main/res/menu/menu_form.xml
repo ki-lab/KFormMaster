@@ -16,4 +16,10 @@
         android:icon="@drawable/ic_check_circle_white_24dp"
         android:title="@string/validate"
         app:showAsAction="ifRoom|collapseActionView" />
+    <item
+        android:id="@+id/lock"
+        android:icon="@android:drawable/ic_lock_idle_lock"
+        android:title="Lock them"
+        android:visible="true"
+        app:showAsAction="ifRoom|collapseActionView" />
 </menu>

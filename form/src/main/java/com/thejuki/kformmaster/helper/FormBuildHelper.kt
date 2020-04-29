@@ -230,6 +230,27 @@ class FormBuildHelper
     }
 
     /**
+     * unlock form element
+     */
+    fun unlockItem(tag: Int) {
+        this.elements.first { it.tag == tag }.let { it.enabled = true; it.clickable = true;}
+    }
+    fun unlockItems(tags: List<Int>) {
+        this.elements.filter { tags.contains(it.tag)  }.forEach { it.enabled = true; it.clickable = true; }
+    }
+
+    /**
+     * lock form element
+     */
+    fun lockItem(tag: Int) {
+        this.elements.first { it.tag == tag }.let { it.enabled = false; it.clickable = false; }
+    }
+
+    fun lockItems(tags: List<Int>) {
+        this.elements.filter { tags.contains(it.tag)  }.forEach { it.enabled = false; it.clickable = false; }
+    }
+
+    /**
      * Gets a form element with the given [tag]
      */
     @Suppress("UNCHECKED_CAST")

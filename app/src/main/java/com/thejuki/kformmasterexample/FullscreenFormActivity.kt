@@ -96,6 +96,10 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                     clear()
                     true
                 }
+                R.id.lock -> {
+                    formBuilder.lockItems(listOf(ZipCode.ordinal, SliderElement.ordinal,MultiItems.ordinal,Radio.ordinal))
+                    true
+                }
                 android.R.id.home -> {
                     onBackPressed()
                     true
@@ -174,6 +178,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
         Time,
         DateTime,
         Password,
+        Radio,
         SingleItem,
         MultiItems,
         AutoCompleteElement,
@@ -337,7 +342,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 confirmEdit = true
                 displayDivider = false
                 rightToLeft = false
-                enabled = true
+                enabled = false
                 clearable = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
@@ -382,7 +387,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 }
             }
             header { title = getString(R.string.PreferredItems); collapsible = true }
-            radio<Pair<Int, String>>(SingleItem.ordinal) {
+            radio<Pair<Int, String>>(Radio.ordinal) {
                 title = getString(R.string.SingleItem)
                 options = fruits
                 enabled = true
