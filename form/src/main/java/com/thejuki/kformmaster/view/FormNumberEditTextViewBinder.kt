@@ -1,7 +1,10 @@
 package com.thejuki.kformmaster.view
 
 import android.content.Context
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
+import android.text.method.DigitsKeyListener
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
@@ -43,7 +46,17 @@ class FormNumberEditTextViewBinder(private val context: Context, private val for
         if (model.numbersOnly) {
             editTextValue.inputType = InputType.TYPE_CLASS_NUMBER
         } else {
-            editTextValue.setRawInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
+            editTextValue.setRawInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
+            editTextValue.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) {}
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    editTextValue.removeTextChangedListener(this)
+                    editTextValue.setText(editTextValue.text.toString().replace(",", "."))
+                    editTextValue.setSelection(start + count)
+                    editTextValue.addTextChangedListener(this)
+                }
+            })
         }
 
         // If an InputType is provided, use it instead

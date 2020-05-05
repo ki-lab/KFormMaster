@@ -28,8 +28,8 @@ class FormNumberEditTextElement(tag: Int = -1) : BaseFormElement<Number>(tag) {
 
         return super.setValue(when{
             (value as? String)?.isBlank() == true -> null
-            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.contains('.')==true -> (value as? String)?.toDouble()
-            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.contains('.')==false -> (value as? String)?.toInt()
+            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.replace(",", ".")?.contains('.')==true -> (value as? String)?.toDoubleOrNull()?:""
+            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.replace(",", ".")?.contains('.')==false -> (value as? String)?.toIntOrNull()?:""
             else -> value
         })
     }
