@@ -26,10 +26,16 @@ class FormHeaderViewBinder(private val context: Context, private val formBuilder
             ?: R.layout.form_element_header, FormHeader::class.java, { model, finder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val itemView = finder.getRootView() as View
+        val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
         baseSetup(model, textViewTitle = textViewTitle, itemView = itemView, editView = null)
 
         if (model.allCollapsed) {
             model.setAllCollapsed(model.allCollapsed, formBuilder)
+        }
+
+        if(model.tip.isNotEmpty()) {
+            tip?.text = model.tip
+            tip?.visibility = View.VISIBLE
         }
 
         itemView.setOnClickListener {

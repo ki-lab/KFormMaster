@@ -2,6 +2,7 @@
 <resources>
     <dimen name="headerTextSize">15sp</dimen>
     <dimen name="elementTextTitleSize">14sp</dimen>
+    <dimen name="elementTextTipSize">14sp</dimen>
     <dimen name="elementTextValueSize">14sp</dimen>
     <dimen name="elementErrorTitleSize">14sp</dimen>
     <dimen name="elementRadioCornerRadius">5dp</dimen>

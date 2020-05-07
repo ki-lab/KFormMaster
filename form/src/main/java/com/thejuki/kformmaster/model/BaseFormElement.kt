@@ -98,6 +98,8 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
         }
     }
 
+    var tip: String = ""
+
     /**
      * Form Element Hint
      */

@@ -18,8 +18,6 @@ open class FormTreeElement<T>(tag: Int = -1) : BaseFormElement<T>(tag), FormPlug
     var items : List<TreeItem> = arrayListOf()
     override var callback: () -> Any? = {}
 
-    var tip: String = ""
-
     override fun displayNewValue() {
         editView?.let {
           if (it is RecyclerView) {

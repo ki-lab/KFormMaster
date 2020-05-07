@@ -40,6 +40,7 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
         val clearSlider = finder.find(R.id.clearSlider) as? AppCompatImageView
         val itemView = finder.getRootView() as View
         val slider = finder.find(R.id.formElementValue) as AppCompatSeekBar
+        val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, slider)
 
         val progressValue = finder.find(R.id.formElementProgress) as AppCompatTextView
@@ -48,6 +49,11 @@ class FormSliderViewBinder(private val context: Context, private val formBuilder
         textViewMaxValue?.text = model.maxValueString
         textViewMinLabel?.text = model.minLabel
         textViewMaxLabel?.text = model.maxLabel
+
+        if(model.tip.isNotEmpty()) {
+            tip?.text = model.tip
+            tip?.visibility = View.VISIBLE
+        }
 
 
         slider.progress = model.sliderValue

@@ -32,8 +32,15 @@ class FormPickerMultiCheckBoxViewBinder(private val context: Context, private va
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
         val editValue = finder.find(R.id.formElementValue) as TableLayout
+        val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
 
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editValue)
+
+
+        if(model.tip.isNotEmpty()) {
+            tip?.text = model.tip
+            tip?.visibility = View.VISIBLE
+        }
 
         model.initValue()
 

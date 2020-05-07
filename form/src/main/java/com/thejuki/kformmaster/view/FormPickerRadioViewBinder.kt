@@ -33,6 +33,7 @@ class FormPickerRadioViewBinder(private val context: Context, private val formBu
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
         val editValue = finder.find(R.id.formElementValue) as MultiLineRadioGroup
+        val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
 
 
         editValue.removeAllButtons()
@@ -48,6 +49,11 @@ class FormPickerRadioViewBinder(private val context: Context, private val formBu
                 model.onSelectValue(it.text.toString())
                 formBuilder.onValueChanged(model)
             }
+        }
+
+        if(model.tip.isNotEmpty()) {
+            tip?.text = model.tip
+            tip?.visibility = View.VISIBLE
         }
 
         if (model.options?.size?:0 < 2) {

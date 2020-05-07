@@ -35,7 +35,13 @@ class FormMultiLineEditTextViewBinder(private val context: Context, private val 
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
         val editTextValue = finder.find(R.id.formElementValue) as ClearableEditText
+        val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editTextValue)
+
+        if(model.tip.isNotEmpty()) {
+            tip?.text = model.tip
+            tip?.visibility = View.VISIBLE
+        }
 
         editTextValue.setText(model.valueAsString)
         //  editTextValue.hint = model.hint ?: ""

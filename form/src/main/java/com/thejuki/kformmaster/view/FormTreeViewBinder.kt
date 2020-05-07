@@ -51,8 +51,7 @@ class FormTreeViewBinder(private val context: Context, private val formBuilder: 
 
         if(model.tip.isNotEmpty()) {
             tip?.text = model.tip
-        } else {
-            tip?.visibility = View.GONE
+            tip?.visibility = View.VISIBLE
         }
 
         // Delay setting to make sure editView is set first

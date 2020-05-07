@@ -32,12 +32,18 @@ class FormPickerDateViewBinder(private val context: Context, private val formBui
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
         val editTextValue = finder.find(R.id.formElementValue) as com.thejuki.kformmaster.widget.ClearableEditText
+        val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editTextValue)
 
         editTextValue.setText(model.valueAsString)
         //editTextValue.hint = model.hint ?: ""
 
         editTextValue.alwaysShowClear = true
+
+        if(model.tip.isNotEmpty()) {
+            tip?.text = model.tip
+            tip?.visibility = View.VISIBLE
+        }
 
         editTextValue.setRawInputType(InputType.TYPE_NULL)
         editTextValue.isFocusable = false

@@ -32,6 +32,7 @@ class FormCheckBoxViewBinder(private val context: Context, private val formBuild
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
         val checkBox = finder.find(R.id.formElementValue) as AppCompatCheckBox
+        val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView = checkBox)
 
         checkBox.isChecked = model.isChecked()
@@ -40,6 +41,11 @@ class FormCheckBoxViewBinder(private val context: Context, private val formBuild
         model.mainLayoutView = mainViewLayout
 
         setCheckBoxFocusEnabled(model, itemView, checkBox)
+
+        if(model.tip.isNotEmpty()) {
+            tip?.text = model.tip
+            tip?.visibility = View.VISIBLE
+        }
 
         checkBox.setOnCheckedChangeListener { _, isChecked ->
             model.error = null
