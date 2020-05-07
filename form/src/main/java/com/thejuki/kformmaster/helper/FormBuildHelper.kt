@@ -92,8 +92,8 @@ class FormBuildHelper
         this.formAdapter.setDiffCallback(ElementDiffCallback())
 
         // Header
-        this.formAdapter.registerRenderer(FormHeaderViewBinder(context, this, formLayouts?.header).viewBinder)
 
+        this.formAdapter.registerRenderer(FormHeaderViewBinder(context, this, formLayouts?.header).viewBinder)
         // Label
         this.formAdapter.registerRenderer(FormLabelViewBinder(context, this, formLayouts?.label).viewBinder)
 

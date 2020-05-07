@@ -3,6 +3,7 @@ package com.thejuki.kformmaster.view
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatEditText
@@ -15,6 +16,7 @@ import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.model.FormMultiLineEditTextElement
 import com.thejuki.kformmaster.state.FormEditTextViewState
+import com.thejuki.kformmaster.widget.ClearableEditText
 
 /**
  * Form MultiLine EditText ViewBinder
@@ -32,11 +34,11 @@ class FormMultiLineEditTextViewBinder(private val context: Context, private val 
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
-        val editTextValue = finder.find(R.id.formElementValue) as com.thejuki.kformmaster.widget.ClearableEditText
+        val editTextValue = finder.find(R.id.formElementValue) as ClearableEditText
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editTextValue)
 
         editTextValue.setText(model.valueAsString)
-        editTextValue.hint = model.hint ?: ""
+        //  editTextValue.hint = model.hint ?: ""
 
         // Initially use 4 lines
         // unless a different number was provided

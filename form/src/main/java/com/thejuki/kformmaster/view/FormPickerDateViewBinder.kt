@@ -35,7 +35,8 @@ class FormPickerDateViewBinder(private val context: Context, private val formBui
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editTextValue)
 
         editTextValue.setText(model.valueAsString)
-        editTextValue.hint = model.hint ?: ""
+        //editTextValue.hint = model.hint ?: ""
+
         editTextValue.alwaysShowClear = true
 
         editTextValue.setRawInputType(InputType.TYPE_NULL)

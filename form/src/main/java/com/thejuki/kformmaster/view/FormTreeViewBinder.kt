@@ -49,7 +49,11 @@ class FormTreeViewBinder(private val context: Context, private val formBuilder: 
 
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView = recyclerView)
 
-        tip?.text = model.tip
+        if(model.tip.isNotEmpty()) {
+            tip?.text = model.tip
+        } else {
+            tip?.visibility = View.GONE
+        }
 
         // Delay setting to make sure editView is set first
         model.mainLayoutView = mainViewLayout
