@@ -28,7 +28,6 @@ import kotlin.properties.Delegates
  *
  * Holds the class variables used by most form elements
  *
- * @author **TheJuki** ([GitHub](https://github.com/TheJuki))
  * @version 1.0
  */
 @FormDsl
@@ -166,7 +165,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     /**
      * Form Element RTL
      */
-    var rightToLeft: Boolean = true
+    var rightToLeft: Boolean = false
         set(value) {
             field = value
             editView?.let {
@@ -716,7 +715,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                     if (centerText) {
                         it.gravity = Gravity.CENTER
                     } else {
-                        it.gravity = if (rightToLeft) Gravity.START else Gravity.END
+                        it.gravity = if (rightToLeft) Gravity.END else Gravity.START
                     }
 
                     if (padding != null) {
