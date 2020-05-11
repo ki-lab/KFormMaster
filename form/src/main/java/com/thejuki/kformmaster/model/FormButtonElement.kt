@@ -26,6 +26,8 @@ class FormButtonElement(tag: Int = -1) : BaseFormElement<String>(tag) {
 
     var icon: Drawable? = null
 
+    var text: String? = ""
+
     var iconPadding: Int = 20
 
     /**

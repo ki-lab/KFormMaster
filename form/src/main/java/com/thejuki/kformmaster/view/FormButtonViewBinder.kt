@@ -32,14 +32,11 @@ class FormButtonViewBinder(private val context: Context, private val formBuilder
         val button = finder.find(R.id.formElementValue) as AppCompatButton
         baseSetup(model, dividerView, itemView = itemView, editView = button)
 
-        button.text = model.valueAsString
+        button.text = model.text
 
         button.setOnClickListener {
             // Invoke onClick Unit
             model.onClick?.invoke()
-
-            model.setValue(model.value)
-            formBuilder.onValueChanged(model)
         }
 
         model.iconLocation = IconButton.Location.valueOf(model.titleIconLocation.toString())
