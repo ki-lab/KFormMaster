@@ -357,14 +357,17 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var valueTextColor: Int? = null
         set(value) {
             field = value
-            refreshValueTextColor()
+            refreshValueColor()
    }
 
-    private fun refreshValueTextColor() {
+    private fun refreshValueColor() {
         editView?.let { view ->
             when {
-                view is TextView && view !is AppCompatCheckBox && view !is AppCompatButton && view !is SwitchCompat -> valueTextColor?.let { view.setTextColor(it) }
-                view is AppCompatButton -> valueTextColor?.let { view.setTextColor(it) }
+                view is TextView && view !is AppCompatCheckBox && view !is AppCompatButton && view !is SwitchCompat -> { valueTextColor?.let { view.setTextColor(it) } }
+                view is AppCompatButton -> {
+                    valueTextColor?.let { view.setTextColor(it) }
+                    valueBackgroundColor?.let { view.setBackgroundColor(it) }
+                }
                 view is AppCompatSeekBar -> this.itemView?.findViewById<AppCompatTextView>(R.id.formElementProgress)
                         ?.let { textView -> valueTextColor?.let { textView.setTextColor(it) } }
                 view is MultiLineRadioGroup -> (editView as? MultiLineRadioGroup)?.let { view ->
@@ -393,13 +396,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var valueBackgroundColor: Int? = null
         set(value) {
             field = value
-            editView?.let { view ->
-                when (view) {
-                    is AppCompatButton -> value?.let { view.setBackgroundColor(it) }
-                    else -> {
-                    }
-                }
-            }
+            refreshValueColor()
         }
 
     /**
@@ -628,7 +625,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 it.isFocusable = focusable
 
                 if (valueTextColor != null) {
-                    refreshValueTextColor()
+                    refreshValueColor()
                 }
                 if(value != null) {
                     displayNewValue()

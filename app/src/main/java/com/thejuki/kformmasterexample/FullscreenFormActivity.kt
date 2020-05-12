@@ -621,10 +621,10 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 }
             }
             button(ButtonElement.ordinal) {
-                value = getString(R.string.Button)
+                text = "Let's test this shit"
                 displayDivider = false
-                valueTextColor = Color.WHITE
                 valueBackgroundColor = Color.BLACK
+                valueTextColor = Color.WHITE
                 valueObservers.add { newValue, element ->
                     val confirmAlert = AlertDialog.Builder(this@FullscreenFormActivity).create()
                     confirmAlert.setTitle(this@FullscreenFormActivity.getString(R.string.Confirm))

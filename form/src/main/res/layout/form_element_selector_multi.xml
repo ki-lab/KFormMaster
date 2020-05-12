@@ -48,27 +48,26 @@
 
     <com.thejuki.kformmaster.widget.IconTextView
         android:id="@+id/formElementTip"
-        android:drawableStart="@drawable/ic_info_outline_grey_mini_24dp"
-        android:drawableLeft="@null"
-        android:drawablePadding="4dp"
         android:layout_width="0sp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginEnd="3sp"
         android:layout_marginRight="3sp"
+        android:drawableStart="@drawable/ic_info_outline_grey_mini_18dp"
+        android:drawableLeft="@null"
+        android:drawablePadding="4dp"
         android:gravity="start|center_vertical"
-        android:maxLines="2"
+        android:maxEms="45"
+        android:maxLines="4"
         android:singleLine="false"
-        android:textStyle="italic"
         android:textColor="@color/colorFormMasterElementTextView"
         android:textSize="@dimen/elementTextTipSize"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formElementTitle"
-        tools:visibility="visible"
+        android:textStyle="italic"
         android:visibility="gone"
-        tools:text="Ceci est un tip" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/formElementTitle"
+        app:layout_constraintTop_toBottomOf="@+id/formElementTitle"
+        tools:text="Ceci est un tip"
+        tools:visibility="visible" />
 
     <TableLayout
         android:id="@+id/formElementValue"
