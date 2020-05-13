@@ -125,6 +125,9 @@ class FormBuildHelper
         // Tree
         this.formAdapter.registerRenderer(FormTreeViewBinder(context, this, formLayouts?.tree).viewBinder)
 
+        // Custom
+        this.formAdapter.registerRenderer(FormCustomViewBinder(context, this, formLayouts?.custom).viewBinder)
+
         // Pickers
         registerPickers(context)
 
