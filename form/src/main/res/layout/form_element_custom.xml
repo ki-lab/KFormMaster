@@ -63,7 +63,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginEnd="3sp"
             android:layout_marginRight="3sp"
-            android:drawableStart="@drawable/ic_info_outline_grey_mini_24dp"
+            android:drawableStart="@drawable/ic_info_outline_grey_mini_18dp"
             android:drawableLeft="@null"
             android:drawablePadding="4dp"
             android:gravity="start|center_vertical"
