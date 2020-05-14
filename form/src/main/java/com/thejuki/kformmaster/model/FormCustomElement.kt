@@ -7,6 +7,7 @@ interface FormCustomView{
     fun onDrawCustomView(): View?
     fun onLayoutClicked()
     fun onButtonClicked()
+    fun onElementUpdated(e: FormCustomElement)
 }
 
 open class FormCustomElement(tag: Int = -1) : BaseFormElement<String>(tag) {
@@ -15,8 +16,11 @@ open class FormCustomElement(tag: Int = -1) : BaseFormElement<String>(tag) {
     }
 
     var callback: FormCustomView? = null
-    var customView: View? = null
 
+    override fun onEnabled(enable: Boolean) {
+        super.onEnabled(enable)
+        callback?.onElementUpdated(this)
+    }
     override fun displayNewValue() {
         (editView as? ViewGroup)?.let {
             it.removeAllViews()
