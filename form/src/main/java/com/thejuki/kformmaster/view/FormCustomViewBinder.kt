@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.vivchar.rendererrecyclerviewadapter.binder.ViewBinder
@@ -33,6 +34,10 @@ class FormCustomViewBinder(private val context: Context, private val formBuilder
             tip?.text = model.tip
             tip?.visibility = View.VISIBLE
         }
+
+        model.buttonDrawable?.let{button?.findViewById<AppCompatImageView>(R.id.formElementButton_image)}
+
+        if(!model.displayButton) button?.visibility = View.GONE
 
         // Delay setting to make sure editView is set first
         model.mainLayoutView = mainViewLayout

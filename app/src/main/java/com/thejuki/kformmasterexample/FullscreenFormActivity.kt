@@ -191,7 +191,6 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
         ProgressElement,
         CheckBoxElement,
         SegmentedElement,
-        ImageViewElement
     }
 
     private fun setupForm() {
@@ -480,6 +479,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                     }
                 }
             }
+
             autoComplete<ContactItem>(AutoCompleteElement.ordinal) {
                 title = getString(R.string.AutoComplete)
                 arrayAdapter = ContactAutoCompleteAdapter(this@FullscreenFormActivity,

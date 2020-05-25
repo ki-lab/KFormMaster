@@ -78,21 +78,25 @@
             tools:text="Ceci est un tip"
             tools:visibility="visible" />
 
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/formElementError"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8sp"
-            android:layout_marginBottom="8sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="3dp"
+            android:gravity="start|center_vertical"
             android:textColor="@color/colorFormMasterElementErrorTitle"
             android:textSize="@dimen/elementErrorTitleSize"
+            android:textStyle="bold|italic"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
-            tools:text="Personal Info" />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/formElementTitle"
+            app:layout_constraintTop_toBottomOf="@+id/formElementTip"
+            tools:text="Personal Info"
+            tools:visibility="visible" />
 
         <RelativeLayout
             android:id="@+id/formElementButton"
@@ -109,6 +113,7 @@
             app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toTopOf="@+id/formElementTitle">
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/formElementButton_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -123,7 +128,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.70" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

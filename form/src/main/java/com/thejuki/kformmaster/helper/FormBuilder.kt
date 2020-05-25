@@ -154,3 +154,7 @@ fun FormBuildHelper.label(tag: Int = -1, init: FormLabelElement.() -> Unit): For
 fun FormBuildHelper.textView(tag: Int = -1, init: FormTextViewElement.() -> Unit): FormTextViewElement {
     return addFormElement(FormTextViewElement(tag).apply(init))
 }
+
+fun FormBuildHelper.custom(tag: Int = -1, init: FormCustomElement.() -> Unit): FormCustomElement {
+    return addFormElement(FormCustomElement(tag).apply(init))
+}

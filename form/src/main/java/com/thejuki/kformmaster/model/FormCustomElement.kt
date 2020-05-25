@@ -1,5 +1,8 @@
+
 package com.thejuki.kformmaster.model
 
+import android.graphics.drawable.Drawable
+import android.view.DragAndDropPermissions
 import android.view.View
 import android.view.ViewGroup
 
@@ -14,6 +17,10 @@ open class FormCustomElement(tag: Int = -1) : BaseFormElement<String>(tag) {
     override fun clear() {
         // this.items = unCheckedValue
     }
+
+    var buttonDrawable: Drawable? = null
+
+    var displayButton: Boolean = true
 
     var callback: FormCustomView? = null
 
