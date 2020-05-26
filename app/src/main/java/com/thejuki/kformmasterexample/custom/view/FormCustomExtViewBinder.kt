@@ -14,20 +14,20 @@ import com.github.vivchar.rendererrecyclerviewadapter.binder.ViewBinder
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.view.BaseFormViewBinder
 import com.thejuki.kformmasterexample.R
-import com.thejuki.kformmasterexample.custom.model.FormCustomElement
+import com.thejuki.kformmasterexample.custom.model.FormCustomExtElement
 import com.thejuki.kformmasterexample.custom.state.FormCustomViewState
 
 /**
  * Form Custom ViewBinder
  *
- * View Binder for [FormCustomElement]
+ * View Binder for [FormCustomExtElement]
  *
  * @author **TheJuki** ([GitHub](https://github.com/TheJuki))
  * @version 1.0
  */
-class CustomViewBinder(private val context: Context, private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewBinder() {
+class CustomExtViewBinder(private val context: Context, private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewBinder() {
     var viewBinder = ViewBinder(layoutID
-            ?: R.layout.form_element_custom, FormCustomElement::class.java, { model, finder, _ ->
+            ?: R.layout.form_element_custom, FormCustomExtElement::class.java, { model, finder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as AppCompatTextView
@@ -56,8 +56,8 @@ class CustomViewBinder(private val context: Context, private val formBuilder: Fo
         addTextChangedListener(model, formBuilder)
         setOnEditorActionListener(model, formBuilder)
 
-    }, object : ViewStateProvider<FormCustomElement, ViewHolder> {
-        override fun createViewStateID(model: FormCustomElement): Int {
+    }, object : ViewStateProvider<FormCustomExtElement, ViewHolder> {
+        override fun createViewStateID(model: FormCustomExtElement): Int {
             return model.id
         }
 

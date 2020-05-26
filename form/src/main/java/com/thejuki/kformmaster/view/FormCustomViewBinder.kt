@@ -35,7 +35,7 @@ class FormCustomViewBinder(private val context: Context, private val formBuilder
             tip?.visibility = View.VISIBLE
         }
 
-        model.buttonDrawable?.let{button?.findViewById<AppCompatImageView>(R.id.formElementButton_image)}
+        model.buttonDrawable?.let{button?.findViewById<AppCompatImageView>(R.id.formElementButton_image)?.setImageDrawable(it)}
 
         if(!model.displayButton) button?.visibility = View.GONE
 

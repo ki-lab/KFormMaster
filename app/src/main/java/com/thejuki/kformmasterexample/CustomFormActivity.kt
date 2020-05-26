@@ -14,7 +14,7 @@ import com.thejuki.kformmaster.model.BaseFormElement
 import com.thejuki.kformmasterexample.custom.helper.customEx
 import com.thejuki.kformmasterexample.custom.helper.placesAutoComplete
 import com.thejuki.kformmasterexample.custom.model.FormPlacesAutoCompleteElement
-import com.thejuki.kformmasterexample.custom.view.CustomViewBinder
+import com.thejuki.kformmasterexample.custom.view.CustomExtViewBinder
 import com.thejuki.kformmasterexample.custom.view.FormPlacesAutoCompleteViewBinder
 import com.thejuki.kformmasterexample.item.PlaceItem
 import kotlinx.android.synthetic.main.activity_fullscreen_form.*
@@ -116,7 +116,7 @@ class CustomFormActivity : AppCompatActivity() {
 
         // IMPORTANT: Register your custom view binder or you will get a RuntimeException
         // RuntimeException: ViewRenderer not registered for this type
-        formBuilder.registerCustomViewBinder(CustomViewBinder(this, formBuilder, layoutID = null).viewBinder)
+        formBuilder.registerCustomViewBinder(CustomExtViewBinder(this, formBuilder, layoutID = null).viewBinder)
 
         formBuilder.registerCustomViewBinder(FormPlacesAutoCompleteViewBinder(this, formBuilder, layoutID = null).viewBinder)
     }

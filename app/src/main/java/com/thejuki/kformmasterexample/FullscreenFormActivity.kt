@@ -191,6 +191,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
         ProgressElement,
         CheckBoxElement,
         SegmentedElement,
+        CustomElement;
     }
 
     private fun setupForm() {
@@ -524,6 +525,10 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 rightToLeft = false
                 displayDivider = false
                 centerText = true
+            }
+            custom(CustomElement.ordinal){
+                title = "Let's test it !"
+//                buttonDrawable = getDrawable(R.drawable.ic_add_to_photos_black_24dp)
             }
             header { title = getString(R.string.MarkComplete); collapsible = true }
             switch<String>(SwitchElement.ordinal) {
