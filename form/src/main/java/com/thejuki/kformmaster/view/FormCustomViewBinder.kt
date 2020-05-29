@@ -48,11 +48,11 @@ class FormCustomViewBinder(private val context: Context, private val formBuilder
         }
 
         mainViewLayout?.setOnClickListener {
-            model.callback?.onLayoutClicked()
+            model.takeIf { it.enabled }?.callback?.onLayoutClicked()
         }
 
         button?.setOnClickListener {
-            model.callback?.onButtonClicked()
+            model.takeIf { it.enabled }?.callback?.onButtonClicked()
         }
     }
 }
