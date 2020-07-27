@@ -82,7 +82,7 @@
         android:gravity="start"
         android:imeOptions="actionNext"
         android:inputType="textNoSuggestions"
-        android:maxLines="2"
+        android:maxLines="3"
         android:padding="3sp"
         android:textColor="@drawable/edit_text_selector"
         android:textColorHint="@color/colorFormMasterElementHint"
