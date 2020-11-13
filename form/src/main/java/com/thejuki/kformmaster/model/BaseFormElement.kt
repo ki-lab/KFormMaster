@@ -838,6 +838,10 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             itemView?.isEnabled = value
             titleView?.isEnabled = value
             editView?.isEnabled = value
+            clearView?.let {
+                it.isEnabled = value
+                it.visibility = if (value) View.VISIBLE else View.GONE
+            }
 
             onEnabled(value)
         }
@@ -851,6 +855,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             itemView?.isClickable = value
             titleView?.isClickable = value
             editView?.isClickable = value
+            clearView?.isClickable = value
         }
 
     /**
