@@ -86,10 +86,8 @@ open class FormSliderElement(tag: Int = -1) : BaseFormElement<Float>(tag) {
         get() = if(decimalsCount == 0) value?.toInt()?.toString()?:"" else value?.toString()?:""
 
     override fun displayNewValue() {
-        editView?.let {
-            if (it is AppCompatSeekBar) {
-                it.progress = sliderValue
-            }
+        (editView as? AppCompatSeekBar)?.let { view ->
+            view.progress = sliderValue
         }
     }
 }

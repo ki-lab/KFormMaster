@@ -41,7 +41,8 @@ abstract class BaseFormViewBinder {
                   textViewError: AppCompatTextView? = null,
                   itemView: View,
                   mainViewLayout: View? = null,
-                  editView: View?) {
+                  editView: View?,
+                  clearView: View? = null) {
 
         formElement.itemView = itemView
         formElement.dividerView = dividerView
@@ -49,6 +50,7 @@ abstract class BaseFormViewBinder {
         formElement.errorView = textViewError
         formElement.mainLayoutView = mainViewLayout
         formElement.editView = editView
+        formElement.clearView = clearView
 
         val onTouchListener = View.OnTouchListener { view, event ->
             when (event?.action) {

@@ -678,6 +678,19 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
         }
 
     /**
+     * Form Element Clear View
+     */
+    var clearView: View? = null
+        set(value) {
+            field = value
+            clearView?.let {
+                it.isEnabled = enabled
+                it.isClickable = clickable
+                it.visibility = if (enabled) View.VISIBLE else View.GONE
+            }
+        }
+
+    /**
      * Form Element Divider View
      */
     var dividerView: View? = null
