@@ -2,7 +2,6 @@
 package com.thejuki.kformmaster.model
 
 import android.graphics.drawable.Drawable
-import android.view.DragAndDropPermissions
 import android.view.View
 import android.view.ViewGroup
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.text.method.DigitsKeyListener
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout

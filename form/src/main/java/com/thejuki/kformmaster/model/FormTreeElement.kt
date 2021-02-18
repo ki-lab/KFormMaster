@@ -1,6 +1,5 @@
 package com.thejuki.kformmaster.model
 
-import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.RecyclerView
 
 interface FormPlugin {

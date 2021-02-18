@@ -5,11 +5,6 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.thejuki.kformmaster.helper.FormBuildHelper;
 import com.thejuki.kformmaster.helper.FormLayouts;
 import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener;
@@ -51,6 +46,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
 /**

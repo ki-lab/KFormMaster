@@ -1,10 +1,6 @@
 package com.thejuki.kformmaster.model
 
-import android.app.AlertDialog
-import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.thejuki.kformmaster.helper.FormBuildHelper
-import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup
 
 

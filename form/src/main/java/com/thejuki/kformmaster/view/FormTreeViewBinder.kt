@@ -15,15 +15,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.vivchar.rendererrecyclerviewadapter.ViewHolder
-import com.github.vivchar.rendererrecyclerviewadapter.ViewState
-import com.github.vivchar.rendererrecyclerviewadapter.ViewStateProvider
 import com.github.vivchar.rendererrecyclerviewadapter.binder.ViewBinder
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.model.FormCheckBoxElement
 import com.thejuki.kformmaster.model.FormTreeElement
-import com.thejuki.kformmaster.state.FormCheckBoxViewState
 import kotlinx.android.synthetic.main.tree_expandable_list_item.view.*
 import kotlinx.android.synthetic.main.tree_expandable_list_topic.view.*
 import kotlinx.android.synthetic.main.tree_list_item.view.*
