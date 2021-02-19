@@ -140,6 +140,7 @@ class FormBuildHelper
     private fun registerEditTexts(context: Context) {
         this.formAdapter.registerRenderer(FormSingleLineEditTextViewBinder(context, this, formLayouts?.text).viewBinder)
         this.formAdapter.registerRenderer(FormMultiLineEditTextViewBinder(context, this, formLayouts?.textArea).viewBinder)
+        this.formAdapter.registerRenderer(FormRichEditTextViewBinder(context, this, formLayouts?.richText).viewBinder)
         this.formAdapter.registerRenderer(FormNumberEditTextViewBinder(context, this, formLayouts?.number).viewBinder)
         this.formAdapter.registerRenderer(FormEmailEditTextViewBinder(context, this, formLayouts?.email).viewBinder)
         this.formAdapter.registerRenderer(FormPhoneEditTextViewBinder(context, this, formLayouts?.phone).viewBinder)

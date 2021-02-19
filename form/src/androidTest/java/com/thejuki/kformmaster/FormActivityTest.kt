@@ -113,7 +113,7 @@ class FormActivityTest : AppCompatActivity() {
         }
 
         formBuilder = form(this, recyclerView, listener, true) {
-            imageView(ImageViewElement.ordinal) {
+            /*imageView(ImageViewElement.ordinal) {
                 value = "https://via.placeholder.com/200"
                 imageTransformation = CircleTransform(borderColor = Color.BLACK, borderRadius = 3)
                 required = false
@@ -153,7 +153,7 @@ class FormActivityTest : AppCompatActivity() {
                         Log.i("FormActivityTest", "Passed Image onClear")
                     }
                 }
-            }
+            }*/
             header { title = "Header 1"; collapsible = true }
             email(Email.ordinal) {
                 title = "Email"
@@ -191,7 +191,7 @@ class FormActivityTest : AppCompatActivity() {
             }
             number(ZipCode.ordinal) {
                 title = "ZipCode"
-                value = "1000"
+                value = 1000
                 numbersOnly = true
             }
             header { title = "Header 3" }
@@ -218,11 +218,11 @@ class FormActivityTest : AppCompatActivity() {
                 arrayAdapter = null
                 value = ListItem(id = 1, name = "Banana")
             }
-            multiCheckBox<List<ListItem>>(MultiItems.ordinal) {
+            multiCheckBox<ListItem>(MultiItems.ordinal) {
                 title = "MultiItems"
                 dialogTitle = "MultiItems Dialog"
                 options = fruits
-                value = listOf(ListItem(id = 1, name = "Banana"))
+                value = ListItem(id = 1, name = "Banana")
             }
             autoComplete<ContactItem>(AutoCompleteElement.ordinal) {
                 title = "AutoComplete"
@@ -251,9 +251,9 @@ class FormActivityTest : AppCompatActivity() {
             }
             slider(SliderElement.ordinal) {
                 title = "Slider"
-                value = 50
-                min = 0
-                max = 100
+                value = 50.toFloat()
+                min = 0.toFloat()
+                max = 100.toFloat()
                 steps = 20
             }
             checkBox<Boolean>(CheckBoxElement.ordinal) {

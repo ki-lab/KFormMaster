@@ -188,7 +188,7 @@ abstract class BaseFormViewBinder {
     /**
      * Adds a text changed listener to the editView to update the form element value
      */
-    fun addTextChangedListener(formElement: BaseFormElement<*>, formBuilder: FormBuildHelper) {
+    open fun addTextChangedListener(formElement: BaseFormElement<*>, formBuilder: FormBuildHelper) {
         if (!formElement.updateOnFocusChange) {
             (formElement.editView as? AppCompatEditText)?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {}

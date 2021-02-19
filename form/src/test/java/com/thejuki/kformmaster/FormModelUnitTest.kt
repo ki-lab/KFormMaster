@@ -23,6 +23,7 @@ class FormModelUnitTest : ShouldSpec() {
                 formLayouts.header shouldNotBe null
                 formLayouts.text shouldNotBe null
                 formLayouts.textArea shouldNotBe null
+                formLayouts.richText shouldNotBe null
                 formLayouts.number shouldNotBe null
                 formLayouts.email shouldNotBe null
                 formLayouts.password shouldNotBe null
@@ -111,7 +112,7 @@ class FormModelUnitTest : ShouldSpec() {
             should("have valid formSliderElement") {
                 val element = CustomGen.formSliderElement().random().first()
                 (element.min < element.max) shouldBe true
-                ((element.value ?: 0 <= element.max) and (element.value ?: 0 >= element.min)) shouldBe true
+                ((element.value ?: 0.toFloat() <= element.max) and (element.value ?: 0.toFloat() >= element.min)) shouldBe true
             }
             should("have valid formProgressElement") {
                 val element = CustomGen.formProgressElement().random().first()

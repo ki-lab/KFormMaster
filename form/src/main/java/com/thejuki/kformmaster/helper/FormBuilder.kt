@@ -51,6 +51,11 @@ fun FormBuildHelper.textArea(tag: Int = -1, init: FormMultiLineEditTextElement.(
     return addFormElement(FormMultiLineEditTextElement(tag).apply(init))
 }
 
+/** FormBuildHelper extension to add a FormRichEditTextElement */
+fun FormBuildHelper.richText(tag: Int = -1, init: FormRichEditTextElement.() -> Unit): FormRichEditTextElement {
+    return addFormElement(FormRichEditTextElement(tag).apply(init))
+}
+
 /** FormBuildHelper extension to add a FormNumberEditTextElement */
 fun FormBuildHelper.number(tag: Int = -1, init: FormNumberEditTextElement.() -> Unit): FormNumberEditTextElement {
     return addFormElement(FormNumberEditTextElement(tag).apply(init))

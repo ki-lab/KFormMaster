@@ -14,6 +14,7 @@ import androidx.annotation.LayoutRes
 class FormLayouts(@LayoutRes var header: Int? = null,
                   @LayoutRes var text: Int? = null,
                   @LayoutRes var textArea: Int? = null,
+                  @LayoutRes var richText: Int? = null,
                   @LayoutRes var number: Int? = null,
                   @LayoutRes var email: Int? = null,
                   @LayoutRes var password: Int? = null,

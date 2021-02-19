@@ -43,7 +43,7 @@ class FormMultiLineEditTextViewBinder(private val context: Context, private val 
         }
 
         editTextValue.setText(model.valueAsString)
-        //  editTextValue.hint = model.hint ?: ""
+        editTextValue.hint = model.hint ?: ""
 
         // Initially use 4 lines
         // unless a different number was provided

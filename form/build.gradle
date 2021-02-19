@@ -140,8 +140,11 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$testExpressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$testExpressoVersion"
 
-    // RadioGroupe Librairy
+    // RadioGroup
     implementation 'com.github.Gavras:MultiLineRadioGroup:v1.0.0.6'
+
+    // RichEditor
+    implementation 'jp.wasabeef:richeditor-android:2.0.0'
 }
 
 publish {
