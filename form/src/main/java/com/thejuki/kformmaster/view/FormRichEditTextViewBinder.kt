@@ -43,7 +43,8 @@ class FormRichEditTextViewBinder(private val context: Context, private val formB
 
         richEditor.html = model.valueAsString
 
-        richEditor.setPlaceholder(model.hint)
+        richEditor.setPlaceholder(model.hint ?: "")
+        richEditor.setInputEnabled(model.enabled)
 
         setEditTextFocusEnabled(model, richEditor, itemView)
         //setOnFocusChangeListener(context, model, formBuilder)
