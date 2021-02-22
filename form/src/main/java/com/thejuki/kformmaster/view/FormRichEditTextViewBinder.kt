@@ -2,6 +2,7 @@ package com.thejuki.kformmaster.view
 
 import android.content.Context
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
@@ -47,7 +48,7 @@ class FormRichEditTextViewBinder(private val context: Context, private val formB
         richEditor.setInputEnabled(model.enabled)
 
         setEditTextFocusEnabled(model, richEditor, itemView)
-        //setOnFocusChangeListener(context, model, formBuilder)
+        setOnFocusChangeListener(context, model, formBuilder)
         addTextChangedListener(model, formBuilder)
 
         richEditor.setOnClickListener {
@@ -68,30 +69,14 @@ class FormRichEditTextViewBinder(private val context: Context, private val formB
     private fun setEditTextFocusEnabled(model: FormRichEditTextElement,
                                         richEditor: RichEditor,
                                         itemView: View) {
+
         itemView.setOnClickListener {
             // Invoke onClick Unit
             model.onClick?.invoke()
 
             richEditor.requestFocus()
-        }
-    }
-
-    /**
-     * Adds a text changed listener to the editView to update the form element value
-     */
-    override fun addTextChangedListener(formElement: BaseFormElement<*>, formBuilder: FormBuildHelper) {
-        if (!formElement.updateOnFocusChange) {
-            (formElement.editView as? RichEditor)?.setOnTextChangeListener { newValue ->
-                // get current form element, existing value and new value
-                val currentValue = formElement.valueAsString
-
-                // trigger event only if the value is changed
-                if (currentValue != newValue) {
-                    formElement.error = null
-                    formElement.setValue(newValue)
-                    formBuilder.onValueChanged(formElement)
-                }
-            }
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(richEditor, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 }

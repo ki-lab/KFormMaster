@@ -19,6 +19,7 @@ import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.model.BaseFormElement
 import com.thejuki.kformmaster.widget.ClearableEditText
 import com.thejuki.kformmaster.widget.IconTextView
+import jp.wasabeef.richeditor.RichEditor
 
 
 /**
@@ -159,7 +160,7 @@ abstract class BaseFormViewBinder {
         )
         formElement.titleView?.setTextColor(ColorStateList(states, colors))
 
-        formElement.editView?.setOnFocusChangeListener { _, hasFocus ->
+        formElement.editView?.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 // Invoke onFocus Unit
                 formElement.onFocus?.invoke()
@@ -174,12 +175,19 @@ abstract class BaseFormViewBinder {
                 formElement.titleView?.setTextColor(formElement.titleTextColor
                         ?: ContextCompat.getColor(context, R.color.colorFormMasterElementTextTitle))
 
-                (formElement.editView as? AppCompatEditText)?.let {
-                    if (it.text.toString() != formElement.valueAsString) {
-                        formElement.error = null
-                        formElement.setValue(it.text.toString())
-                        formBuilder.onValueChanged(formElement)
-                    }
+                when(view) {
+                    is AppCompatEditText ->
+                        if (view.text.toString() != formElement.valueAsString) {
+                            formElement.error = null
+                            formElement.setValue(view.text.toString())
+                            formBuilder.onValueChanged(formElement)
+                        }
+                    is RichEditor ->
+                        if (view.html != formElement.valueAsString) {
+                            formElement.error = null
+                            formElement.setValue(view.html)
+                            formBuilder.onValueChanged(formElement)
+                        }
                 }
             }
         }
@@ -190,14 +198,30 @@ abstract class BaseFormViewBinder {
      */
     open fun addTextChangedListener(formElement: BaseFormElement<*>, formBuilder: FormBuildHelper) {
         if (!formElement.updateOnFocusChange) {
-            (formElement.editView as? AppCompatEditText)?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {}
+            when(val editView = formElement.editView) {
+                is AppCompatEditText -> editView.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {}
 
-                override fun onTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {
+                    override fun onTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {
 
+                        // get current form element, existing value and new value
+                        val currentValue = formElement.valueAsString
+                        val newValue = charSequence.toString()
+
+                        // trigger event only if the value is changed
+                        if (currentValue != newValue) {
+                            formElement.error = null
+                            formElement.setValue(newValue)
+                            formBuilder.onValueChanged(formElement)
+                        }
+                    }
+
+                    override fun afterTextChanged(editable: Editable) {}
+                })
+
+                is RichEditor -> editView.setOnTextChangeListener { newValue ->
                     // get current form element, existing value and new value
                     val currentValue = formElement.valueAsString
-                    val newValue = charSequence.toString()
 
                     // trigger event only if the value is changed
                     if (currentValue != newValue) {
@@ -206,9 +230,7 @@ abstract class BaseFormViewBinder {
                         formBuilder.onValueChanged(formElement)
                     }
                 }
-
-                override fun afterTextChanged(editable: Editable) {}
-            })
+            }
         }
     }
 
