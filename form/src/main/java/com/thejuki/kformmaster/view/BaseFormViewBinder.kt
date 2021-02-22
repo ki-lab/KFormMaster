@@ -149,7 +149,7 @@ abstract class BaseFormViewBinder {
     /**
      * Sets the focus changed listener on the editView to update the form element value
      */
-    fun setOnFocusChangeListener(context: Context, formElement: BaseFormElement<*>, formBuilder: FormBuildHelper) {
+    open fun setOnFocusChangeListener(context: Context, formElement: BaseFormElement<*>, formBuilder: FormBuildHelper) {
         val states = arrayOf(intArrayOf(android.R.attr.state_focused), intArrayOf())
         val colors = intArrayOf(formElement.titleFocusedTextColor ?: ContextCompat.getColor(context,
                 R.color.colorFormMasterElementFocusedTitle),
@@ -182,12 +182,13 @@ abstract class BaseFormViewBinder {
                             formElement.setValue(view.text.toString())
                             formBuilder.onValueChanged(formElement)
                         }
-                    is RichEditor ->
+                    is RichEditor -> {
                         if (view.html != formElement.valueAsString) {
                             formElement.error = null
                             formElement.setValue(view.html)
                             formBuilder.onValueChanged(formElement)
                         }
+                    }
                 }
             }
         }

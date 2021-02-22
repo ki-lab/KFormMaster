@@ -12,9 +12,9 @@ import com.github.vivchar.rendererrecyclerviewadapter.ViewStateProvider
 import com.github.vivchar.rendererrecyclerviewadapter.binder.ViewBinder
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
-import com.thejuki.kformmaster.model.BaseFormElement
 import com.thejuki.kformmaster.model.FormRichEditTextElement
 import com.thejuki.kformmaster.state.FormEditTextViewState
+import com.thejuki.kformmaster.state.FormRichTextViewState
 import jp.wasabeef.richeditor.RichEditor
 
 /**
@@ -47,14 +47,9 @@ class FormRichEditTextViewBinder(private val context: Context, private val formB
         richEditor.setPlaceholder(model.hint ?: "")
         richEditor.setInputEnabled(model.enabled)
 
-        setEditTextFocusEnabled(model, richEditor, itemView)
+        setOnClickListener(model, richEditor, itemView)
         setOnFocusChangeListener(context, model, formBuilder)
         addTextChangedListener(model, formBuilder)
-
-        richEditor.setOnClickListener {
-            // Invoke onClick Unit
-            model.onClick?.invoke()
-        }
 
     }, object : ViewStateProvider<FormRichEditTextElement, ViewHolder> {
         override fun createViewStateID(model: FormRichEditTextElement): Int {
@@ -62,21 +57,22 @@ class FormRichEditTextViewBinder(private val context: Context, private val formB
         }
 
         override fun createViewState(holder: ViewHolder): ViewState<ViewHolder> {
-            return FormEditTextViewState(holder)
+            return FormRichTextViewState(holder)
         }
     })
 
-    private fun setEditTextFocusEnabled(model: FormRichEditTextElement,
-                                        richEditor: RichEditor,
-                                        itemView: View) {
+    private fun setOnClickListener(model: FormRichEditTextElement, richEditor: RichEditor, itemView: View) {
 
         itemView.setOnClickListener {
             // Invoke onClick Unit
             model.onClick?.invoke()
 
-            richEditor.requestFocus()
-            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(richEditor, InputMethodManager.SHOW_IMPLICIT)
+            richEditor.focusEditor()
+        }
+
+        richEditor.setOnClickListener {
+            // Invoke onClick Unit
+            model.onClick?.invoke()
         }
     }
 }

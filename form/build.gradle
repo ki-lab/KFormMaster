@@ -1,10 +1,30 @@
+buildscript {
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30"
+        classpath "guru.stefma.bintrayrelease:bintrayrelease:1.1.2"
+        classpath "org.jacoco:org.jacoco.core:0.8.5"
+    }
+}
+
+repositories {
+    google()
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "guru.stefma.bintrayrelease"
 apply plugin: 'jacoco'
 
-version = '6.5.2.53'
+version = '6.5.2.54'
 
 android {
     compileSdkVersion 29
