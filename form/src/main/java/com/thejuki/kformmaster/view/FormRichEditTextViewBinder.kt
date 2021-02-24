@@ -68,6 +68,9 @@ class FormRichEditTextViewBinder(private val context: Context, private val formB
             model.onClick?.invoke()
 
             richEditor.focusEditor()
+
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(richEditor, InputMethodManager.SHOW_IMPLICIT)
         }
 
         richEditor.setOnClickListener {
