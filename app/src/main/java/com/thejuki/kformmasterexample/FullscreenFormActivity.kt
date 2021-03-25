@@ -212,8 +212,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 title = getString(R.string.email)
                 centerText = true
                 displayDivider = false
-                titleIcon = ContextCompat.getDrawable(this@FullscreenFormActivity, R.drawable.ic_email_blue_24dp)
-                titleIconLocation = IconTextView.Location.RIGHT
+                rightTitleIcon = ContextCompat.getDrawable(this@FullscreenFormActivity, R.drawable.ic_email_blue_24dp)
                 titleIconPadding = 5
                 titlePadding = FormElementPadding(0, 0, 80, 0)
                 hint = getString(R.string.email_hint)
