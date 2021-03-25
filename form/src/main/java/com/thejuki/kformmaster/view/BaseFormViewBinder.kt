@@ -85,8 +85,8 @@ abstract class BaseFormViewBinder {
 
         formElement.titleView?.let {
             if (it is IconTextView) {
-                it.iconLocation = formElement.titleIconLocation
-                it.icon = formElement.titleIcon
+                it.leftIcon = formElement.leftTitleIcon
+                it.rightIcon = formElement.rightTitleIcon
                 it.iconPadding = formElement.titleIconPadding
                 it.listener = object : IconTextView.Listener {
                     override fun clickedIcon() {

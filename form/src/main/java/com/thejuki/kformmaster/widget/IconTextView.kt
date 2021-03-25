@@ -18,22 +18,13 @@ import androidx.appcompat.widget.AppCompatTextView
  * @version 1.0
  */
 class IconTextView : AppCompatTextView, OnTouchListener {
-    var iconLocation: Location = Location.LEFT
-
-    var icon: Drawable? = null
-
+    var leftIcon: Drawable? = null
+    var rightIcon: Drawable? = null
     var iconPadding: Int = 20
 
     var listener: Listener? = null
 
     private var onIconTouchListener: OnTouchListener? = null
-
-    private val displayedDrawable: Drawable?
-        get() = compoundDrawables[iconLocation.idx]
-
-    enum class Location(val idx: Int) {
-        LEFT(0), RIGHT(2)
-    }
 
     interface Listener {
         fun clickedIcon()
@@ -57,15 +48,17 @@ class IconTextView : AppCompatTextView, OnTouchListener {
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
-        if (displayedDrawable != null) {
+        if (leftIcon != null || rightIcon != null) {
             val x = event.x.toInt()
             val y = event.y.toInt()
-            val left = if (iconLocation == Location.LEFT) 0 else width - paddingRight - (icon?.intrinsicWidth
-                    ?: 0)
-            val right = if (iconLocation == Location.LEFT) paddingLeft + (icon?.intrinsicWidth
-                    ?: 0) else width
-            val tappedIcon = x in left..right && y >= 0 && y <= bottom - top
-            if (tappedIcon) {
+
+            val rightSideOfLeftIcon = paddingLeft + (leftIcon?.intrinsicWidth ?: 0)
+            val leftIconTapped = x in 0..rightSideOfLeftIcon && y >= 0 && y <= bottom - top
+
+            val leftSideOfRightIcon = width - paddingRight - (rightIcon?.intrinsicWidth ?: 0)
+            val rightIconTapped = x in leftSideOfRightIcon..width && y >= 0 && y <= bottom - top
+
+            if (leftIconTapped || rightIconTapped) {
                 if (event.action == MotionEvent.ACTION_UP) {
                     listener?.clickedIcon()
                 }
@@ -85,10 +78,22 @@ class IconTextView : AppCompatTextView, OnTouchListener {
         setIconVisible()
     }
 
+    private val leftIconWidth: Int
+        get() = leftIcon?.intrinsicWidth ?: 0
+
+    private val leftIconHeight: Int
+        get() = leftIcon?.intrinsicHeight ?: 0
+
+    private val rightIconHeight: Int
+        get() = rightIcon?.intrinsicHeight ?: 0
+
+    private val rightIconWidth: Int
+        get() = rightIcon?.intrinsicWidth ?: 0
+
     private fun initIcon() {
-        icon?.setBounds(0, 0, (icon?.intrinsicWidth ?: 0), (icon?.intrinsicHeight
-                ?: 0))
-        val min = paddingTop + (icon?.intrinsicHeight ?: 0) + paddingBottom
+        leftIcon?.setBounds(0, 0, leftIconWidth, leftIconHeight)
+        rightIcon?.setBounds(0, 0, rightIconWidth, rightIconHeight)
+        val min = paddingTop + leftIconHeight.coerceAtLeast(rightIconHeight) + paddingBottom
         if (suggestedMinimumHeight < min) {
             minimumHeight = min
         }
@@ -96,17 +101,13 @@ class IconTextView : AppCompatTextView, OnTouchListener {
 
     private fun setIconVisible() {
         val cd = compoundDrawables
-
-        // Reset icons
-        if(cd[0] == icon) {
-            cd[0] = null
+        if (leftIcon == null) {
+            leftIcon = cd[0]
         }
-        if(cd[2] == icon) {
-            cd[2] = null
+        if (rightIcon == null) {
+            rightIcon = cd[2]
         }
-
-        super.setCompoundDrawables(if (iconLocation == Location.LEFT) icon else cd[0], cd[1], if (iconLocation == Location.RIGHT) icon else cd[2],
-                cd[3])
+        super.setCompoundDrawables(leftIcon, cd[1], rightIcon, cd[3])
         super.setCompoundDrawablePadding(iconPadding)
     }
 }

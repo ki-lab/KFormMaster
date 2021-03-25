@@ -461,30 +461,30 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
         }
 
     /**
-     * Form Element Title Icon
-     * Setting this will set and display the title icon drawable (null will hide the icon). By default, no icon is displayed.
+     * Form Element Left Title Icon
+     * Setting this will set and display the left title icon drawable (null will hide the icon). By default, no icon is displayed.
      */
-    var titleIcon: Drawable? = null
+    var leftTitleIcon: Drawable? = null
         set(value) {
             field = value
             titleView?.let {
                 if (it is IconTextView) {
-                    it.icon = value
+                    it.leftIcon = value
                     it.reInitIcon()
                 }
             }
         }
 
     /**
-     * Form Element Title Icon Location
-     * Setting this set the title icon location.
+     * Form Element Right Title Icon
+     * Setting this will set and display the right title icon drawable (null will hide the icon). By default, no icon is displayed.
      */
-    var titleIconLocation: IconTextView.Location = IconTextView.Location.LEFT
+    var rightTitleIcon: Drawable? = null
         set(value) {
             field = value
             titleView?.let {
                 if (it is IconTextView) {
-                    it.iconLocation = value
+                    it.rightIcon = value
                     it.reInitIcon()
                 }
             }

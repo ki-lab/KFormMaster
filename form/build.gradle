@@ -5,8 +5,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30"
+        classpath "com.android.tools.build:gradle:$buildGradleVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "guru.stefma.bintrayrelease:bintrayrelease:1.1.2"
         classpath "org.jacoco:org.jacoco.core:0.8.5"
     }
@@ -24,14 +24,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: "guru.stefma.bintrayrelease"
 apply plugin: 'jacoco'
 
-version = '6.5.2.55'
+version = '6.5.2.56'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 46
         versionName project.version
         multiDexEnabled true

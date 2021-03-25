@@ -22,9 +22,9 @@ class FormButtonElement(tag: Int = -1) : BaseFormElement<String>(tag) {
 
     override var validityCheck = { true }
 
-    var iconLocation: IconButton.Location = IconButton.Location.LEFT
+    var leftIcon: Drawable? = null
 
-    var icon: Drawable? = null
+    var rightIcon: Drawable? = null
 
     var text: String? = ""
 

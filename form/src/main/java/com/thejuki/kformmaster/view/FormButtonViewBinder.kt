@@ -38,11 +38,11 @@ class FormButtonViewBinder(private val context: Context, private val formBuilder
             model.onClick?.invoke()
         }
 
-        model.iconLocation = IconButton.Location.valueOf(model.titleIconLocation.toString())
-        model.icon = model.titleIcon
+        model.leftIcon = model.leftTitleIcon
+        model.rightIcon = model.rightTitleIcon
         model.iconPadding = model.titleIconPadding
 
-        setIconVisible(button, model.icon, model.iconLocation, model.iconPadding)
+        setIconVisible(button, model.leftIcon, model.rightIcon, model.iconPadding)
 
     }, object : ViewStateProvider<FormButtonElement, ViewHolder> {
         override fun createViewStateID(model: FormButtonElement): Int {
@@ -54,19 +54,17 @@ class FormButtonViewBinder(private val context: Context, private val formBuilder
         }
     })
 
-    private fun setIconVisible(button : AppCompatButton, icon: Drawable?, location: IconButton.Location, iconPadding: Int) {
+    private fun setIconVisible(button : AppCompatButton, leftIcon: Drawable?, rightIcon: Drawable?, iconPadding: Int) {
         val cd = button.compoundDrawables
 
-        // Reset icons
-        if (cd[0] == icon) {
-            cd[0] = null
+        if (leftIcon != null) {
+            cd[0] = leftIcon
         }
-        if (cd[2] == icon) {
-            cd[2] = null
+        if (rightIcon != null) {
+            cd[2] = rightIcon
         }
 
-        button.setCompoundDrawables(if (location == IconButton.Location.LEFT) icon else cd[0], cd[1], if (location == IconButton.Location.RIGHT) icon else cd[2],
-                cd[3])
+        button.setCompoundDrawables(cd[0], cd[1], cd[2], cd[3])
         button.compoundDrawablePadding = iconPadding
     }
 }
