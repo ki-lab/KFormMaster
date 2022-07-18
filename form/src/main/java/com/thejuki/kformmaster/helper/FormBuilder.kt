@@ -1,6 +1,5 @@
 package com.thejuki.kformmaster.helper
 
-import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
 import com.thejuki.kformmaster.model.*
@@ -18,14 +17,12 @@ import com.thejuki.kformmaster.model.*
 annotation class FormDsl
 
 /** Type-safe builder method to initialize the form */
-fun form(context: Context,
-         recyclerView: RecyclerView,
+fun form(recyclerView: RecyclerView,
          listener: OnFormElementValueChangedListener? = null,
          cacheForm: Boolean = true,
          formLayouts: FormLayouts? = null,
          init: FormBuildHelper.() -> Unit): FormBuildHelper {
     val form = FormBuildHelper(
-            context = context,
             listener = listener,
             recyclerView = recyclerView,
             cacheForm = cacheForm,
@@ -121,13 +118,18 @@ fun <T> FormBuildHelper.dropDown(tag: Int = -1, init: FormPickerDropDownElement<
 }
 
 /** FormBuildHelper extension to add a FormPickerMultiCheckBoxElement */
-fun <T> FormBuildHelper.multiCheckBox(tag: Int = -1, init: FormPickerMultiCheckBoxElement<T>.() -> Unit): FormPickerMultiCheckBoxElement<T> {
-    return addFormElement(FormPickerMultiCheckBoxElement<T>(tag).apply(init))
+fun <LI : Any?, T : List<LI>> FormBuildHelper.multiCheckBox(tag: Int = -1, init: FormPickerMultiCheckBoxElement<LI, T>.() -> Unit): FormPickerMultiCheckBoxElement<LI, T> {
+    return addFormElement(FormPickerMultiCheckBoxElement<LI, T>(tag).apply(init))
 }
 
 /** FormBuildHelper extension to add a FormSegmentedElement */
 fun <T> FormBuildHelper.segmented(tag: Int = -1, init: FormSegmentedElement<T>.() -> Unit): FormSegmentedElement<T> {
     return addFormElement(FormSegmentedElement<T>(tag).apply(init))
+}
+
+/** FormBuildHelper extension to add a FormSegmentedInlineTitleElement */
+fun <T> FormBuildHelper.segmentedInlineTitle(tag: Int = -1, init: FormSegmentedInlineTitleElement<T>.() -> Unit): FormSegmentedInlineTitleElement<T> {
+    return addFormElement(FormSegmentedInlineTitleElement<T>(tag).apply(init))
 }
 
 /** FormBuildHelper extension to add a FormSwitchElement */
@@ -160,6 +162,16 @@ fun FormBuildHelper.textView(tag: Int = -1, init: FormTextViewElement.() -> Unit
     return addFormElement(FormTextViewElement(tag).apply(init))
 }
 
+/** FormBuildHelper extension to add a FormImageElement */
+fun FormBuildHelper.imageView(tag: Int = -1, init: FormImageElement.() -> Unit): FormImageElement {
+    return addFormElement(FormImageElement(tag).apply(init))
+}
+
 fun FormBuildHelper.custom(tag: Int = -1, init: FormCustomElement.() -> Unit): FormCustomElement {
     return addFormElement(FormCustomElement(tag).apply(init))
+}
+
+/** FormBuildHelper extension to add a FormInlineDatePickerElement */
+fun FormBuildHelper.inlineDatePicker(tag: Int = -1, init: FormInlineDatePickerElement.() -> Unit): FormInlineDatePickerElement {
+    return addFormElement(FormInlineDatePickerElement(tag).apply(init))
 }

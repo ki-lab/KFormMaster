@@ -34,10 +34,12 @@ class IconTextView : AppCompatTextView, OnTouchListener {
     constructor(context: Context) : super(context) {
         super.setOnTouchListener(this)
     }
+
     @SuppressLint("ClickableViewAccessibility")
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         super.setOnTouchListener(this)
     }
+
     @SuppressLint("ClickableViewAccessibility")
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         super.setOnTouchListener(this)

@@ -2,24 +2,24 @@ package com.thejuki.kformmasterexample
 
 import android.app.Activity
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.text.InputType
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.redmadrobot.inputmask.MaskedTextChangedListener.ValueListener
 import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy
 import com.thejuki.kformmaster.helper.*
-import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
 import com.thejuki.kformmaster.model.*
 import com.thejuki.kformmaster.widget.FormElementMargins
 import com.thejuki.kformmaster.widget.FormElementPadding
@@ -27,9 +27,12 @@ import com.thejuki.kformmaster.widget.IconTextView
 import com.thejuki.kformmasterexample.FullscreenFormActivity.Tag.*
 import com.thejuki.kformmasterexample.adapter.ContactAutoCompleteAdapter
 import com.thejuki.kformmasterexample.adapter.EmailAutoCompleteAdapter
+import com.thejuki.kformmasterexample.databinding.ActivityFullscreenFormBinding
+import com.thejuki.kformmasterexample.databinding.BottomsheetImageBinding
 import com.thejuki.kformmasterexample.item.ContactItem
+import com.thejuki.kformmasterexample.item.ListItem
 import com.thejuki.kformmasterexample.item.SegmentedListItem
-import kotlinx.android.synthetic.main.activity_fullscreen_form.*
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Date
@@ -45,17 +48,23 @@ import java.util.Date
  */
 class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedListener {
 
+    private lateinit var binding: ActivityFullscreenFormBinding
+    private lateinit var bottomSheetDialogBinding: BottomsheetImageBinding
     private lateinit var formBuilder: FormBuildHelper
     private lateinit var bottomSheetDialog: BottomSheetDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fullscreen_form)
+
+        binding = ActivityFullscreenFormBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         setupToolBar()
 
         bottomSheetDialog = BottomSheetDialog(this)
-        val sheetView = this.layoutInflater.inflate(R.layout.bottomsheet_image, null)
+        bottomSheetDialogBinding = BottomsheetImageBinding.inflate(layoutInflater)
+        val sheetView = bottomSheetDialogBinding.root
         bottomSheetDialog.setContentView(sheetView)
 
         setupForm()
@@ -94,10 +103,6 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 }
                 R.id.action_clear -> {
                     clear()
-                    true
-                }
-                R.id.lock -> {
-                    formBuilder.lockItems(listOf(ZipCode.ordinal, SliderElement.ordinal,MultiItems.ordinal,Radio.ordinal))
                     true
                 }
                 android.R.id.home -> {
@@ -191,30 +196,81 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
         ProgressElement,
         CheckBoxElement,
         SegmentedElement,
+        ImageViewElement,
         CustomElement;
     }
 
     private fun setupForm() {
-        formBuilder = form(this, recyclerView,
+        formBuilder = form(binding.recyclerView,
                 formLayouts = FormLayouts(
                         // Uncomment to replace all text elements with the form_element_custom layout
                         //text = R.layout.form_element_custom
                 )) {
+            imageView(ImageViewElement.ordinal) {
+                displayDivider = false
+                imageTransformation = CircleTransform(borderColor = Color.WHITE, borderRadius = 3) //Default value for this is CircleTransform(null) so it makes image round without borders
+                required = false
+                enabled = true
+                showChangeImageLabel = true
+                changeImageLabel = "Change me"
+                displayImageHeight = 200
+                displayImageWidth = 200
+                theme = R.style.CustomDialogPicker // This is to theme the default dialog when onClickListener is not used.
+                //defaultImage = R.drawable.default_image
+                //value = "https://via.placeholder.com/200" //(String) This needs to be an image URL, data URL, or an image FILE (absolutePath)
+                imagePickerOptions = {
+                    // This lets you customize the ImagePicker library, specifying Crop, Dimensions and MaxSize options
+                    it.cropX = 3f
+                    it.cropY = 4f
+                    it.maxWidth = 150
+                    it.maxHeight = 200
+                    it.maxSize = 500
+                }
+                onSelectImage = { file ->
+                    // If file is null, that means an error occurred trying to select the image
+                    if (file != null) {
+                        Toast.makeText(this@FullscreenFormActivity, file.name, LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@FullscreenFormActivity, "Error getting the image", LENGTH_LONG).show()
+                    }
+                }
+
+                // Optional: Handle onClickListener yourself. Here I am using a BottomSheet instead of the
+                // the default AlertDialog
+                bottomSheetDialogBinding.imageBottomSheetCamera.setOnClickListener {
+                    bottomSheetDialog.dismiss()
+                    this.openImagePicker(ImageProvider.CAMERA)
+                }
+                bottomSheetDialogBinding.imageBottomSheetGallery.setOnClickListener {
+                    bottomSheetDialog.dismiss()
+                    this.openImagePicker(ImageProvider.GALLERY)
+                }
+                bottomSheetDialogBinding.imageBottomSheetRemove.setOnClickListener {
+                    bottomSheetDialog.dismiss()
+                    this.clearImage()
+                }
+                bottomSheetDialogBinding.imageBottomSheetClose.setOnClickListener {
+                    bottomSheetDialog.dismiss()
+                }
+                onClick = {
+                    bottomSheetDialog.show()
+                }
+            }
             header {
                 title = getString(R.string.PersonalInfo)
                 collapsible = true
                 backgroundColor = Color.parseColor("#DDDDDD")
                 titleTextColor = Color.BLACK
-                centerText = true
+                editViewGravity = Gravity.CENTER
                 allCollapsed = false
             }
             email(Email.ordinal) {
                 title = getString(R.string.email)
-                centerText = true
+                editViewGravity = Gravity.CENTER
                 displayDivider = false
                 rightTitleIcon = ContextCompat.getDrawable(this@FullscreenFormActivity, R.drawable.ic_email_blue_24dp)
                 titleIconPadding = 5
-                titlePadding = FormElementPadding(0, 0, 80, 0)
+                titlePadding = FormElementPadding(0, 0, 70, 0)
                 hint = getString(R.string.email_hint)
                 value = "mail@mail.com"
                 maxLines = 3
@@ -246,7 +302,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 displayDivider = false
                 required = true
                 maxLength = 100
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 enabled = true
                 clearable = true
                 clearOnFocus = false
@@ -257,7 +313,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
             phone(Phone.ordinal) {
                 title = getString(R.string.Phone)
                 value = "123-456-7890"
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 displayDivider = false
                 maxLength = 100
                 maxLines = 3
@@ -282,7 +338,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
             text(Location.ordinal) {
                 title = getString(R.string.Location)
                 value = "Dhaka"
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 displayDivider = false
                 maxLength = 100
                 required = true
@@ -296,7 +352,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
             textArea(Address.ordinal) {
                 title = getString(R.string.Address)
                 value = "123 Street"
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 displayDivider = false
                 minLines = 3
                 maxLines = 2
@@ -315,7 +371,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 title = getString(R.string.ZipCode)
                 value = 12
                 numbersOnly = true
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 displayDivider = false
                 maxLength = 5
                 required = true
@@ -340,7 +396,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 maxLines = 1
                 confirmEdit = true
                 displayDivider = false
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 enabled = false
                 clearable = true
                 valueObservers.add { newValue, element ->
@@ -358,7 +414,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 maxLines = 1
                 confirmEdit = true
                 displayDivider = false
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 enabled = true
                 clearable = true
                 valueObservers.add { newValue, element ->
@@ -377,7 +433,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 required = true
                 maxLines = 1
                 confirmEdit = true
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 displayDivider = false
                 enabled = true
                 clearable = true
@@ -390,7 +446,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 title = getString(R.string.SingleItem)
                 options = fruits
                 enabled = true
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 theme = R.style.CustomDialogPicker
                 displayValueFor = {
                     if (it != null) {
@@ -418,8 +474,9 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 dialogTitle = getString(R.string.SingleItem)
                 options = fruits
                 enabled = true
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 dialogEmptyMessage = "This is Empty!"
+                // dialogTitleCustomView = TextView(this@FullscreenFormActivity)
                 theme = R.style.CustomDialogPicker
                 displayValueFor = {
                     if (it != null) {
@@ -460,12 +517,12 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 enabled = true
                 maxLines = 3
                 confirmEdit = true
-                rightToLeft = false
+                editViewGravity = android.view.Gravity.START
                 displayDivider = false
                 setListValue( listOf<Pair<Int, String>>(Pair<Int, String>(1, "Banana")))
                 required = true
                 clearable = true
-                listValueObservers.add { newValue, element ->
+                valueObservers.add { newValue, element ->
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
                     if (newValue != null) {
                         val list = mutableListOf<Int>()
@@ -476,6 +533,30 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                             5 -> Color.RED
                             else -> null
                         }
+                    }
+                }
+            }
+            multiCheckBox<ListItem, List<ListItem>>(MultiItems.ordinal) {
+                title = getString(R.string.MultiItemsWithOverride)
+                dialogTitle = getString(R.string.MultiItems)
+                theme = R.style.CustomDialogPicker
+                options = fruits
+                enabled = true
+                maxLines = 1
+                editViewGravity = Gravity.START
+                displayDivider = false
+                value = listOf()
+                required = true
+                clearable = true
+                valueObservers.add { newValue, element ->
+                    Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
+                }
+                valueAsStringOverride = { values ->
+                    when {
+                        values.isNullOrEmpty() -> "No fruit selected"
+                        values.size == options?.size -> "All fruits selected"
+                        values.size > 3 -> "${values.size} fruits selected"
+                        else -> null
                     }
                 }
             }
@@ -505,7 +586,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 value = arrayListOf(ContactItem(id = 1, value = "John.Smith@mail.com", label = "John Smith (Tester)"))
                 required = true
                 maxLines = 3
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 displayDivider = false
                 enabled = true
                 valueObservers.add { newValue, element ->
@@ -514,16 +595,17 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
             }
             textView(TextViewElement.ordinal) {
                 title = getString(R.string.TextView)
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 maxLines = 1
                 value = "This is readonly!"
                 displayDivider = false
+                editViewPaintFlags = Paint.FAKE_BOLD_TEXT_FLAG
             }
             label(LabelElement.ordinal) {
                 title = getString(R.string.Label)
-                rightToLeft = false
                 displayDivider = false
-                centerText = true
+                editViewGravity = Gravity.CENTER
+                editViewPaintFlags = Paint.UNDERLINE_TEXT_FLAG
             }
             custom(CustomElement.ordinal){
                 title = "Let's test it !"
@@ -548,6 +630,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 min = 36.toFloat()
                 max = 42.toFloat()
                 displayDivider = false
+                incrementBy = 50
                 enabled = true
                 required = true
                 valueObservers.add { newValue, element ->
@@ -593,7 +676,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 title = getString(R.string.Segmented)
                 options = fruitsSegmented
                 enabled = true
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 displayTitle = true
                 horizontal = true
                 fillSpace = true
@@ -608,7 +691,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 textSize = 12f
                 radioGroupWrapContent = false
                 radioButtonHeight = 70
-                radioButtonPadding = 50
+                radioButtonPadding = 30
                 drawableDirection = FormSegmentedElement.DrawableDirection.Top
                 value = fruitsSegmented[0]
                 required = true
@@ -625,10 +708,11 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 }
             }
             button(ButtonElement.ordinal) {
-                text = "Let's test this shit"
+                value = getString(R.string.Button)
                 displayDivider = false
                 valueBackgroundColor = Color.BLACK
                 valueTextColor = Color.WHITE
+                enabled = true
                 valueObservers.add { newValue, element ->
                     val confirmAlert = AlertDialog.Builder(this@FullscreenFormActivity).create()
                     confirmAlert.setTitle(this@FullscreenFormActivity.getString(R.string.Confirm))
@@ -655,6 +739,5 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
         Toast.makeText(this@FullscreenFormActivity, formElement.title, LENGTH_SHORT).show()
 
     }
-
 
 }

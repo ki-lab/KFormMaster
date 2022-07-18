@@ -1,39 +1,25 @@
-buildscript {
-
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:$buildGradleVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "guru.stefma.bintrayrelease:bintrayrelease:1.1.2"
-        classpath "org.jacoco:org.jacoco.core:0.8.5"
-    }
-}
-
-repositories {
-    google()
-    jcenter()
-    maven { url "https://jitpack.io" }
-}
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: "guru.stefma.bintrayrelease"
 apply plugin: 'jacoco'
+apply plugin: 'org.jetbrains.dokka'
 
-version = '6.5.2.56'
+ext {
+    PUBLISH_GROUP_ID = 'com.ki-lab'
+    PUBLISH_VERSION = '8.2.1'
+    PUBLISH_ARTIFACT_ID = 'k-form-master'
+}
+
+apply from: "${rootProject.projectDir}/publish-mavencentral.gradle"
 
 android {
     compileSdkVersion 30
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 30
-        versionCode 46
-        versionName project.version
+        versionCode 50
+        versionName PUBLISH_VERSION
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -47,6 +33,11 @@ android {
             testCoverageEnabled true
         }
     }
+
+    buildFeatures {
+        viewBinding true
+    }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -54,6 +45,12 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    sourceSets {
+        all {
+            it.java.srcDir "src/$it.name/java"
+        }
     }
 
     testOptions {
@@ -70,7 +67,7 @@ android {
 }
 
 jacoco {
-    toolVersion = "0.8.5"
+    toolVersion = "$jacocoVersion"
 }
 
 tasks.withType(Test) {
@@ -98,39 +95,46 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['compileDebugSources']) {
     ])
 }
 
-tasks.withType(Javadoc).all {
-    enabled = false
+dokkaHtml.configure {
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+        }
+    }
 }
 
 ext {
-    rendererRecyclerViewAdapterVersion = '2.8.0'
+    rendererRecyclerViewAdapterVersion = '3.0.0'
     tokenautocompleteVersion = '3.0.2'
-    constraintLayoutVersion = '1.1.3'
+    constraintLayoutVersion = '2.0.4'
     picassoVersion = '2.71828'
     inlineActivityResultVersion = '1.0.2'
-    imagePickerVersion = '1.4'
-    testCoreVersion = '1.2.0'
-    testExtJunitVersion = '1.1.1'
-    testRulesVersion = '1.2.0'
-    testExpressoVersion = '3.2.0'
+    imagepickerVersion = '1.12.0'
+    testCoreVersion = '1.3.0'
+    testExtJunitVersion = '1.1.2'
+    testRulesVersion = '1.3.0'
+    testExpressoVersion = '3.3.0'
     kotlintestVersion = '3.4.2'
-    mockkVersion = '1.9.3'
-    log4jVersion = '2.13.0'
-    inputMaskVersion = '5.0.0'
+    mockkVersion = '1.10.6'
+    log4jVersion = '2.14.0'
+    inputMaskVersion = '6.0.0'
     androidSVGVersion = '1.4'
+    expandablelayoutVersion = '2.9.2'
+    threetenabpVersion = '1.3.0'
+    wheelpickerVersion = '1.1.3'
 }
 
 dependencies {
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.10"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.72"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     // Androidx
-    implementation "androidx.appcompat:appcompat:1.1.0",
-            "com.google.android.material:material:1.1.0",
-            "androidx.recyclerview:recyclerview:1.1.0",
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion",
+            "com.google.android.material:material:$materialVersion",
+            "androidx.recyclerview:recyclerview:$androidxRecyclerviewVersion",
             "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
-            "androidx.multidex:multidex:2.0.1"
+            "androidx.multidex:multidex:$multidexVersion"
 
     // RendererRecyclerViewAdapter
     api "com.github.vivchar:RendererRecyclerViewAdapter:$rendererRecyclerViewAdapterVersion"
@@ -144,11 +148,23 @@ dependencies {
     //Inline Activity Result (To call image picker inline)
     implementation "com.github.florent37:inline-activity-result-kotlin:$inlineActivityResultVersion"
 
+    // ImagePicker
+    api "com.github.thejuki:imagepicker:$imagepickerVersion"
+
     // Input mask
     api "com.redmadrobot:input-mask-android:$inputMaskVersion"
 
     // Android SVG
     implementation "com.caverock:androidsvg-aar:$androidSVGVersion"
+
+    // Expandable Layout (To use InlineDatePickerElement)
+    implementation "net.cachapa.expandablelayout:expandablelayout:$expandablelayoutVersion"
+
+    // ThreeTen Android Backport (To use InlineDatePickerElement)
+    api "com.jakewharton.threetenabp:threetenabp:$threetenabpVersion"
+
+    // WheelPicker (To use InlineDatePickerElement)
+    implementation "cn.aigestudio.wheelpicker:WheelPicker:$wheelpickerVersion"
 
     // Test dependencies
     testImplementation "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
@@ -159,12 +175,6 @@ dependencies {
     androidTestImplementation "androidx.test:rules:$testRulesVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$testExpressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$testExpressoVersion"
-
-    // RadioGroup
-    implementation 'com.github.Gavras:MultiLineRadioGroup:v1.0.0.6'
-
-    // RichEditor
-    implementation 'jp.wasabeef:richeditor-android:2.0.0'
 }
 
 publish {

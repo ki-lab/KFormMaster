@@ -1,5 +1,43 @@
 # Change Log
 
+## [8.1.0](https://github.com/TheJuki/KFormMaster/releases/tag/8.1.0)
+- Remove kotlin-android-extensions gradle plugin. Use Jetpack View Binding for Test and Examples.
+
+## [8.0.0](https://github.com/TheJuki/KFormMaster/releases/tag/8.0.0)
+### Targeting SDK API Level 30, Min API Level 19
+
+## Issues Resolved
+- #196 InlineDatePickerElement: https://thejuki.github.io/KFormMaster/element/inlineDatePicker/
+- #197 Removed disabling FormTextViewElement
+- #201 Setting backgroundColor for the main view for the Header and Label elements
+- #205 Fixed remaining issue with displayNewValue
+- #214 Upgraded to ViewRenderers
+- #220 Moved FormActivityTest to main form folder
+
+## [7.0.0](https://github.com/TheJuki/KFormMaster/releases/tag/7.0.0)
+### Issues Resolved
+- #194 Added editViewGravity. The button element's default gravity is CENTER.
+- #195 Added editViewPaintFlags. Set the value to Paint.UNDERLINE_TEXT_FLAG to underline all text, for example.
+- #179 Moved imagepicker dependency to JCenter since JitPack was not working for everyone.
+
+### Breaking change:
+- editViewGravity replaces both rightToLeft and centerText. Set value to Gravity.START, Gravity.END, Gravity.CENTER, etc.
+
+## [6.5.6](https://github.com/TheJuki/KFormMaster/releases/tag/6.5.6)
+- #191, #192 Add dialogTitleCustomView to dropDown element
+
+## [6.5.5](https://github.com/TheJuki/KFormMaster/releases/tag/6.5.5)
+- #163 Fix segmented radio buttons height when text wraps to next line
+
+## [6.5.4](https://github.com/TheJuki/KFormMaster/releases/tag/6.5.4)
+- #187, #188 Add valueAsStringOverride to FormPickerMultiCheckBoxElement
+
+## [6.5.3](https://github.com/TheJuki/KFormMaster/releases/tag/6.5.3)
+- #185 Add new properties for FormImageElement:
+  - displayImageWidth and displayImageHeight to change the size of the image displayed on the form
+  - changeImageLabel to set the text of the label that currently is set to "Change Image"
+  - showChangeImageLabel to show/hide the "Change Image" label
+  
 ## [6.5.2](https://github.com/TheJuki/KFormMaster/releases/tag/6.5.2)
 - #172 Fix ImagePickerActivity where when crop is enabled AND using start() with the completionHandler, the gallery or camera app opens again after a photo is selected/confirmed.
 

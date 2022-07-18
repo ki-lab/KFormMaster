@@ -17,6 +17,7 @@
     <string name="DateTime">Date Time</string>
     <string name="SingleItem">Single Item</string>
     <string name="MultiItems">Multi Items</string>
+    <string name="MultiItemsWithOverride">Multi Items With Override</string>
     <string name="AutoComplete">Auto Complete</string>
     <string name="AutoCompleteToken">Auto Complete Token</string>
     <string name="Button">Button</string>
@@ -32,12 +33,15 @@
     <string name="Places_AutoComplete">Places</string>
     <string name="Confirm">Clear Date field?</string>
     <string name="PersonalInfo">Personal Info</string>
+    <string name="InlineDatePicker">Inline Date Picker</string>
     <string name="FamilyInfo">Family Info</string>
     <string name="Schedule">Schedule</string>
     <string name="PreferredItems">Preferred Items</string>
     <string name="MarkComplete">Mark Complete</string>
     <string name="FormValid">Form is Valid</string>
     <string name="FormInvalid">Form is Invalid!</string>
+    <string name="InlineDateStart">Date Start</string>
+    <string name="InlineDateEnd">Date End</string>
 
     <string name="this_is_a_big_pointless_place_holder">This is a big pointless place-holder</string>
     <string name="another_pointless_place_holder">Another pointless place-holder</string>

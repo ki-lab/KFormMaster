@@ -8,6 +8,8 @@ import com.thejuki.kformmaster.helper.FormLayouts
 import com.thejuki.kformmaster.model.*
 import io.kotlintest.properties.Gen
 import io.mockk.mockk
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -50,8 +52,10 @@ interface CustomGen {
                         , Gen.choose(-100, 100).random().first() // label
                         , Gen.choose(-100, 100).random().first() // textView
                         , Gen.choose(-100, 100).random().first() // segmented
+                        , Gen.choose(-100, 100).random().first() // segmentedInlineTitle
                         , Gen.choose(-100, 100).random().first() // progress
                         , Gen.choose(-100, 100).random().first() // image
+                        , Gen.choose(-100, 100).random().first() // inlineDateTimePicker
                 )
             }
         }
@@ -207,10 +211,11 @@ interface CustomGen {
         /**
          * Generates a FormPickerMultiCheckBoxElement
          */
-        fun formPickerMultiCheckBoxElement() = object : Gen<FormPickerMultiCheckBoxElement<List<String>>> {
-            override fun constants() = emptyList<FormPickerMultiCheckBoxElement<List<String>>>()
+        fun formPickerMultiCheckBoxElement() = object : Gen<FormPickerMultiCheckBoxElement<String, List<String>>> {
+            override fun constants() = emptyList<FormPickerMultiCheckBoxElement<String, List<String>>>()
             override fun random() = generateSequence {
-                val element = generateBaseFieldsWithList(FormPickerMultiCheckBoxElement()) as FormPickerMultiCheckBoxElement<List<String>>
+                @Suppress("UNCHECKED_CAST")
+                val element = generateBaseFieldsWithList(FormPickerMultiCheckBoxElement()) as FormPickerMultiCheckBoxElement<String, List<String>>
                 element.dialogTitle = Gen.string().random().first()
                 element.options = Gen.list(Gen.string()).random().first()
                 element.theme = Random().nextInt(100)
@@ -387,6 +392,26 @@ interface CustomGen {
         }
 
         /**
+         * Generates a FormInlineDatePickerElement
+         */
+        fun formInlineDatePickerElement() = object : Gen<FormInlineDatePickerElement> {
+            override fun constants() = emptyList<FormInlineDatePickerElement>()
+            override fun random() = generateSequence {
+                val element = FormInlineDatePickerElement()
+                element.title = Gen.string().random().first()
+                element.hint = Gen.string().random().first()
+                element.value = org.threeten.bp.LocalDateTime.now(ZoneId.of("UTC"))
+                element.dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
+                element.dateTimePickerFormatter = DateTimeFormatter.ISO_DATE
+                element.startDate = org.threeten.bp.LocalDateTime.now(ZoneId.of("UTC")).toLocalDate()
+                element.allDay = Gen.bool().random().first()
+                element.pickerType = Gen.from(FormInlineDatePickerElement.PickerType.values().asList()).random().first()
+                element.linkedPicker = FormInlineDatePickerElement()
+                element
+            }
+        }
+
+        /**
          * Generates a FormButtonElement
          */
         fun formButtonElement() = object : Gen<FormButtonElement> {
@@ -407,7 +432,7 @@ interface CustomGen {
                     hint = Gen.string().random().first()
                     visible = Gen.bool().random().first()
                     enabled = Gen.bool().random().first()
-                    rightToLeft = Gen.bool().random().first()
+                    editViewGravity = Gen.int().random().first()
                     maxLines = Gen.choose(1, 100).random().first()
                     error = if (Gen.bool().random().first()) Gen.string().random().first() else null
                     valueObservers.add { newValue, elementRef -> println("New Value = $newValue {$elementRef}") }
@@ -421,7 +446,7 @@ interface CustomGen {
                     hint = Gen.string().random().first()
                     visible = Gen.bool().random().first()
                     enabled = Gen.bool().random().first()
-                    rightToLeft = Gen.bool().random().first()
+                    editViewGravity = Gen.int().random().first()
                     maxLines = Gen.choose(1, 100).random().first()
                     error = if (Gen.bool().random().first()) Gen.string().random().first() else null
                     valueObservers.add { newValue, elementRef -> println("\nNew Value = $newValue {$elementRef}") }

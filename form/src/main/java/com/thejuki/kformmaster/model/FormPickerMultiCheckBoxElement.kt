@@ -105,6 +105,7 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
      */
     var theme: Int = 0
 
+
     /**
      * Re-initializes the dialog
      * Should be called after the options list changes
@@ -121,7 +122,7 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
             for (i in it.indices) {
                 val obj = it[i]
 
-                options[i] = obj.toString()
+                options[i] = this.displayValueFor(it[i])
                 optionsSelected[i] = false
 
                 if ((this.listValue as List<T>?)?.contains(obj) == true) {

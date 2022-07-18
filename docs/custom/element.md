@@ -10,11 +10,12 @@ Create a new XML layout file. We'll name it form_element_custom.xml.
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/black"
+    android:background="@color/colorFormMasterElementBackground"
     android:orientation="vertical"
     android:paddingBottom="16dp">
 
     <View
+        android:id="@+id/formElementDivider"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginLeft="16dp"
@@ -22,6 +23,7 @@ Create a new XML layout file. We'll name it form_element_custom.xml.
         android:background="@color/colorFormMasterDivider" />
 
     <LinearLayout
+        android:id="@+id/formElementMainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -29,16 +31,16 @@ Create a new XML layout file. We'll name it form_element_custom.xml.
         android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatTextView
+        <com.thejuki.kformmaster.widget.IconTextView
             android:id="@+id/formElementTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorFormMasterElementTextTitle"
             android:textSize="@dimen/elementTextTitleSize"
-            tools:text="Test Title" />
+            tools:text="Custom Title" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <com.thejuki.kformmaster.widget.ClearableEditText
             android:id="@+id/formElementValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -48,13 +50,14 @@ Create a new XML layout file. We'll name it form_element_custom.xml.
             android:imeOptions="actionNext"
             android:inputType="textNoSuggestions"
             android:maxLines="1"
-            android:textColor="@color/colorFormMasterElementFocusedTitle"
-            android:textSize="20sp"
-            tools:text="Test Value" />
+            android:textColor="@drawable/edit_text_selector"
+            android:textColorHint="@color/colorFormMasterElementHint"
+            android:textSize="@dimen/elementTextValueSize"
+            tools:text="Custom Value" />
 
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/formElementError"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -65,7 +68,7 @@ Create a new XML layout file. We'll name it form_element_custom.xml.
         android:textColor="@color/colorFormMasterElementErrorTitle"
         android:textSize="@dimen/elementErrorTitleSize"
         android:visibility="gone"
-        tools:text="Test Error" />
+        tools:text="Personal Info" />
 
 </LinearLayout>
 ```
@@ -75,59 +78,17 @@ Create a new XML layout file. We'll name it form_element_custom.xml.
 Note that a new model does not need to contain a body if BaseFormElement provides everything you need.
 
 ```kotlin
-class FormCustomElement: BaseFormElement<String> {
-    constructor() : super()
-    constructor(tag: Int) : super(tag)
-}
+class FormCustomElement(tag: Int = -1) : BaseFormElement<String>(tag)
 ```
 
 ### Optional: Form Builder Extension
 
-Create a FormBuildHelper DSL method and builder class for your custom form model.
+Create a FormBuildHelper DSL method for your custom form model.
 
 ```kotlin
-/** Builder method to add a CustomElement */
-class CustomElementBuilder(tag: Int = -1) : BaseElementBuilder<String>(tag) {
-    override fun build() =
-            FormCustomElement(tag).apply {
-                this@CustomElementBuilder.let {
-                    title = it.title.orEmpty()
-                    value = it.value
-                    hint = it.hint
-                    rightToLeft = it.rightToLeft
-                    maxLines = it.maxLines
-                    error = it.error
-                    required = it.required
-                    enabled = it.enabled
-                    visible = it.visible
-                    valueObservers.addAll(it.valueObservers)
-                }
-            }
-}
-
 /** FormBuildHelper extension to add a CustomElement */
-fun FormBuildHelper.customEx(tag: Int = -1, init: CustomElementBuilder.() -> Unit): FormCustomElement {
-    return addFormElement(CustomElementBuilder(tag).apply(init))
-}
-```
-
-### Optional: Form Element View State
-
-Create a view state class your custom form element value.
-
-```kotlin
-class FormCustomViewState(holder: ViewHolder) : BaseFormViewState(holder) {
-    private var value: String? = null
-
-    init {
-        val editText = holder.viewFinder.find(R.id.formElementValue) as AppCompatEditText
-        value = editText.text.toString()
-    }
-
-    override fun restore(holder: ViewHolder) {
-        super.restore(holder)
-        holder.viewFinder.setText(R.id.formElementValue, value)
-    }
+fun FormBuildHelper.customEx(tag: Int = -1, init: FormCustomElement.() -> Unit): FormCustomElement {
+    return addFormElement(FormCustomElement(tag).apply(init))
 }
 ```
 
@@ -135,7 +96,7 @@ class FormCustomViewState(holder: ViewHolder) : BaseFormViewState(holder) {
 
 Create a view binder for your custom form element.
 
-!!! note "ViewBinder"
+!!! note "ViewRenderer"
 
     * layoutID parameter - Form element layout name
     * type parameter - Form element model class (ModelName::class.java)
@@ -146,31 +107,20 @@ Create a view binder for your custom form element.
     * viewStateProvider parameter - Form element view state provider
 
 ```kotlin
-class CustomViewBinder(private val context: Context,
-private val formBuilder: FormBuildHelper) : BaseFormViewBinder() {
-    var viewBinder = ViewBinder(R.layout.form_element_custom,
-    FormCustomElement::class.java, { model, finder, _ ->
+class CustomViewRenderer(private val formBuilder: FormBuildHelper, 
+    @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
+    val viewRenderer = ViewRenderer(layoutID
+            ?: R.layout.form_element_custom, FormCustomElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as AppCompatTextView
+        val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
-        val editTextValue = finder.find(R.id.formElementValue) as AppCompatEditText
-        baseSetup(model, textViewTitle, textViewError, itemView, mainViewLayout, editTextValue)
+        val editTextValue = finder.find(R.id.formElementValue) as com.thejuki.kformmaster.widget.ClearableEditText
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editTextValue)
 
         editTextValue.setText(model.valueAsString)
         editTextValue.hint = model.hint ?: ""
-
-        setEditTextFocusEnabled(editTextValue, itemView)
-
-        editTextValue.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                textViewTitle.setTextColor(ContextCompat.getColor(context,
-                        R.color.colorFormMasterElementFocusedTitle))
-            } else {
-                textViewTitle.setTextColor(ContextCompat.getColor(context,
-                        R.color.colorFormMasterElementTextTitle))
-            }
-        }
 
         // Initially use 4 lines
         // unless a different number was provided
@@ -178,42 +128,23 @@ private val formBuilder: FormBuildHelper) : BaseFormViewBinder() {
             model.maxLines = 4
         }
 
-        editTextValue.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {}
+        // If an InputType is provided, use it instead
+        model.inputType?.let { editTextValue.setRawInputType(it) }
 
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {
+        // If imeOptions are provided, use them instead of creating a new line
+        model.imeOptions?.let { editTextValue.imeOptions = it }
 
-                // get current form element, existing value and new value
-                val currentValue = model.valueAsString
-                val newValue = charSequence.toString()
-
-                // trigger event only if the value is changed
-                if (currentValue != newValue) {
-                    // NOTE: Use setValue()
-                    // as this will suppress the unchecked cast
-                    model.setValue(newValue)
-                    model.error = null
-                    formBuilder.onValueChanged(model)
-                }
-            }
-
-            override fun afterTextChanged(editable: Editable) {}
-        })
-    }, object : ViewStateProvider<FormCustomElement, ViewHolder> {
-        override fun createViewStateID(model: FormCustomElement): Int {
-            return model.id
-        }
-
-        override fun createViewState(holder: ViewHolder): ViewState<ViewHolder> {
-            return FormCustomViewState(holder)
-        }
-    })
+        setEditTextFocusEnabled(editTextValue, itemView)
+        setOnFocusChangeListener(context, model, formBuilder)
+        addTextChangedListener(model, formBuilder)
+        setOnEditorActionListener(model, formBuilder)
+    }
 
     private fun setEditTextFocusEnabled(editTextValue: AppCompatEditText, itemView: View) {
         itemView.setOnClickListener {
             editTextValue.requestFocus()
-            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            editTextValue.setSelection(editTextValue.text.length)
+            val imm = itemView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            editTextValue.setSelection(editTextValue.text?.length ?: 0)
             imm.showSoftInput(editTextValue, InputMethodManager.SHOW_IMPLICIT)
         }
     }
@@ -232,12 +163,18 @@ Create a form activity for your custom form element.
 ```kotlin
 class CustomFormActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityFormBinding
+
     // Setup the FormBuildHelper at the class level if necessary
     private lateinit var formBuilder: FormBuildHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_form)
+
+        binding = ActivityFormBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
         setupForm()
     }
 
@@ -246,14 +183,14 @@ class CustomFormActivity : AppCompatActivity() {
     }
 
     private fun setupForm() {
-        formBuilder = form(this, recyclerView) {
+        formBuilder = form(binding.recyclerView) {
             customEx(Tag.Custom.ordinal) {
                 title = getString(R.string.Custom)
             }
         }
 
         // Required
-        formBuilder.registerCustomViewBinder(CustomViewBinder(this, formBuilder).viewBinder)
+        formBuilder.registerCustomViewRenderer(CustomViewRenderer(formBuilder).viewRenderer)
     }
 }
 ```

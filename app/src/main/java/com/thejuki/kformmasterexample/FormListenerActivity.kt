@@ -30,11 +30,15 @@ import java.util.Date
  */
 class FormListenerActivity : AppCompatActivity(), OnFormElementValueChangedListener {
 
+    private lateinit var binding: ActivityFullscreenFormBinding
     private lateinit var formBuilder: FormBuildHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fullscreen_form)
+
+        binding = ActivityFullscreenFormBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         setupToolBar()
 
@@ -65,8 +69,6 @@ class FormListenerActivity : AppCompatActivity(), OnFormElementValueChangedListe
 
     private val fruits = listOf(ListItem(id = 1, name = "Banana"),
             ListItem(id = 2, name = "Orange"),
-            ListItem(id = 3, name = "Mango"),
-            ListItem(id = 4, name = "Guava")
     )
 
     private enum class Tag {
@@ -95,7 +97,17 @@ class FormListenerActivity : AppCompatActivity(), OnFormElementValueChangedListe
     }
 
     private fun setupForm() {
-        formBuilder = form(this, recyclerView, this, true) {
+        formBuilder = form(binding.recyclerView, this, true) {
+            imageView(ImageViewElement.ordinal) {
+                onSelectImage = { file ->
+                    // If file is null, that means an error occurred trying to select the image
+                    if (file != null) {
+                        Toast.makeText(this@FormListenerActivity, file.name, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@FormListenerActivity, "Error getting the image", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
             header { title = getString(R.string.PersonalInfo) }
             email(Email.ordinal) {
                 title = getString(R.string.email)
@@ -144,11 +156,11 @@ class FormListenerActivity : AppCompatActivity(), OnFormElementValueChangedListe
                 options = fruits
                 value = ListItem(id = 1, name = "Banana")
             }
-            multiCheckBox<ListItem>(MultiItems.ordinal) {
+            multiCheckBox<ListItem, List<ListItem>>(MultiItems.ordinal) {
                 title = getString(R.string.MultiItems)
                 dialogTitle = getString(R.string.MultiItems)
                 options = fruits
-                value = ListItem(id = 1, name = "Banana")
+                value = listOf(ListItem(id = 1, name = "Banana"))
             }
             autoComplete<ContactItem>(AutoCompleteElement.ordinal) {
                 title = getString(R.string.AutoComplete)
@@ -171,7 +183,7 @@ class FormListenerActivity : AppCompatActivity(), OnFormElementValueChangedListe
             }
             label(LabelElement.ordinal) {
                 title = getString(R.string.Label)
-                rightToLeft = false
+                editViewGravity = Gravity.START
             }
             header { title = getString(R.string.MarkComplete) }
             switch<String>(SwitchElement.ordinal) {
@@ -201,13 +213,12 @@ class FormListenerActivity : AppCompatActivity(), OnFormElementValueChangedListe
                 min = 0
                 max = 100
             }
-            segmented<ListItem>(SegmentedElement.ordinal) {
+            segmentedInlineTitle<ListItem>(SegmentedElement.ordinal) {
                 title = getString(R.string.Segmented)
                 options = fruits
                 value = ListItem(id = 1, name = "Banana")
             }
             button(ButtonElement.ordinal) {
-                centerText = true
                 value = getString(R.string.Button)
                 valueObservers.add { newValue, element ->
                     val confirmAlert = AlertDialog.Builder(this@FormListenerActivity).create()

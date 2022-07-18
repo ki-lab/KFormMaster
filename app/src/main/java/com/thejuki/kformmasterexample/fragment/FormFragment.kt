@@ -2,13 +2,13 @@ package com.thejuki.kformmasterexample.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
@@ -19,12 +19,13 @@ import com.thejuki.kformmasterexample.adapter.ContactAutoCompleteAdapter
 import com.thejuki.kformmasterexample.adapter.EmailAutoCompleteAdapter
 import com.thejuki.kformmasterexample.custom.helper.placesAutoComplete
 import com.thejuki.kformmasterexample.custom.model.FormPlacesAutoCompleteElement
-import com.thejuki.kformmasterexample.custom.view.FormPlacesAutoCompleteViewBinder
+import com.thejuki.kformmasterexample.custom.view.FormPlacesAutoCompleteViewRenderer
+import com.thejuki.kformmasterexample.databinding.ActivityFullscreenFormBinding
 import com.thejuki.kformmasterexample.fragment.FormFragment.Tag.*
 import com.thejuki.kformmasterexample.item.ContactItem
 import com.thejuki.kformmasterexample.item.ListItem
 import com.thejuki.kformmasterexample.item.PlaceItem
-import kotlinx.android.synthetic.main.activity_fullscreen_form.view.*
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Date
@@ -39,13 +40,16 @@ import java.util.Date
  */
 class FormFragment : Fragment() {
 
+    private var _binding: ActivityFullscreenFormBinding? = null
+    private val binding get() = _binding!!
     private lateinit var formBuilder: FormBuildHelper
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.activity_fullscreen_form, container, false)
+                              savedInstanceState: Bundle?): View {
+        _binding = ActivityFullscreenFormBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        setupForm(view.recyclerView)
+        setupForm()
 
         return view
     }
@@ -66,6 +70,7 @@ class FormFragment : Fragment() {
         Date,
         Time,
         DateTime,
+        InlineDatePicker,
         Password,
         SingleItem,
         MultiItems,
@@ -83,14 +88,31 @@ class FormFragment : Fragment() {
         ImageViewElement
     }
 
-    private fun setupForm(recyclerView: RecyclerView) {
+    private fun setupForm() {
         val context = context ?: return
 
         // Setup Places for custom placesAutoComplete element
         // NOTE: Use your API Key
         Places.initialize(context, "[APP_KEY]")
 
-        formBuilder = form(context, recyclerView, cacheForm = true) {
+        formBuilder = form(binding.recyclerView, cacheForm = true) {
+            imageView(ImageViewElement.ordinal) {
+                displayDivider = false
+                required = false
+                //defaultImage = R.drawable.default_image
+                //value = "http://example.com/" //(String) This needs to be an image URL or an image FILE (absolutePath)
+                imagePickerOptions = {
+                    // This lets you customize the ImagePicker library, specifying Crop, Dimensions and MaxSize options
+                }
+                onSelectImage = { file ->
+                    // If file is null, that means an error occurred trying to select the image
+                    if (file != null) {
+                        Toast.makeText(context, file.name, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Error getting the image", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
             header { title = getString(R.string.PersonalInfo); collapsible = true }
 
             tree<Int> {
@@ -101,7 +123,7 @@ class FormFragment : Fragment() {
                 title = getString(R.string.email)
                 hint = getString(R.string.email_hint)
                 value = "mail@mail.com"
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 maxLines = 3
                 enabled = true
                 required = true
@@ -113,7 +135,7 @@ class FormFragment : Fragment() {
                 title = getString(R.string.password)
                 value = "Password123"
                 required = true
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 enabled = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
@@ -122,7 +144,7 @@ class FormFragment : Fragment() {
             phone(Phone.ordinal) {
                 title = getString(R.string.Phone)
                 value = "+8801712345678"
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 maxLines = 3
                 required = true
                 enabled = true
@@ -134,7 +156,7 @@ class FormFragment : Fragment() {
             text(Location.ordinal) {
                 title = getString(R.string.Location)
                 value = "Dhaka"
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 required = true
                 enabled = true
                 valueObservers.add { newValue, element ->
@@ -144,7 +166,7 @@ class FormFragment : Fragment() {
             textArea(Address.ordinal) {
                 title = getString(R.string.Address)
                 value = "123 Street"
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 maxLines = 2
                 required = true
                 enabled = true
@@ -156,7 +178,7 @@ class FormFragment : Fragment() {
                 title = getString(R.string.ZipCode)
                 value = 123456
                 numbersOnly = true
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 required = true
                 enabled = true
                 valueObservers.add { newValue, element ->
@@ -170,7 +192,7 @@ class FormFragment : Fragment() {
                 dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.US)
                 required = true
                 maxLines = 1
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 enabled = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
@@ -182,7 +204,7 @@ class FormFragment : Fragment() {
                 dateFormat = SimpleDateFormat("hh:mm a", Locale.US)
                 required = true
                 maxLines = 1
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 enabled = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
@@ -194,11 +216,16 @@ class FormFragment : Fragment() {
                 dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.US)
                 required = true
                 maxLines = 1
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 enabled = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
                 }
+            }
+            inlineDatePicker(InlineDatePicker.ordinal) {
+                title = getString(R.string.InlineDatePicker)
+                value = org.threeten.bp.LocalDateTime.now()
+                dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a", Locale.US)
             }
             header { title = getString(R.string.PreferredItems); collapsible = true }
             dropDown<ListItem>(SingleItem.ordinal) {
@@ -206,7 +233,7 @@ class FormFragment : Fragment() {
                 dialogTitle = getString(R.string.SingleItem)
                 options = fruits
                 enabled = true
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 maxLines = 3
                 value = ListItem(id = 1, name = "Banana")
                 required = true
@@ -214,14 +241,14 @@ class FormFragment : Fragment() {
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
-            multiCheckBox<ListItem>(MultiItems.ordinal) {
+            multiCheckBox<ListItem, List<ListItem>>(MultiItems.ordinal) {
                 title = getString(R.string.MultiItems)
                 dialogTitle = getString(R.string.MultiItems)
                 options = fruits
                 enabled = true
                 maxLines = 3
-                rightToLeft = false
-                value = ListItem(id = 1, name = "Banana")
+                editViewGravity = Gravity.START
+                value = listOf(ListItem(id = 1, name = "Banana"))
                 required = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
@@ -236,7 +263,7 @@ class FormFragment : Fragment() {
                 value = ContactItem(id = 1, value = "John Smith", label = "John Smith (Tester)")
                 enabled = true
                 maxLines = 3
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 required = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
@@ -251,7 +278,7 @@ class FormFragment : Fragment() {
                 value = arrayListOf(ContactItem(id = 1, value = "John.Smith@mail.com", label = "John Smith (Tester)"))
                 required = true
                 maxLines = 3
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 enabled = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
@@ -259,13 +286,13 @@ class FormFragment : Fragment() {
             }
             textView(TextViewElement.ordinal) {
                 title = getString(R.string.TextView)
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 maxLines = 1
                 value = "This is readonly!"
             }
             label(LabelElement.ordinal) {
                 title = getString(R.string.Label)
-                rightToLeft = false
+                editViewGravity = Gravity.START
             }
             header { title = getString(R.string.MarkComplete); collapsible = true }
             switch<String>(SwitchElement.ordinal) {
@@ -313,7 +340,7 @@ class FormFragment : Fragment() {
                 title = getString(R.string.Segmented)
                 options = fruits
                 enabled = true
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 horizontal = true
                 value = ListItem(id = 1, name = "Banana")
                 required = true
@@ -322,7 +349,6 @@ class FormFragment : Fragment() {
                 }
             }
             button(ButtonElement.ordinal) {
-                centerText = true
                 value = getString(R.string.Button)
                 enabled = true
                 valueObservers.add { newValue, element ->
@@ -358,7 +384,7 @@ class FormFragment : Fragment() {
         // RuntimeException: ViewRenderer not registered for this type
 
         // IMPORTANT: Pass in 'this' for the fragment parameter so that startActivityForResult is called from the fragment
-        formBuilder.registerCustomViewBinder(FormPlacesAutoCompleteViewBinder(context, formBuilder, layoutID = null, fragment = this).viewBinder)
+        formBuilder.registerCustomViewRenderer(FormPlacesAutoCompleteViewRenderer(formBuilder, layoutID = null, fragment = this).viewRenderer)
     }
 
     companion object {

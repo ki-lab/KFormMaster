@@ -1,8 +1,8 @@
 package com.thejuki.kformmaster.model
 
 import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.widget.TextView
-import com.thejuki.kformmaster.widget.IconButton
 
 /**
  * Form Button Element
@@ -29,6 +29,16 @@ class FormButtonElement(tag: Int = -1) : BaseFormElement<String>(tag) {
     var text: String? = ""
 
     var iconPadding: Int = 20
+
+    override var editViewGravity: Int = Gravity.CENTER
+        set(value) {
+            field = value
+            editView?.let {
+                if (it is TextView) {
+                    it.gravity = value
+                }
+            }
+        }
 
     /**
      * Nothing to clear

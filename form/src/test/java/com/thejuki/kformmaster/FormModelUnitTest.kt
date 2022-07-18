@@ -42,8 +42,10 @@ class FormModelUnitTest : ShouldSpec() {
                 formLayouts.label shouldNotBe null
                 formLayouts.textView shouldNotBe null
                 formLayouts.segmented shouldNotBe null
+                formLayouts.segmentedInlineTitle shouldNotBe null
                 formLayouts.progress shouldNotBe null
                 formLayouts.image shouldNotBe null
+                formLayouts.inlineDateTimePicker shouldNotBe null
             }
         }
 
@@ -93,6 +95,13 @@ class FormModelUnitTest : ShouldSpec() {
                 element.value?.getTime() shouldNotBe null
                 element.minimumDate shouldNotBe null
                 element.maximumDate shouldNotBe null
+            }
+            should("have valid formInlineDatePickerElement") {
+                val element = CustomGen.formInlineDatePickerElement().random().first()
+                element.value shouldNotBe null
+                element.dateTimeFormatter shouldNotBe null
+                element.dateTimePickerFormatter shouldNotBe null
+                element.linkedPicker shouldNotBe null
             }
         }
 

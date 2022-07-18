@@ -2,6 +2,7 @@ package com.thejuki.kformmasterexample;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import com.thejuki.kformmaster.model.FormButtonElement;
 import com.thejuki.kformmaster.model.FormCheckBoxElement;
 import com.thejuki.kformmaster.model.FormEmailEditTextElement;
 import com.thejuki.kformmaster.model.FormHeader;
+import com.thejuki.kformmaster.model.FormImageElement;
 import com.thejuki.kformmaster.model.FormLabelElement;
 import com.thejuki.kformmaster.model.FormMultiLineEditTextElement;
 import com.thejuki.kformmaster.model.FormNumberEditTextElement;
@@ -33,10 +35,12 @@ import com.thejuki.kformmaster.model.FormTextViewElement;
 import com.thejuki.kformmaster.model.FormTokenAutoCompleteElement;
 import com.thejuki.kformmasterexample.adapter.ContactAutoCompleteAdapter;
 import com.thejuki.kformmasterexample.adapter.EmailAutoCompleteAdapter;
+import com.thejuki.kformmasterexample.databinding.ActivityFullscreenFormBinding;
 import com.thejuki.kformmasterexample.item.ContactItem;
 import com.thejuki.kformmasterexample.item.ListItem;
 
 import org.jetbrains.annotations.NotNull;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,10 +50,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
 /**
@@ -63,12 +63,16 @@ import kotlin.Unit;
  * @version 1.0
  */
 public class FormListenerJavaActivity extends AppCompatActivity implements OnFormElementValueChangedListener {
-    private FormBuildHelper formBuilder = null;
+    private ActivityFullscreenFormBinding binding;
+    private FormBuildHelper formBuilder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fullscreen_form);
+
+        binding = ActivityFullscreenFormBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         setupToolBar();
 
@@ -96,7 +100,7 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
 
     }
 
-    private List<ListItem> fruits = Arrays.asList(new ListItem(1L, "Banana"),
+    private final List<ListItem> fruits = Arrays.asList(new ListItem(1L, "Banana"),
             new ListItem(2L, "Orange"),
             new ListItem(3L, "Mango"),
             new ListItem(4L, "Guava")
@@ -111,6 +115,7 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
         Date,
         Time,
         DateTime,
+        InlineDatePicker,
         Password,
         SingleItem,
         MultiItems,
@@ -133,7 +138,7 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
         // Uncomment to replace all text elements with the form_element_custom layout
         //formLayouts.setText(R.layout.form_element_custom);
 
-        formBuilder = new FormBuildHelper(this, this, findViewById(R.id.recyclerView), true, formLayouts);
+        formBuilder = new FormBuildHelper(this, binding.recyclerView, true, formLayouts);
 
         List<BaseFormElement<?>> elements = new ArrayList<>();
 
@@ -151,6 +156,15 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
     }
 
     private void addEditTexts(List<BaseFormElement<?>> elements) {
+        FormImageElement imageView = new FormImageElement(Tag.ImageViewElement.ordinal());
+        imageView.setOnSelectImage((file) -> {
+            if (file != null) {
+                Toast.makeText(this, file.getName(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error getting the image", Toast.LENGTH_LONG).show();
+            }
+            return Unit.INSTANCE;
+        });
         elements.add(new FormHeader(getString(R.string.PersonalInfo)));
 
         FormEmailEditTextElement email = new FormEmailEditTextElement(Tag.Email.ordinal());
@@ -212,6 +226,12 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
         dateTime.setDateValue(new Date());
         dateTime.setDateFormat(new SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.US));
         elements.add(dateTime);
+
+        FormInlineDatePickerElement inlineDatePicker = new FormInlineDatePickerElement(Tag.InlineDatePicker.ordinal());
+        inlineDatePicker.setTitle(getString(R.string.InlineDatePicker));
+        inlineDatePicker.setValue(org.threeten.bp.LocalDateTime.now());
+        inlineDatePicker.setDateTimeFormatter(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a", Locale.US));
+        elements.add(inlineDatePicker);
     }
 
     private void addPickers(List<BaseFormElement<?>> elements) {
@@ -224,7 +244,7 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
         dropDown.setValue(new ListItem(1L, "Banana"));
         elements.add(dropDown);
 
-        FormPickerMultiCheckBoxElement<ListItem> multiCheckBox = new FormPickerMultiCheckBoxElement<>(Tag.MultiItems.ordinal());
+        FormPickerMultiCheckBoxElement<List<ListItem>> multiCheckBox = new FormPickerMultiCheckBoxElement<>(Tag.MultiItems.ordinal());
         multiCheckBox.setTitle(getString(R.string.MultiItems));
         multiCheckBox.setDialogTitle(getString(R.string.MultiItems));
         multiCheckBox.setOptions(fruits);
@@ -300,7 +320,6 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
         elements.add(segmented);
 
         FormButtonElement button = new FormButtonElement(Tag.ButtonElement.ordinal());
-        button.setCenterText(true);
         button.setValue(getString(R.string.Button));
         button.getValueObservers().add((newValue, element) -> {
             clearDate();

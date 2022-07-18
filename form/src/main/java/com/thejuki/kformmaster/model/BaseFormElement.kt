@@ -28,6 +28,7 @@ import kotlin.properties.Delegates
  *
  * Holds the class variables used by most form elements
  *
+ * @author **TheJuki** ([GitHub](https://github.com/TheJuki))
  * @version 1.0
  */
 @FormDsl
@@ -90,7 +91,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     /**
      * Form Element Value
      */
-    open var value: T? by Delegates.observable<T?>(null) { _, _, newValue ->
+    open var value: T? by Delegates.observable(null) { _, _, newValue ->
         valueObservers.forEach { it(newValue, this) }
         editView?.let {
             displayNewValue()
@@ -150,7 +151,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
         }
 
     /**
-     * Form Element Max Lines
+     * Form Element Min Lines
      */
     var minLines: Int = 1
         set(value) {
@@ -163,18 +164,39 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
         }
 
     /**
-     * Form Element RTL
+     * Form Element Edit View Gravity
+     * By default, this is Gravity.END (Right to left)
      */
-    var rightToLeft: Boolean = false
+    open var editViewGravity: Int = Gravity.END
+        set(value) {
+            field = value
+            editView?.let {
+                if (it is TextView && it !is AppCompatCheckBox && it !is SwitchCompat) {
+                    it.gravity = value
+                } else if (it is SegmentedGroup) {
+                    it.gravity = value
+                }
+            }
+
+            titleView?.let {
+                if (this is FormHeader || this is FormLabelElement) {
+                    it.gravity = value
+                }
+            }
+        }
+
+    /**
+     * Form Element Edit View Paint Flags
+     * By default, this is null (No flags).
+     */
+    open var editViewPaintFlags: Int? = null
         set(value) {
             field = value
             editView?.let {
                 if (it is TextView && it !is AppCompatCheckBox && it !is AppCompatButton && it !is SwitchCompat) {
-                    it.gravity = if (rightToLeft) Gravity.END else Gravity.START
-                } else if (it is SegmentedGroup) {
-                    it.gravity = if (rightToLeft) Gravity.END else Gravity.START
-                } else if (it is IconButton) {
-                    it.gravity = if (rightToLeft) (Gravity.CENTER_VERTICAL or Gravity.END) else (Gravity.CENTER_VERTICAL or Gravity.START)
+                    editViewPaintFlags?.let { paintFlags ->
+                        it.paintFlags = it.paintFlags or paintFlags
+                    }
                 }
             }
         }
@@ -307,6 +329,12 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var backgroundColor: Int? = null
         set(value) {
             field = value
+            if (this is FormHeader || this is FormLabelElement) {
+                if (backgroundColor != null) {
+                    mainLayoutView?.setBackgroundColor(backgroundColor ?: 0)
+                }
+            }
+
             itemView?.let {
                 if (backgroundColor != null) {
                     it.setBackgroundColor(backgroundColor ?: 0)
@@ -370,10 +398,10 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 }
                 view is AppCompatSeekBar -> this.itemView?.findViewById<AppCompatTextView>(R.id.formElementProgress)
                         ?.let { textView -> valueTextColor?.let { textView.setTextColor(it) } }
-                view is MultiLineRadioGroup -> (editView as? MultiLineRadioGroup)?.let { view ->
+                view is MultiLineRadioGroup -> (editView as? MultiLineRadioGroup)?.let { multilineRG ->
                     (0 until view.radioButtonCount).forEach { index ->
-                        view.getRadioButtonAt(index)?.setTextColor(
-                                if (index == view.checkedRadioButtonIndex) {
+                        multilineRG.getRadioButtonAt(index)?.setTextColor(
+                                if (index == multilineRG.checkedRadioButtonIndex) {
                                     valueTextColor ?: Color.BLACK
                                 } else {
                                     Color.BLACK
@@ -454,7 +482,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
         set(value) {
             field = value
             editView?.let {
-                if (it is com.thejuki.kformmaster.widget.ClearableEditText) {
+                if (it is ClearableEditText) {
                     it.displayClear = value
                 }
             }
@@ -464,7 +492,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
      * Form Element Left Title Icon
      * Setting this will set and display the left title icon drawable (null will hide the icon). By default, no icon is displayed.
      */
-    var leftTitleIcon: Drawable? = null
+    var titleIcon: Drawable? = null
         set(value) {
             field = value
             titleView?.let {
@@ -549,30 +577,6 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var confirmMessage: String? = null
 
     /**
-     * Form Element Center the text
-     */
-    var centerText: Boolean = false
-        set(value) {
-            field = value
-
-            editView?.let {
-                if (it is TextView && it !is AppCompatCheckBox && it !is AppCompatButton && it !is SwitchCompat) {
-                    if (centerText) {
-                        it.gravity = Gravity.CENTER
-                    } else {
-                        it.gravity = if (rightToLeft) Gravity.END else Gravity.START
-                    }
-                } else if (it is IconButton) {
-                    if (centerText) {
-                        it.gravity = Gravity.CENTER
-                    } else {
-                        it.gravity = if (rightToLeft) (Gravity.CENTER_VERTICAL or Gravity.END) else (Gravity.CENTER_VERTICAL or Gravity.START)
-                    }
-                }
-            }
-        }
-
-    /**
      * Form Element Update EditText value when focus is lost
      * By default, an EditText will update the form value as characters are typed.
      * Setting this to true will only update the value when focus is lost.
@@ -632,11 +636,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 }
 
                 if (it is TextView && it !is AppCompatCheckBox && it !is AppCompatButton && it !is SwitchCompat) {
-                    if (centerText) {
-                        it.gravity = Gravity.CENTER
-                    } else {
-                        it.gravity = if (rightToLeft) Gravity.END else Gravity.START
-                    }
+                    it.gravity = editViewGravity
                     it.isSingleLine = maxLines == 1
                     it.maxLines = maxLines
                     if (it !is AppCompatAutoCompleteTextView) {
@@ -651,13 +651,13 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                         it.setHintTextColor(hintTextColor ?: 0)
                     }
                 } else if (it is IconButton) {
-                    if (centerText) {
-                        it.gravity = Gravity.CENTER
-                    } else {
-                        it.gravity = if (rightToLeft) (Gravity.CENTER_VERTICAL or Gravity.END) else (Gravity.CENTER_VERTICAL or Gravity.START)
+                    if (valueTextColor != null) {
+                        it.setTextColor(valueTextColor ?: 0)
                     }
+
+                    it.gravity = editViewGravity
                 } else if (it is SegmentedGroup) {
-                    it.gravity = if (rightToLeft) Gravity.END else Gravity.START
+                    it.gravity = editViewGravity
                     if (margins != null) {
                         it.setMargins(margins?.left.dpToPx(),
                                 margins?.top.dpToPx(),
@@ -722,17 +722,17 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                                 margins?.right.dpToPx(),
                                 margins?.bottom.dpToPx())
                     }
-                    if (centerText) {
-                        it.gravity = Gravity.CENTER
-                    } else {
-                        it.gravity = if (rightToLeft) Gravity.END else Gravity.START
-                    }
+                    it.gravity = editViewGravity
 
                     if (padding != null) {
                         it.setPadding(padding?.left.dpToPx(),
                                 padding?.top.dpToPx(),
                                 padding?.right.dpToPx(),
                                 padding?.bottom.dpToPx())
+                    }
+
+                    editViewPaintFlags?.let { paintFlags ->
+                        it.paintFlags = it.paintFlags or paintFlags
                     }
                 }
 
@@ -774,6 +774,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             field = value
             if (editView == null || !(editView is SwitchCompat || editView is AppCompatCheckBox)) {
                 mainLayoutView?.let {
+                    it.isEnabled = enabled
                     if (margins != null) {
                         it.setMargins(margins?.left.dpToPx(),
                                 margins?.top.dpToPx(),
@@ -786,6 +787,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             // set the padding instead of the margins.
             else if (editView is SwitchCompat || editView is AppCompatCheckBox) {
                 mainLayoutView?.let {
+                    it.isEnabled = enabled
                     if (margins != null) {
                         it.setPadding(margins?.left.dpToPx(),
                                 margins?.top.dpToPx(),
@@ -799,6 +801,12 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                                 padding?.right.dpToPx(),
                                 padding?.bottom.dpToPx())
                     }
+                }
+            }
+
+            if (this is FormHeader || this is FormLabelElement) {
+                if (backgroundColor != null) {
+                    mainLayoutView?.setBackgroundColor(backgroundColor ?: 0)
                 }
             }
         }
@@ -842,6 +850,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 it.isEnabled = value
                 it.visibility = if (value) View.VISIBLE else View.GONE
             }
+            mainLayoutView?.isEnabled = value
 
             onEnabled(value)
         }
