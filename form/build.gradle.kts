@@ -130,11 +130,11 @@ dependencies {
 }
 
 publisher {
-    project.description = "Easily build generic forms with minimal effort (A Kotlin port of FormMaster)"
+    project.description = "Easily build generic forms with minimal effort (A Kotlin port of FormMaster) (fork)"
     project.artifact = "k-form-master"
-    project.group = "com.github.thejuki"
-    project.url = "https://github.com/TheJuki/KFormMaster"
-    project.scm = GithubScm("TheJuki", "KFormMaster")
+    project.group = "com.ki-lab"
+    project.url = "https://github.com/ki-lab/KFormMaster"
+    project.scm = GithubScm("ki-lab", "KFormMaster")
     project.addLicense(License.APACHE_2_0)
     project.addLicense("License", "https://github.com/TheJuki/KFormMaster/blob/master/LICENSE")
     project.addDeveloper("Justin Kirk", "thejuki@hotmail.com", "thejuki")
