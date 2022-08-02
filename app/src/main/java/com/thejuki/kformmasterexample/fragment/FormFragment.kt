@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.thejuki.kformmaster.helper.*
+import com.thejuki.kformmaster.model.FormImageElement
 import com.thejuki.kformmaster.model.FormPickerDateElement
 import com.thejuki.kformmasterexample.R
 import com.thejuki.kformmasterexample.adapter.ContactAutoCompleteAdapter
@@ -43,6 +46,11 @@ class FormFragment : Fragment() {
     private var _binding: ActivityFullscreenFormBinding? = null
     private val binding get() = _binding!!
     private lateinit var formBuilder: FormBuildHelper
+    private val startImagePickerForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        val imageViewElement = formBuilder.getFormElement<FormImageElement>(
+            Tag.ImageViewElement.ordinal)
+        imageViewElement.handleActivityResult(result.resultCode, result.data)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -97,6 +105,7 @@ class FormFragment : Fragment() {
 
         formBuilder = form(binding.recyclerView, cacheForm = true) {
             imageView(ImageViewElement.ordinal) {
+                activityResultLauncher = startImagePickerForResult
                 displayDivider = false
                 required = false
                 //defaultImage = R.drawable.default_image

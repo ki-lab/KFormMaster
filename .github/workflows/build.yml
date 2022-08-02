@@ -10,55 +10,46 @@ jobs:
     name: Base Checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
-          java-version: 1.8
-      - uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
+          java-version: 11
+          distribution: temurin
+          cache: gradle
       - name: Perform base checks
         run: ./gradlew app:assembleDebug
   ANDROID_UNIT_TESTS:
     name: Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
-          java-version: 1.8
-      - uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
+          java-version: 11
+          distribution: temurin
+          cache: gradle
       - name: Execute unit tests
         run: ./gradlew form:testDebugUnitTest
       - name: Upload unit tests artifact
         uses: actions/upload-artifact@v1
         with:
           name: unit_tests
-          path: ./form/build/jacoco/
+          path: ./form/build/outputs/unit_test_code_coverage/debugUnitTest/
   ANDROID_EMULATOR_TESTS:
     name: Emulator Tests
     runs-on: macOS-latest
     strategy:
       fail-fast: false
       matrix:
-        api-level: [29]
+        api-level: [32]
         target: [google_apis]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
-          java-version: 1.8
-      - uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
+          java-version: 11
+          distribution: temurin
+          cache: gradle
       - name: Execute emulator tests
         timeout-minutes: 30
         uses: reactivecircus/android-emulator-runner@v2
@@ -66,6 +57,7 @@ jobs:
           api-level: ${{ matrix.api-level }}
           target: ${{ matrix.target }}
           arch: x86_64
+          ram-size: 4096M
           disable-animations: true
           profile: Nexus 6
           emulator-options: -no-snapshot -no-window -no-boot-anim -camera-back emulated
@@ -80,15 +72,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ANDROID_UNIT_TESTS, ANDROID_EMULATOR_TESTS]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
-          java-version: 1.8
-      - uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
+          java-version: 11
+          distribution: temurin
+          cache: gradle
       - name: Download unit tests artifact
         uses: actions/download-artifact@v1
         with:
@@ -97,7 +86,7 @@ jobs:
       - name: Download emulator tests artifact
         uses: actions/download-artifact@v1
         with:
-          name: emulator_tests_29
+          name: emulator_tests_32
           path: ./form/build/outputs/code_coverage/debugAndroidTest/connected
       - name: Create coverage report
         run: ./gradlew form:jacocoTestReport

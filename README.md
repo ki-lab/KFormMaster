@@ -25,7 +25,7 @@ This is a Kotlin port of [FormMaster](https://github.com/adib2149/FormMaster)
 
 ## Installation
 
-NOTE: This library was moved from Bintray/JCenter to Maven Central. The group id is now "com.github.thejuki".
+### NOTE: This library was moved from Bintray/JCenter to Maven Central. The group id is now "com.github.thejuki".
 
 Add this in your app's **build.gradle** file:
 ```
@@ -42,7 +42,6 @@ allprojects {
     repositories {
         mavenCentral()
         google()
-        jcenter()
         maven { url "https://jitpack.io" }
     }
 }

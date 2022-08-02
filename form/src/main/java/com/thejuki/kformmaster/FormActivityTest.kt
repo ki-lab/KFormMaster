@@ -124,11 +124,10 @@ class FormActivityTest : AppCompatActivity() {
         }
 
         formBuilder = form(binding.recyclerView, listener, true) {
-            /*imageView(ImageViewElement.ordinal) {
-                value = "https://via.placeholder.com/200"
-                imageTransformation = CircleTransform(borderColor = Color.BLACK, borderRadius = 3)
+            imageView(ImageViewElement.ordinal) {
                 required = false
                 theme = 0
+                applyCircleCrop = false
                 defaultImage = null
                 imagePickerOptions = {
                     it.cropX = 3f
@@ -137,11 +136,11 @@ class FormActivityTest : AppCompatActivity() {
                     it.maxHeight = 200
                     it.maxSize = 500
                 }
-                onSelectImage = { file ->
-                    if (file != null) {
-                        Toast.makeText(this@FormActivityTest, file.name, Toast.LENGTH_SHORT).show()
+                onSelectImage = { uri, error ->
+                    if (uri != null) {
+                        Toast.makeText(this@FormActivityTest, uri.path, Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(this@FormActivityTest, "Error getting the image", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@FormActivityTest, error, Toast.LENGTH_LONG).show()
                     }
                 }
                 onInitialImageLoaded = {
@@ -149,8 +148,12 @@ class FormActivityTest : AppCompatActivity() {
                         val imageView = it as ImageView
                         val defaultImageDrawable = ContextCompat.getDrawable(this@FormActivityTest, defaultImage
                                 ?: 0)
-                        Assert.assertTrue(imageView.drawable.bytesEqualTo(defaultImageDrawable))
-                        Assert.assertTrue(imageView.drawable.pixelsEqualTo(defaultImageDrawable))
+                        if (BuildConfig.DEBUG && imageView.drawable != null && !imageView.drawable.bytesEqualTo(defaultImageDrawable)) {
+                            Log.e("FormActivityTest", "Failed Image onInitialImageLoaded")
+                        }
+                        if (BuildConfig.DEBUG && imageView.drawable != null && !imageView.drawable.pixelsEqualTo(defaultImageDrawable)) {
+                            Log.e("FormActivityTest", "Failed Image onInitialImageLoaded")
+                        }
                         Log.i("FormActivityTest", "Passed Image onInitialImageLoaded")
                     }
                 }
@@ -159,12 +162,16 @@ class FormActivityTest : AppCompatActivity() {
                         val imageView = it as ImageView
                         val defaultImageDrawable = ContextCompat.getDrawable(this@FormActivityTest, defaultImage
                                 ?: 0)
-                        Assert.assertTrue(imageView.drawable.bytesEqualTo(defaultImageDrawable))
-                        Assert.assertTrue(imageView.drawable.pixelsEqualTo(defaultImageDrawable))
+                        if (BuildConfig.DEBUG && imageView.drawable != null && !imageView.drawable.bytesEqualTo(defaultImageDrawable)) {
+                            Log.e("FormActivityTest", "Failed Image onClear")
+                        }
+                        if (BuildConfig.DEBUG && imageView.drawable != null && !imageView.drawable.pixelsEqualTo(defaultImageDrawable)) {
+                            Log.e("FormActivityTest", "Failed Image onClear")
+                        }
                         Log.i("FormActivityTest", "Passed Image onClear")
                     }
                 }
-            }*/
+            }
             header { title = "Header 1"; collapsible = true }
             email(Email.ordinal) {
                 title = "Email"
