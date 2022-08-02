@@ -1,9 +1,8 @@
 package com.thejuki.kformmaster
 
 import android.R
-import android.graphics.Color
 import android.widget.ArrayAdapter
-import com.thejuki.kformmaster.helper.CircleTransform
+import android.widget.Toast
 import com.thejuki.kformmaster.helper.FormLayouts
 import com.thejuki.kformmaster.model.*
 import io.kotlintest.properties.Gen
@@ -144,12 +143,13 @@ interface CustomGen {
         /**
          * Generates a FormNumberEditTextElement
          */
+        /*
         fun formNumberEditTextElement() = object : Gen<FormNumberEditTextElement> {
             override fun constants() = emptyList<FormNumberEditTextElement>()
             override fun random() = generateSequence {
                 generateBaseFields(FormNumberEditTextElement()) as FormNumberEditTextElement
             }
-        }
+        }*/
 
         /**
          * Generates a FormTextViewElement
@@ -211,6 +211,7 @@ interface CustomGen {
         /**
          * Generates a FormPickerMultiCheckBoxElement
          */
+        /*
         fun formPickerMultiCheckBoxElement() = object : Gen<FormPickerMultiCheckBoxElement<String, List<String>>> {
             override fun constants() = emptyList<FormPickerMultiCheckBoxElement<String, List<String>>>()
             override fun random() = generateSequence {
@@ -221,7 +222,7 @@ interface CustomGen {
                 element.theme = Random().nextInt(100)
                 element
             }
-        }
+        }*/
 
         /**
          * Generates a FormAutoCompleteElement
@@ -288,10 +289,10 @@ interface CustomGen {
             override fun random() = generateSequence {
                 val element = FormSliderElement()
                 element.title = Gen.string().random().first()
-                element.max = Random().nextInt(100)
-                element.min = Random().nextInt(element.max)
-                element.value = Random().nextInt(element.max - element.min) + element.min
-                element.steps = Random().nextInt(element.max - element.min + 1) + element.min
+                element.max = Random() .nextInt(100).toFloat()
+                element.min = Random().nextInt(element.max.toInt()).toFloat()
+                element.value = Random().nextInt((element.max - element.min).toInt()).toFloat() + element.min
+                element.steps = Random().nextInt(element.max.toInt() - element.min.toInt() + 1) + element.min.toInt()
                 element
             }
         }
@@ -322,7 +323,6 @@ interface CustomGen {
             override fun random() = generateSequence {
                 val element = FormImageElement()
                 element.value = "https://example.com/image.jpg"
-                element.imageTransformation = CircleTransform(borderColor = Color.WHITE, borderRadius = 3) //Default value for this is CircleTransform(null) so it makes image round without borders
                 element.theme = Random().nextInt(100)
                 element.defaultImage = Random().nextInt(100)
                 element.imagePickerOptions = {
@@ -332,8 +332,8 @@ interface CustomGen {
                     it.maxHeight = Random().nextInt(100)
                     it.maxSize = Random().nextInt(100)
                 }
-                element.onSelectImage = { file ->
-                    println("\nNew Image = ${file?.name}")
+                element.onSelectImage = { uri, _ ->
+                    println("\nNew Image = ${uri?.path}")
                 }
                 element
             }

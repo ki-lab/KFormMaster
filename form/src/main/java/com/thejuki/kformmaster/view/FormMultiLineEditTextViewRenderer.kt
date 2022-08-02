@@ -12,7 +12,6 @@ import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder
 import com.thejuki.kformmaster.model.FormMultiLineEditTextElement
-import com.thejuki.kformmaster.state.FormEditTextViewState
 import com.thejuki.kformmaster.widget.ClearableEditText
 
 /**

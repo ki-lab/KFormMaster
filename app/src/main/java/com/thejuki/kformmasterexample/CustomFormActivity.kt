@@ -17,7 +17,7 @@ import com.thejuki.kformmasterexample.custom.model.FormPlacesAutoCompleteElement
 import com.thejuki.kformmasterexample.custom.view.CustomViewRenderer
 import com.thejuki.kformmasterexample.custom.view.FormPlacesAutoCompleteViewRenderer
 import com.thejuki.kformmasterexample.item.PlaceItem
-import kotlinx.android.synthetic.main.activity_fullscreen_form.*
+import com.thejuki.kformmasterexample.databinding.ActivityFullscreenFormBinding
 
 
 /**
@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_fullscreen_form.*
  */
 class CustomFormActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityFullscreenFormBinding
     private lateinit var formBuilder: FormBuildHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {

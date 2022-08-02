@@ -30,7 +30,7 @@ class FormPickerMultiCheckBoxViewRenderer(private val formBuilder: FormBuildHelp
         val editTextValue = finder.find(R.id.formElementValue) as com.thejuki.kformmaster.widget.ClearableEditText
         val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
 
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editValue)
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editTextValue)
 
         editTextValue.hint = model.hint ?: ""
         editTextValue.alwaysShowClear = true

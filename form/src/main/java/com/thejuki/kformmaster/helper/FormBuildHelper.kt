@@ -121,6 +121,12 @@ class FormBuildHelper
         // Progress
         this.formAdapter.registerRenderer(FormProgressViewRenderer(this, formLayouts?.progress).viewRenderer)
 
+        // Tree
+        this.formAdapter.registerRenderer(FormTreeViewRenderer( this, formLayouts?.tree).viewRenderer)
+
+        // Custom
+        this.formAdapter.registerRenderer(FormCustomViewRenderer(this, formLayouts?.custom).viewRenderer)
+
         // Pickers
         registerPickers()
 
@@ -139,6 +145,7 @@ class FormBuildHelper
     private fun registerEditTexts() {
         this.formAdapter.registerRenderer(FormSingleLineEditTextViewRenderer(this, formLayouts?.text).viewRenderer)
         this.formAdapter.registerRenderer(FormMultiLineEditTextViewRenderer(this, formLayouts?.textArea).viewRenderer)
+        this.formAdapter.registerRenderer(FormRichEditTextViewRenderer(this, formLayouts?.richText).viewRenderer)
         this.formAdapter.registerRenderer(FormNumberEditTextViewRenderer(this, formLayouts?.number).viewRenderer)
         this.formAdapter.registerRenderer(FormEmailEditTextViewRenderer(this, formLayouts?.email).viewRenderer)
         this.formAdapter.registerRenderer(FormPhoneEditTextViewRenderer(this, formLayouts?.phone).viewRenderer)
@@ -151,6 +158,7 @@ class FormBuildHelper
         this.formAdapter.registerRenderer(FormPickerDateTimeViewRenderer(this, formLayouts?.dateTime).viewRenderer)
         this.formAdapter.registerRenderer(FormPickerMultiCheckBoxViewRenderer(this, formLayouts?.multiCheckBox).viewRenderer)
         this.formAdapter.registerRenderer(FormPickerDropDownViewRenderer(this, formLayouts?.dropDown).viewRenderer)
+        this.formAdapter.registerRenderer(FormPickerRadioViewRenderer(this, formLayouts?.radio).viewRenderer)
     }
 
     /**

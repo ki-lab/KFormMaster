@@ -51,8 +51,8 @@ publishing {
 
             pom {
                 name = PUBLISH_ARTIFACT_ID
-                description = 'Easily build generic forms with minimal effort (A Kotlin port of FormMaster)'
-                url = 'https://github.com/TheJuki/KFormMaster'
+                description = 'Easily build generic forms with minimal effort (A Kotlin port of FormMaster) (fork)'
+                url = 'https://github.com/ki-lab/KFormMaster'
                 licenses {
                     license {
                         name = 'Apache License 2.0'
@@ -67,9 +67,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:github.com/TheJuki/KFormMaster.git'
-                    developerConnection = 'scm:git:ssh://github.com/TheJuki/KFormMaster.git'
-                    url = 'https://github.com/TheJuki/KFormMaster/tree/master'
+                    connection = 'scm:git:github.com/ki-lab/KFormMaster.git'
+                    developerConnection = 'scm:git:ssh://github.com/ki-lab/KFormMaster.git'
+                    url = 'https://github.com/ki-lab/KFormMaster/tree/master'
                 }
                 withXml {
                     def dependenciesNode = asNode().appendNode('dependencies')

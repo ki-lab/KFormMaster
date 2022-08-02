@@ -6,15 +6,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
-import com.github.vivchar.rendererrecyclerviewadapter.ViewHolder
-import com.github.vivchar.rendererrecyclerviewadapter.ViewState
-import com.github.vivchar.rendererrecyclerviewadapter.ViewStateProvider
-import com.github.vivchar.rendererrecyclerviewadapter.binder.ViewBinder
+import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
+import com.thejuki.kformmaster.helper.FormViewFinder
 import com.thejuki.kformmaster.model.FormRichEditTextElement
-import com.thejuki.kformmaster.state.FormEditTextViewState
-import com.thejuki.kformmaster.state.FormRichTextViewState
 import jp.wasabeef.richeditor.RichEditor
 
 /**
@@ -25,9 +21,9 @@ import jp.wasabeef.richeditor.RichEditor
  * @author **Julien Pouget**
  * @version 1.0
  */
-class FormRichEditTextViewBinder(private val context: Context, private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewBinder() {
-    val viewBinder = ViewBinder(layoutID
-            ?: R.layout.form_element_rich_text, FormRichEditTextElement::class.java, { model, finder, _ ->
+class FormRichEditTextViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
+    var viewRenderer = ViewRenderer(layoutID
+            ?: R.layout.form_element_rich_text, FormRichEditTextElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
@@ -48,18 +44,10 @@ class FormRichEditTextViewBinder(private val context: Context, private val formB
         richEditor.setInputEnabled(model.enabled)
 
         setOnClickListener(model, richEditor, itemView)
-        setOnFocusChangeListener(context, model, formBuilder)
+        setOnFocusChangeListener(model, formBuilder)
         addTextChangedListener(model, formBuilder)
 
-    }, object : ViewStateProvider<FormRichEditTextElement, ViewHolder> {
-        override fun createViewStateID(model: FormRichEditTextElement): Int {
-            return model.id
-        }
-
-        override fun createViewState(holder: ViewHolder): ViewState<ViewHolder> {
-            return FormRichTextViewState(holder)
-        }
-    })
+    }
 
     private fun setOnClickListener(model: FormRichEditTextElement, richEditor: RichEditor, itemView: View) {
 
@@ -69,7 +57,7 @@ class FormRichEditTextViewBinder(private val context: Context, private val formB
 
             richEditor.focusEditor()
 
-            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm = itemView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(richEditor, InputMethodManager.SHOW_IMPLICIT)
         }
 

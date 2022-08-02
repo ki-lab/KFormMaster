@@ -6,6 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.thejuki.kformmaster.helper.FormBuildHelper;
 import com.thejuki.kformmaster.helper.FormLayouts;
 import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener;
@@ -16,6 +20,7 @@ import com.thejuki.kformmaster.model.FormCheckBoxElement;
 import com.thejuki.kformmaster.model.FormEmailEditTextElement;
 import com.thejuki.kformmaster.model.FormHeader;
 import com.thejuki.kformmaster.model.FormImageElement;
+import com.thejuki.kformmaster.model.FormInlineDatePickerElement;
 import com.thejuki.kformmaster.model.FormLabelElement;
 import com.thejuki.kformmaster.model.FormMultiLineEditTextElement;
 import com.thejuki.kformmaster.model.FormNumberEditTextElement;
@@ -40,6 +45,7 @@ import com.thejuki.kformmasterexample.item.ContactItem;
 import com.thejuki.kformmasterexample.item.ListItem;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
@@ -157,11 +163,11 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
 
     private void addEditTexts(List<BaseFormElement<?>> elements) {
         FormImageElement imageView = new FormImageElement(Tag.ImageViewElement.ordinal());
-        imageView.setOnSelectImage((file) -> {
-            if (file != null) {
-                Toast.makeText(this, file.getName(), Toast.LENGTH_SHORT).show();
+        imageView.setOnSelectImage((uri, error) -> {
+            if (uri != null) {
+                Toast.makeText(this, uri.getPath(), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Error getting the image", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
             }
             return Unit.INSTANCE;
         });
@@ -244,7 +250,7 @@ public class FormListenerJavaActivity extends AppCompatActivity implements OnFor
         dropDown.setValue(new ListItem(1L, "Banana"));
         elements.add(dropDown);
 
-        FormPickerMultiCheckBoxElement<List<ListItem>> multiCheckBox = new FormPickerMultiCheckBoxElement<>(Tag.MultiItems.ordinal());
+        FormPickerMultiCheckBoxElement<ListItem> multiCheckBox = new FormPickerMultiCheckBoxElement<>(Tag.MultiItems.ordinal());
         multiCheckBox.setTitle(getString(R.string.MultiItems));
         multiCheckBox.setDialogTitle(getString(R.string.MultiItems));
         multiCheckBox.setOptions(fruits);

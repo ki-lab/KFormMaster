@@ -84,6 +84,7 @@ class PartialScreenFormActivity : AppCompatActivity() {
         Date,
         Time,
         DateTime,
+        InlineDatePicker,
         Password,
         SingleItem,
         MultiItems,

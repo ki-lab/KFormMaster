@@ -1,7 +1,7 @@
 package com.thejuki.kformmasterexample.custom.helper
 
 import com.thejuki.kformmaster.helper.FormBuildHelper
-import com.thejuki.kformmasterexample.custom.model.FormCustomExtElement
+import com.thejuki.kformmasterexample.custom.model.FormCustomElement
 import com.thejuki.kformmasterexample.custom.model.FormPlacesAutoCompleteElement
 
 /**
@@ -14,8 +14,8 @@ import com.thejuki.kformmasterexample.custom.model.FormPlacesAutoCompleteElement
  */
 
 /** FormBuildHelper extension to add a FormCustomElement */
-fun FormBuildHelper.customEx(tag: Int = -1, init: FormCustomExtElement.() -> Unit): FormCustomExtElement {
-    return addFormElement(FormCustomExtElement(tag).apply(init))
+fun FormBuildHelper.customEx(tag: Int = -1, init: FormCustomElement.() -> Unit): FormCustomElement {
+    return addFormElement(FormCustomElement(tag).apply(init))
 }
 
 /** FormBuildHelper extension to add a FormPlacesAutoCompleteElement */

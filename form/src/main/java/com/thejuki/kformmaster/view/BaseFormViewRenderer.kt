@@ -89,7 +89,7 @@ abstract class BaseFormViewRenderer {
 
         formElement.titleView?.let {
             if (it is IconTextView) {
-                it.leftIcon = formElement.leftTitleIcon
+                it.leftIcon = formElement.titleIcon
                 it.rightIcon = formElement.rightTitleIcon
                 it.iconPadding = formElement.titleIconPadding
                 it.listener = object : IconTextView.Listener {

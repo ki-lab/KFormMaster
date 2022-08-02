@@ -236,6 +236,16 @@ class FormPickerMultiCheckBoxElement<T>(tag: Int = -1) : FormPickerElement<T>(ta
         return mSelectedItems
     }
 
+    private fun getSelectedItemsText(): String =
+        this.options?.filter { this.listValue?.contains(it) == true }
+            ?.joinToString(", ") { it.toString() } ?: ""
+
+    var valueAsStringOverride: ((T?) -> String?)? = null
+
+    override val valueAsString
+        get() = valueAsStringOverride?.invoke(value) ?: getSelectedItemsText()
+
+
 
     override fun displayNewValue() {
         (editView as? TableLayout)?.let {editLayout ->

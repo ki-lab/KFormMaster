@@ -10,4 +10,4 @@ import com.thejuki.kformmaster.model.BaseFormElement
  * @author **TheJuki** ([GitHub](https://github.com/TheJuki))
  * @version 1.0
  */
-class FormCustomExtElement(tag: Int = -1) : BaseFormElement<String>(tag)
+class FormCustomElement(tag: Int = -1) : BaseFormElement<String>(tag)

@@ -104,12 +104,12 @@ class FormFragment : Fragment() {
                 imagePickerOptions = {
                     // This lets you customize the ImagePicker library, specifying Crop, Dimensions and MaxSize options
                 }
-                onSelectImage = { file ->
+                onSelectImage = { file, error ->
                     // If file is null, that means an error occurred trying to select the image
                     if (file != null) {
-                        Toast.makeText(context, file.name, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, file.path, Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Error getting the image", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, error, Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -241,14 +241,14 @@ class FormFragment : Fragment() {
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
-            multiCheckBox<ListItem, List<ListItem>>(MultiItems.ordinal) {
+            multiCheckBox<ListItem>(MultiItems.ordinal) {
                 title = getString(R.string.MultiItems)
                 dialogTitle = getString(R.string.MultiItems)
                 options = fruits
                 enabled = true
                 maxLines = 3
                 editViewGravity = Gravity.START
-                value = listOf(ListItem(id = 1, name = "Banana"))
+                value = ListItem(id = 1, name = "Banana")
                 required = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()

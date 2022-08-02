@@ -11,6 +11,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -46,12 +48,17 @@ import java.util.Date
  * @author **TheJuki** ([GitHub](https://github.com/TheJuki))
  * @version 1.0
  */
-class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedListener {
+class FullscreenFormActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFullscreenFormBinding
     private lateinit var bottomSheetDialogBinding: BottomsheetImageBinding
     private lateinit var formBuilder: FormBuildHelper
     private lateinit var bottomSheetDialog: BottomSheetDialog
+    private val startImagePickerForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        val imageViewElement = formBuilder.getFormElement<FormImageElement>(
+            Tag.ImageViewElement.ordinal)
+        imageViewElement.handleActivityResult(result.resultCode, result.data)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -207,8 +214,9 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                         //text = R.layout.form_element_custom
                 )) {
             imageView(ImageViewElement.ordinal) {
+                activityResultLauncher = startImagePickerForResult
+                applyCircleCrop = true
                 displayDivider = false
-                imageTransformation = CircleTransform(borderColor = Color.WHITE, borderRadius = 3) //Default value for this is CircleTransform(null) so it makes image round without borders
                 required = false
                 enabled = true
                 showChangeImageLabel = true
@@ -217,7 +225,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 displayImageWidth = 200
                 theme = R.style.CustomDialogPicker // This is to theme the default dialog when onClickListener is not used.
                 //defaultImage = R.drawable.default_image
-                //value = "https://via.placeholder.com/200" //(String) This needs to be an image URL, data URL, or an image FILE (absolutePath)
+                //value = "https://via.placeholder.com/200.png" //(String) This needs to be an image URL, data URL, or an image FILE (absolutePath)
                 imagePickerOptions = {
                     // This lets you customize the ImagePicker library, specifying Crop, Dimensions and MaxSize options
                     it.cropX = 3f
@@ -226,12 +234,12 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                     it.maxHeight = 200
                     it.maxSize = 500
                 }
-                onSelectImage = { file ->
-                    // If file is null, that means an error occurred trying to select the image
-                    if (file != null) {
-                        Toast.makeText(this@FullscreenFormActivity, file.name, LENGTH_SHORT).show()
+                onSelectImage = { uri, error ->
+                    // If uri is null, that means an error occurred trying to select the image
+                    if (uri != null) {
+                        Toast.makeText(this@FullscreenFormActivity, uri.path, LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(this@FullscreenFormActivity, "Error getting the image", LENGTH_LONG).show()
+                        Toast.makeText(this@FullscreenFormActivity, error, LENGTH_LONG).show()
                     }
                 }
 
@@ -502,6 +510,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                     }
                 }
             }
+            /*
             multiCheckBox<Pair<Int, String>>(MultiItems.ordinal) {
                 title = getString(R.string.MultiItems)
                 dialogTitle = getString(R.string.MultiItems)
@@ -517,7 +526,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 enabled = true
                 maxLines = 3
                 confirmEdit = true
-                editViewGravity = android.view.Gravity.START
+                editViewGravity = Gravity.START
                 displayDivider = false
                 setListValue( listOf<Pair<Int, String>>(Pair<Int, String>(1, "Banana")))
                 required = true
@@ -526,7 +535,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
                     if (newValue != null) {
                         val list = mutableListOf<Int>()
-                        newValue.forEach { list.add(it.first) }
+                        list.add(newValue.first)
                         valueTextColor = when(list.maxBy { it }){
                             1 -> Color.GREEN
                             3,4 -> Color.YELLOW
@@ -536,30 +545,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                     }
                 }
             }
-            multiCheckBox<ListItem, List<ListItem>>(MultiItems.ordinal) {
-                title = getString(R.string.MultiItemsWithOverride)
-                dialogTitle = getString(R.string.MultiItems)
-                theme = R.style.CustomDialogPicker
-                options = fruits
-                enabled = true
-                maxLines = 1
-                editViewGravity = Gravity.START
-                displayDivider = false
-                value = listOf()
-                required = true
-                clearable = true
-                valueObservers.add { newValue, element ->
-                    Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
-                }
-                valueAsStringOverride = { values ->
-                    when {
-                        values.isNullOrEmpty() -> "No fruit selected"
-                        values.size == options?.size -> "All fruits selected"
-                        values.size > 3 -> "${values.size} fruits selected"
-                        else -> null
-                    }
-                }
-            }
+            */
 
             autoComplete<ContactItem>(AutoCompleteElement.ordinal) {
                 title = getString(R.string.AutoComplete)
@@ -571,7 +557,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 enabled = true
                 maxLines = 3
                 displayDivider = false
-                rightToLeft = false
+                editViewGravity = Gravity.START
                 required = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(this@FullscreenFormActivity, newValue.toString(), LENGTH_SHORT).show()
@@ -630,7 +616,7 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
                 min = 36.toFloat()
                 max = 42.toFloat()
                 displayDivider = false
-                incrementBy = 50
+                incrementBy = 50.0f
                 enabled = true
                 required = true
                 valueObservers.add { newValue, element ->
@@ -735,9 +721,5 @@ class FullscreenFormActivity : AppCompatActivity(), OnFormElementValueChangedLis
         }
     }
 
-    override fun onValueChanged(formElement: BaseFormElement<*>) {
-        Toast.makeText(this@FullscreenFormActivity, formElement.title, LENGTH_SHORT).show()
-
-    }
 
 }

@@ -5,8 +5,7 @@ import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseExpandableListAdapter
-import android.widget.ExpandableListView
+import android.widget.*
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
@@ -15,14 +14,12 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.vivchar.rendererrecyclerviewadapter.binder.ViewBinder
+import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
+import com.thejuki.kformmaster.helper.FormViewFinder
 import com.thejuki.kformmaster.model.FormCheckBoxElement
 import com.thejuki.kformmaster.model.FormTreeElement
-import kotlinx.android.synthetic.main.tree_expandable_list_item.view.*
-import kotlinx.android.synthetic.main.tree_expandable_list_topic.view.*
-import kotlinx.android.synthetic.main.tree_list_item.view.*
 
 class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
 
@@ -31,8 +28,8 @@ class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes 
     private val displayedItems
         get() = model.items.flatMap{ it.children.filter { child -> child.selected } }
 
-    val viewBinder = ViewBinder(layoutID
-            ?: R.layout.form_element_tree, FormTreeElement::class.java) { _model, finder, _ ->
+    var viewRenderer = ViewRenderer(layoutID
+            ?: R.layout.form_element_tree, FormTreeElement::class.java) { _model, finder: FormViewFinder, _ ->
         model = _model
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? ConstraintLayout
@@ -54,14 +51,14 @@ class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes 
         model.mainLayoutView = mainViewLayout
 
         button?.setOnClickListener {
-            openDialog(recyclerView)
+            openDialog(recyclerView, itemView.context)
         }
 
-        recyclerView?.layoutManager = LinearLayoutManager(context)
+        recyclerView?.layoutManager = LinearLayoutManager(itemView.context)
         recyclerView?.adapter = ListAdapter()
     }
 
-    private fun openDialog(recyclerView: RecyclerView?) {
+    private fun openDialog(recyclerView: RecyclerView?, context: Context) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(model.title)
 
@@ -93,25 +90,26 @@ class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes 
 
         override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
             val view = convertView
-                    ?: (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
+                    ?: (parent?.context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
                             .inflate(R.layout.tree_expandable_list_topic, parent, false)
-            view.topic.text = input[groupPosition].name
+            view.findViewById<TextView>(R.id.topic)?.text = input[groupPosition].name
             return view
         }
 
         override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
-
             val view = convertView
-                    ?: (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
+                    ?: (parent?.context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
                             .inflate(R.layout.tree_expandable_list_item, parent, false)
-            view.item.text = input[groupPosition].children[childPosition].name
+            val item = view.findViewById<CheckBox>(R.id.item)
 
-            view.item.setOnCheckedChangeListener { _, isChecked ->
+            item.text = input[groupPosition].children[childPosition].name
+
+            item.setOnCheckedChangeListener { _, isChecked ->
                 input[groupPosition].children[childPosition].selected = isChecked
             }
 
-            view.item.isChecked = input[groupPosition].children[childPosition].selected
-            view.item.isEnabled = !input[groupPosition].children[childPosition].required
+            item.isChecked = input[groupPosition].children[childPosition].selected
+            item.isEnabled = !input[groupPosition].children[childPosition].required
 
             return view
         }
@@ -136,7 +134,7 @@ class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val itemView = LayoutInflater.from(parent.context).inflate(R.layout.tree_list_item, parent, false)
             return ViewHolder(itemView).apply {
-                itemView.removeButton.setOnClickListener {
+                itemView.findViewById<Button>(R.id.removeButton).setOnClickListener {
                     displayedItems[adapterPosition].selected = !displayedItems[adapterPosition].selected
                     model.callback()
                     notifyDataSetChanged()
@@ -148,7 +146,7 @@ class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(displayedItems[position])
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             fun bind(item: FormTreeElement.TreeItem) = itemView.run {
-                itemView.listItem.text = item.name
+                itemView.findViewById<TextView>(R.id.listItem).text = item.name
             }
         }
     }

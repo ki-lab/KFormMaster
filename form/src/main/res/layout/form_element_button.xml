@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorFormMasterElementBackground"
-    android:elevation="6sp"
     android:orientation="vertical">
 
     <View
         android:id="@+id/formElementDivider"
-        android:layout_width="0sp"
-        android:layout_height="1sp"
-        android:background="@color/colorFormMasterDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/colorFormMasterDivider" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/formElementValue"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/formElementMainLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center"
-        android:imeOptions="actionNext"
-        android:inputType="textNoSuggestions"
-        android:maxLines="1"
-        android:padding="3sp"
-        android:textColor="@drawable/button_selector"
-        android:textSize="@dimen/headerTextSize"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
-        tools:text="Edit Description" />
+        android:orientation="horizontal">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.thejuki.kformmaster.widget.IconButton
+            android:id="@+id/formElementValue"
+            android:layout_height="50dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="center_vertical"
+            android:textColor="@drawable/button_selector"
+            android:background="?android:attr/selectableItemBackground"
+            android:textSize="@dimen/elementTextValueSize"
+            tools:text="Edit Description"
+            android:layout_width="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>
