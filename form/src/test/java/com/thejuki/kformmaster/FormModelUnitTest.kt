@@ -121,7 +121,7 @@ class FormModelUnitTest : ShouldSpec({
         should("have valid formSliderElement") {
             val element = CustomGen.formSliderElement.next()
             (element.min < element.max) shouldBe true
-            ((element.value ?: 0 <= element.max) and (element.value ?: 0 >= element.min)) shouldBe true
+            ((element.value ?: 0f <= element.max) and (element.value ?: 0f >= element.min)) shouldBe true
         }
         should("have valid formProgressElement") {
             val element = CustomGen.formProgressElement.next()
