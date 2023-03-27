@@ -53,6 +53,10 @@ interface CustomGen {
                 , Arb.int(-100, 100).next() // progress
                 , Arb.int(-100, 100).next() // image
                 , Arb.int(-100, 100).next() // inlineDateTimePicker
+                , Arb.int(-100, 100).next() // tree
+                , Arb.int(-100, 100).next() // custom
+                , Arb.int(-100, 100).next() // radio
+
             )
         }
 
