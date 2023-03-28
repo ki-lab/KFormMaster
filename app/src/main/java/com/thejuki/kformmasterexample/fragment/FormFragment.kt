@@ -250,14 +250,14 @@ class FormFragment : Fragment() {
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
-            multiCheckBox<ListItem, List<ListItem>>(MultiItems.ordinal) {
+            multiCheckBox<ListItem>(MultiItems.ordinal) {
                 title = getString(R.string.MultiItems)
                 dialogTitle = getString(R.string.MultiItems)
                 options = fruits
                 enabled = true
                 maxLines = 3
                 editViewGravity = Gravity.START
-                value = listOf(ListItem(id = 1, name = "Banana"))
+                value = ListItem(id = 1, name = "Banana")
                 required = true
                 valueObservers.add { newValue, element ->
                     Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
