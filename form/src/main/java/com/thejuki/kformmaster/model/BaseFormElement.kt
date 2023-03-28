@@ -91,7 +91,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     /**
      * Form Element Value
      */
-    var value: T? by Delegates.observable(null) { _, _, newValue ->
+    open var value: T? by Delegates.observable(null) { _, _, newValue ->
         valueObservers.forEach { it(newValue, this) }
         editView?.let {
             displayNewValue()

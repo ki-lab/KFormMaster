@@ -40,6 +40,7 @@ class FormPickerMultiCheckBoxViewRenderer(private val formBuilder: FormBuildHelp
             tip?.visibility = View.VISIBLE
         }
 
+        model.initValue()
 
         editTextValue.setRawInputType(InputType.TYPE_NULL)
         editTextValue.isFocusable = false

@@ -64,9 +64,9 @@ class FormInlineDatePickerViewRenderer(private val formBuilder: FormBuildHelper,
 
     @SuppressLint("ClickableViewAccessibility")
     var viewRenderer = ViewRenderer(
-        layoutID
-            ?: R.layout.form_element_datetimepicker,
-        FormInlineDatePickerElement::class.java) { model, finder: FormViewFinder, _ ->
+            layoutID
+                    ?: R.layout.form_element_datetimepicker,
+            FormInlineDatePickerElement::class.java) { model, finder: FormViewFinder, _ ->
         val formElementMainLayout = finder.find(R.id.formElementMainLayout) as LinearLayout
         val pickerWrapper = finder.find(R.id.pickerWrapper) as ExpandableLayout
         val textViewTitle = finder.find(R.id.formElementTitle) as AppCompatTextView
