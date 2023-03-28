@@ -53,6 +53,9 @@ interface CustomGen {
                 , Arb.int(-100, 100).next() // progress
                 , Arb.int(-100, 100).next() // image
                 , Arb.int(-100, 100).next() // inlineDateTimePicker
+                , Arb.int(-100, 100).next() // tree
+                , Arb.int(-100, 100).next() // custom
+                , Arb.int(-100, 100).next() // radio
             )
         }
 
@@ -126,7 +129,7 @@ interface CustomGen {
          * Generates a FormNumberEditTextElement
          */
         val formNumberEditTextElement = arbitrary {
-            generateBaseFields(FormNumberEditTextElement()) as FormNumberEditTextElement
+            generateBaseFieldsWithNumber(FormNumberEditTextElement()) as FormNumberEditTextElement
         }
 
         /**
@@ -242,10 +245,10 @@ interface CustomGen {
         val formSliderElement = arbitrary {
             val element = FormSliderElement()
             element.title = Arb.string().next()
-            element.max = Random().nextInt(100)
-            element.min = Random().nextInt(element.max)
-            element.value = Random().nextInt(element.max - element.min) + element.min
-            element.steps = Random().nextInt(element.max - element.min + 1) + element.min
+            element.max = Random().nextInt(100).toFloat()
+            element.min = Random().nextInt(element.max.toInt()).toFloat()
+            element.value = Random().nextInt(element.max.toInt() - element.min.toInt()) + element.min
+            element.steps = Random().nextInt(element.max.toInt() - element.min.toInt() + 1) + element.min.toInt()
             element
         }
 
@@ -362,6 +365,20 @@ interface CustomGen {
             element.apply {
                 title = Arb.string().next()
                 value = Arb.string().next()
+                tag = Arb.int().next()
+                hint = Arb.string().next()
+                visible = Arb.boolean().next()
+                enabled = Arb.boolean().next()
+                editViewGravity = Arb.int().next()
+                maxLines = Arb.int(1, 100).next()
+                error = if (Arb.boolean().next()) Arb.string().next() else null
+                valueObservers.add { newValue, elementRef -> println("New Value = $newValue {$elementRef}") }
+            }
+
+        private fun generateBaseFieldsWithNumber(element: BaseFormElement<Number>) =
+            element.apply {
+                title = Arb.string().next()
+                value = Arb.int().next()
                 tag = Arb.int().next()
                 hint = Arb.string().next()
                 visible = Arb.boolean().next()

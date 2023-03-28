@@ -236,11 +236,11 @@ class FormActivityTest : AppCompatActivity() {
                 arrayAdapter = null
                 value = ListItem(id = 1, name = "Banana")
             }
-            multiCheckBox<ListItem>(MultiItems.ordinal) {
+            multiCheckBox<ListItem, List<ListItem>>(MultiItems.ordinal) {
                 title = "MultiItems"
                 dialogTitle = "MultiItems Dialog"
                 options = fruits
-                value = ListItem(id = 1, name = "Banana")
+                value = listOf(ListItem(id = 1, name = "Banana"))
             }
             autoComplete<ContactItem>(AutoCompleteElement.ordinal) {
                 title = "AutoComplete"
