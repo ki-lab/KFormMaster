@@ -20,13 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:orientation="horizontal">
 
         <com.thejuki.kformmaster.widget.IconTextView
             android:id="@+id/formElementTitle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:textColor="@color/colorFormMasterElementTextTitle"
@@ -35,7 +35,7 @@
 
         <com.thejuki.kformmaster.widget.ClearableEditText
             android:id="@+id/formElementValue"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:background="@null"

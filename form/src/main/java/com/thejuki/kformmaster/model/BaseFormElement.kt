@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -781,6 +782,9 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                                 margins?.right.dpToPx(),
                                 margins?.bottom.dpToPx())
                     }
+                    if(it is LinearLayout){
+                        it.orientation = layoutOrientation
+                    }
                 }
             }
             // Switch and CheckBox are special. To keep the ripple the correct height,
@@ -854,6 +858,10 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
 
             onEnabled(value)
         }
+    /**
+     * Form Element layout orientation
+     */
+    open var layoutOrientation: Int = LinearLayout.HORIZONTAL
 
     /**
      * Form Element Clickable
