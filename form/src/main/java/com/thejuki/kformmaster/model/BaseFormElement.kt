@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -20,7 +22,6 @@ import com.thejuki.kformmaster.extensions.setMargins
 import com.thejuki.kformmaster.helper.FormDsl
 import com.thejuki.kformmaster.helper.InputMaskOptions
 import com.thejuki.kformmaster.widget.*
-import com.whygraphics.multilineradiogroup.MultiLineRadioGroup
 import kotlin.properties.Delegates
 
 
@@ -399,14 +400,14 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 }
                 view is AppCompatSeekBar -> this.itemView?.findViewById<AppCompatTextView>(R.id.formElementProgress)
                         ?.let { textView -> valueTextColor?.let { textView.setTextColor(it) } }
-                view is MultiLineRadioGroup -> (editView as? MultiLineRadioGroup)?.let { multilineRG ->
-                    (0 until view.radioButtonCount).forEach { index ->
-                        multilineRG.getRadioButtonAt(index)?.setTextColor(
-                                if (index == multilineRG.checkedRadioButtonIndex) {
-                                    valueTextColor ?: Color.BLACK
-                                } else {
-                                    Color.BLACK
-                                })
+                view is RadioGroup -> (editView as? RadioGroup)?.let { multilineRG ->
+                    (0 until view.childCount).forEach { index ->
+                        (multilineRG.getChildAt(index) as? RadioButton)?.setTextColor( if (index == multilineRG.checkedRadioButtonId) {
+                            valueTextColor ?: Color.BLACK
+                        } else {
+                            Color.BLACK
+                        })
+
                     }
                 }
                 view is TableLayout -> (0 until view.childCount).forEach { itemIndex ->

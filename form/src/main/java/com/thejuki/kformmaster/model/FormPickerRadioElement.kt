@@ -1,7 +1,7 @@
 package com.thejuki.kformmaster.model
 
+import android.widget.RadioGroup
 import android.widget.TextView
-import com.whygraphics.multilineradiogroup.MultiLineRadioGroup
 
 
 /**
@@ -65,9 +65,9 @@ class FormPickerRadioElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
 
     override fun onEnabled(enable: Boolean) {
         super.onEnabled(enable)
-        (editView as? MultiLineRadioGroup)?.let { view ->
-            (0 until view.radioButtonCount).forEach { index ->
-                view.getRadioButtonAt(index)?.isEnabled = enable
+        (editView as? RadioGroup)?.let { view ->
+            (0 until view.childCount).forEach { index ->
+                view.getChildAt(index)?.isEnabled = enable
             }
         }
     }

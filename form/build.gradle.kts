@@ -122,8 +122,6 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0")
-    // RadioGroup
-    implementation("com.github.Gavras:MultiLineRadioGroup:v1.0.0.6")
 
     // RichEditor
     implementation("jp.wasabeef:richeditor-android:2.0.0")
