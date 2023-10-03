@@ -1,5 +1,7 @@
 package com.thejuki.kformmaster.model
 
+import android.graphics.Typeface
+
 /**
  * Form Number EditText Element
  *
@@ -15,6 +17,13 @@ class FormNumberEditTextElement(tag: Int = -1) : BaseFormElement<Number>(tag) {
      * Set to true to only allow numbers.
      */
     var numbersOnly: Boolean = false
+
+    var editTextSize: Float? = null
+    var titleTextSize: Float? = null
+
+    var editTextTypeface: Typeface? = null
+    var titleTextTypeface: Typeface? = null
+
 
     override fun setValue(rawValue: Any?): BaseFormElement<Number> {
         var value = rawValue

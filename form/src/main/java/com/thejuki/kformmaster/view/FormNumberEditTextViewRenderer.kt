@@ -39,6 +39,18 @@ class FormNumberEditTextViewRenderer(private val formBuilder: FormBuildHelper, @
         editTextValue.setText(model.valueAsString)
         editTextValue.hint = model.hint ?: ""
 
+        model.editTextSize?.let {
+            editTextValue.textSize = it
+        }
+        model.titleTextSize?.let {
+            textViewTitle?.textSize = it
+        }
+        model.editTextTypeface?.let {
+            editTextValue.typeface = it
+        }
+        model.titleTextTypeface?.let {
+            textViewTitle?.typeface = it
+        }
         // Number
         if (model.numbersOnly) {
             editTextValue.inputType = InputType.TYPE_CLASS_NUMBER
