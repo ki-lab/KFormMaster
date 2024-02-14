@@ -21,11 +21,10 @@ import com.thejuki.kformmaster.helper.FormViewFinder
 import com.thejuki.kformmaster.model.FormCheckBoxElement
 import com.thejuki.kformmaster.model.FormTreeElement
 
-@Deprecated("Should be reviewed because the model is stored in the renderer making it unusable for multiple instances of [FormTreeElement] in the same Form.")
 class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
 
     private lateinit var model:  FormTreeElement<*>
-
+    
     private val displayedItems
         get() = model.items.flatMap{ it.children.filter { child -> child.selected } }
 
