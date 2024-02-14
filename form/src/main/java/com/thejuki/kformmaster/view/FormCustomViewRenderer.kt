@@ -13,12 +13,8 @@ import com.thejuki.kformmaster.helper.FormViewFinder
 import com.thejuki.kformmaster.model.FormCustomElement
 
 class FormCustomViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
-
-    private lateinit var model: FormCustomElement
-
     var viewRenderer = ViewRenderer(layoutID
-        ?: R.layout.form_element_custom, FormCustomElement::class.java) { _model, finder: FormViewFinder, _ ->
-        model = _model
+        ?: R.layout.form_element_custom, FormCustomElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? ConstraintLayout
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
