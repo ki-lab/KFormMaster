@@ -61,8 +61,10 @@ class FormNumberEditTextViewRenderer(private val formBuilder: FormBuildHelper, @
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     editTextValue.removeTextChangedListener(this)
-                    editTextValue.setText(editTextValue.text.toString().replace(",", "."))
-                    editTextValue.setSelection(start + count)
+                    val newText = editTextValue.text.toString().replace(",", ".")
+                    editTextValue.setText(newText)
+                    val newSelectionIndex = (start + count).coerceAtMost(newText.length)
+                    editTextValue.setSelection(newSelectionIndex)
                     editTextValue.addTextChangedListener(this)
                 }
             })
