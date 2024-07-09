@@ -16,6 +16,9 @@ plugins {
     id("jacoco")
 }
 
+group = "com.github.ki-lab"
+version = "8.3.0.13"
+
 android {
     namespace = "com.thejuki.kformmaster"
     compileSdk = 34
