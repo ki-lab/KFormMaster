@@ -287,7 +287,7 @@ class FullscreenFormActivity : AppCompatActivity() {
                 titleTextColor = Color.BLACK
                 titleFocusedTextColor = Color.parseColor("#FF4081")
                 valueTextColor = Color.BLACK
-                errorTextColor = ResourcesCompat.getColor(resources, com.thejuki.kformmaster.R.color.colorFormMasterElementErrorTitle, null)
+                errorTextColor = ResourcesCompat.getColor(resources, R.color.colorFormMasterElementErrorTitle, null)
                 hintTextColor = Color.BLUE
                 enabled = true
                 required = true

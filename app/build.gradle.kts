@@ -1,22 +1,14 @@
-repositories {
-    mavenCentral()
-    google()
-    maven("https://jitpack.io")
-}
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
 }
 
 android {
-    namespace = "com.thejuki.kformmasterexample"
-
-    compileSdk = 34
+    compileSdk = 32
     defaultConfig {
-        applicationId = namespace
-        minSdk = 21
-        targetSdk = 34
+        applicationId = "com.thejuki.kformmasterexample"
+        minSdk = 19
+        targetSdk = 32
         multiDexEnabled = true
         versionCode = 1
         versionName = "1.0"
@@ -35,24 +27,24 @@ android {
     }
 
     compileOptions {
-        targetCompatibility = JavaVersion.VERSION_17
-        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 
 dependencies {
     // Androidx
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("com.google.android.material:material:1.5.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.multidex:multidex:2.0.1")
 
     // Google Places
-    implementation("com.google.android.libraries.places:places:3.5.0")
+    implementation("com.google.android.libraries.places:places:2.6.0")
 
     // KFormMaster
     implementation(project(":form"))
