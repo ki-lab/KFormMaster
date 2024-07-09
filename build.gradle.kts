@@ -5,9 +5,10 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.4.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22")
-        classpath("io.deepmedia.tools:publisher:0.7.0")
+        classpath("com.android.tools.build:gradle:7.1.3")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
+        classpath("io.deepmedia.tools:publisher:0.6.0")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.20")
     }
 }
 
