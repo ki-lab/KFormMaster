@@ -12,6 +12,7 @@ import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder
 import com.thejuki.kformmaster.model.FormSingleLineEditTextElement
+import com.thejuki.kformmaster.widget.ClearableEditText
 
 /**
  * Form SingleLine EditText ViewRenderer
@@ -22,14 +23,13 @@ import com.thejuki.kformmaster.model.FormSingleLineEditTextElement
  * @version 1.0
  */
 class FormSingleLineEditTextViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
-    val viewRenderer = ViewRenderer(layoutID
-            ?: R.layout.form_element, FormSingleLineEditTextElement::class.java) { model, finder: FormViewFinder, _ ->
+    val viewRenderer = ViewRenderer(layoutID ?: R.layout.form_element, FormSingleLineEditTextElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
-        val editTextValue = finder.find(R.id.formElementValue) as com.thejuki.kformmaster.widget.ClearableEditText
+        val editTextValue = finder.find(R.id.formElementValue) as ClearableEditText
         val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
         baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editTextValue)
 

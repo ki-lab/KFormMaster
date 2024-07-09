@@ -23,8 +23,7 @@ import com.thejuki.kformmaster.widget.ClearableEditText
  * @version 1.0
  */
 class FormMultiLineEditTextViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
-    val viewRenderer = ViewRenderer(layoutID
-            ?: R.layout.form_element, FormMultiLineEditTextElement::class.java) { model, finder: FormViewFinder, _ ->
+    val viewRenderer = ViewRenderer(layoutID ?: R.layout.form_element, FormMultiLineEditTextElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
