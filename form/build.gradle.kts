@@ -10,8 +10,6 @@ plugins {
     id("jacoco")
 }
 
-val version = "8.3.0.14"
-
 android {
     compileSdk = 34
 
@@ -139,8 +137,8 @@ publisher {
     project.addLicense(License.APACHE_2_0)
     project.addLicense("License", "https://github.com/TheJuki/KFormMaster/blob/master/LICENSE")
     project.addDeveloper("Justin Kirk", "thejuki@hotmail.com", "thejuki")
-    release.version = version
-    release.tag = version
+    release.version = "8.3.0.13"
+    release.tag = "8.3.0.13"
     release.sources = Release.SOURCES_AUTO
     release.docs = Release.DOCS_AUTO
 
