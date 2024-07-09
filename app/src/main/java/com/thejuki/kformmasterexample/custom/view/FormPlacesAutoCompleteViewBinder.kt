@@ -25,7 +25,7 @@ import com.thejuki.kformmasterexample.custom.model.FormPlacesAutoCompleteElement
  */
 class FormPlacesAutoCompleteViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?, private val fragment: Fragment? = null) : BaseFormViewRenderer() {
     var viewRenderer = ViewRenderer(layoutID
-            ?: R.layout.form_element, FormPlacesAutoCompleteElement::class.java) { model, finder: FormViewFinder, _ ->
+            ?: com.thejuki.kformmaster.R.layout.form_element, FormPlacesAutoCompleteElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
         val textViewError = finder.find(R.id.formElementError) as AppCompatTextView
