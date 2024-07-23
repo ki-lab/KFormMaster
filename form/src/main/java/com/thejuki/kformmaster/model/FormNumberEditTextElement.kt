@@ -25,4 +25,21 @@ class FormNumberEditTextElement(tag: Int = -1) : BaseFormElement<Number>(tag) {
     var titleTextTypeface: Typeface? = null
 
 
+    override fun setValue(rawValue: Any?): BaseFormElement<Number> {
+        var value = rawValue
+        if (value != null) {
+            if (value is String) {
+                if (value.contains(",")) {
+                    value = value.replace(",", ".")
+                }
+            }
+        }
+
+        return super.setValue(when{
+            (value as? String)?.isBlank() == true -> null
+            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.replace(",", ".")?.contains('.')==true -> (value as? String)?.toDoubleOrNull()?:""
+            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.replace(",", ".")?.contains('.')==false -> (value as? String)?.toIntOrNull()?:""
+            else -> value
+        })
+    }
 }
