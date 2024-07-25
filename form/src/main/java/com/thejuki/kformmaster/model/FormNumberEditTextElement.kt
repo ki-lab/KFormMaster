@@ -18,13 +18,6 @@ class FormNumberEditTextElement(tag: Int = -1) : BaseFormElement<Number>(tag) {
      */
     var numbersOnly: Boolean = false
 
-    var editTextSize: Float? = null
-    var titleTextSize: Float? = null
-
-    var editTextTypeface: Typeface? = null
-    var titleTextTypeface: Typeface? = null
-
-
     override fun setValue(rawValue: Any?): BaseFormElement<Number> {
         var value = rawValue
         if (value != null) {

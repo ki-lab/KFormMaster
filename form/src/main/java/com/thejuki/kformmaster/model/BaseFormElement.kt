@@ -1,6 +1,7 @@
 package com.thejuki.kformmaster.model
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.InputFilter
 import android.text.InputType
@@ -390,6 +391,50 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             refreshValueColor()
    }
 
+    var editTextSize: Float? = null
+        set(value) {
+            field = value
+            editView?.let {
+                if (it is TextView) {
+                    editTextSize?.let { size ->
+                        it.textSize = size
+                    }
+                }
+            }
+        }
+
+    var titleTextSize: Float? = null
+        set(value) {
+            field = value
+            titleView?.let {
+                titleTextSize?.let { size ->
+                    it.textSize = size
+                }
+            }
+        }
+
+    var editTextTypeface: Typeface? = null
+        set(value) {
+            field = value
+            editView?.let {
+                if (it is TextView) {
+                    editTextTypeface?.let { typeface ->
+                        it.typeface = typeface
+                    }
+                }
+            }
+        }
+
+    var titleTextTypeface: Typeface? = null
+        set(value) {
+            field = value
+            titleView?.let {
+                titleTextTypeface?.let { typeface ->
+                    it.typeface = typeface
+                }
+            }
+        }
+
     private fun refreshValueColor() {
         editView?.let { view ->
             when {
@@ -652,6 +697,13 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                     if (hintTextColor != null) {
                         it.setHintTextColor(hintTextColor ?: 0)
                     }
+
+                    if(editTextSize != null) {
+                        it.textSize = editTextSize ?: 0f
+                    }
+                    if(editTextTypeface != null) {
+                        it.typeface = editTextTypeface
+                    }
                 } else if (it is IconButton) {
                     if (valueTextColor != null) {
                         it.setTextColor(valueTextColor ?: 0)
@@ -715,6 +767,15 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 if (titleTextColor != null) {
                     it.setTextColor(titleTextColor ?: 0)
                 }
+
+                if(titleTextSize != null) {
+                    it.textSize = titleTextSize ?: 0f
+                }
+
+                if(titleTextTypeface != null) {
+                    it.typeface = titleTextTypeface
+                }
+
                 it.visibility = if (displayTitle) View.VISIBLE else View.GONE
 
                 if (this is FormHeader || this is FormLabelElement) {
