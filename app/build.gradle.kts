@@ -7,7 +7,7 @@ android {
     compileSdk = 32
     defaultConfig {
         applicationId = "com.thejuki.kformmasterexample"
-        minSdk = 19
+        minSdk = 21
         targetSdk = 32
         multiDexEnabled = true
         versionCode = 1
