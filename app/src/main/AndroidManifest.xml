@@ -31,7 +31,7 @@
         <activity android:name=".CustomFormActivity" />
         <activity
             android:name=".FormTabbedActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.FullScreen" />
         <activity android:name=".TestFormActivity" />
     </application>
 
