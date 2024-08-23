@@ -8,6 +8,7 @@ import android.widget.RadioGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
+import com.google.android.material.card.MaterialCardView
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder
@@ -25,6 +26,7 @@ import com.thejuki.kformmaster.model.FormPickerRadioElement
 class FormPickerRadioViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
     var viewRenderer = ViewRenderer(layoutID
             ?: R.layout.form_element_radio, FormPickerRadioElement::class.java) { model, finder: FormViewFinder, _ ->
+        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? MaterialCardView
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
@@ -79,7 +81,7 @@ class FormPickerRadioViewRenderer(private val formBuilder: FormBuildHelper, @Lay
 
 
 
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView =  editValue)
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView,mainViewLayout, editView =  editValue)
 
         setClearableListener(model)
 

@@ -2,10 +2,10 @@ package com.thejuki.kformmaster.view
 
 import android.text.InputType
 import android.view.View
-import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
+import com.google.android.material.card.MaterialCardView
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder
@@ -23,7 +23,7 @@ class FormPickerDateTimeViewRenderer(private val formBuilder: FormBuildHelper, @
     val viewRenderer = ViewRenderer(layoutID
             ?: R.layout.form_element, FormPickerDateTimeElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
-        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
+        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? MaterialCardView
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View

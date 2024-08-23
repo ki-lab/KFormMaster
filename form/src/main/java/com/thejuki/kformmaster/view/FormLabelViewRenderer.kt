@@ -5,6 +5,7 @@ import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
+import com.google.android.material.card.MaterialCardView
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder
@@ -22,7 +23,7 @@ class FormLabelViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes
     val viewRenderer = ViewRenderer(layoutID
             ?: R.layout.form_element_label, FormLabelElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
-        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
+        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? MaterialCardView
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
         baseSetup(model, dividerView, textViewTitle, itemView = itemView, mainViewLayout = mainViewLayout, editView = null)

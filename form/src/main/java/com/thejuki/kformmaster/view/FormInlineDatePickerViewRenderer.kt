@@ -15,6 +15,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
+import com.google.android.material.card.MaterialCardView
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.extensions.IFormInlinePicker
 import com.thejuki.kformmaster.helper.FormBuildHelper
@@ -67,7 +68,7 @@ class FormInlineDatePickerViewRenderer(private val formBuilder: FormBuildHelper,
         layoutID
             ?: R.layout.form_element_datetimepicker,
         FormInlineDatePickerElement::class.java) { model, finder: FormViewFinder, _ ->
-        val formElementMainLayout = finder.find(R.id.formElementMainLayout) as LinearLayout
+        val formElementMainLayout = finder.find(R.id.formElementMainLayout) as MaterialCardView
         val pickerWrapper = finder.find(R.id.pickerWrapper) as ExpandableLayout
         val textViewTitle = finder.find(R.id.formElementTitle) as AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as View

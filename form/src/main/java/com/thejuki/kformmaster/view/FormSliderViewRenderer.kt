@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.appcompat.widget.AppCompatTextView
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
+import com.google.android.material.card.MaterialCardView
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder
@@ -26,7 +27,7 @@ class FormSliderViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRe
     val viewRenderer = ViewRenderer(layoutID
             ?: R.layout.form_element_slider, FormSliderElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
-        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
+        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? MaterialCardView
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val textViewMinValue = finder.find(R.id.formElementMinValue) as? AppCompatTextView
         val textViewMaxValue = finder.find(R.id.formElementMaxValue) as? AppCompatTextView

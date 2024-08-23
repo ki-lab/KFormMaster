@@ -17,6 +17,8 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.*
 import com.github.vivchar.rendererrecyclerviewadapter.ViewModel
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.shape.CornerFamily
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.extensions.dpToPx
 import com.thejuki.kformmaster.extensions.setMargins
@@ -402,6 +404,55 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 }
             }
         }
+
+    var backgroundElevation: Float = 0f
+        set(value) {
+            field = value
+            (mainLayoutView as? MaterialCardView)?.let {
+                it.elevation = backgroundElevation
+            }
+        }
+
+    var backgroundTopRadius: Float? = null
+        set(value) {
+            (mainLayoutView as? MaterialCardView)?.let { cardView ->
+                updateCornersBasedOnPosition(cardView)
+            }
+            field = value
+        }
+
+    var backgroundBottomRadius: Float? = null
+        set(value) {
+            (mainLayoutView as? MaterialCardView)?.let { cardView ->
+                updateCornersBasedOnPosition(cardView)
+            }
+            field = value
+        }
+
+    private fun updateCornersBasedOnPosition(cardView: MaterialCardView) {
+        val shapeBuilder = cardView.shapeAppearanceModel.toBuilder()
+
+        backgroundTopRadius?.let {
+            shapeBuilder.setTopLeftCorner(CornerFamily.ROUNDED, it)
+            shapeBuilder.setTopRightCorner(CornerFamily.ROUNDED, it)
+        } ?: run {
+            shapeBuilder.setTopLeftCorner(CornerFamily.ROUNDED, 0f)
+            shapeBuilder.setTopRightCorner(CornerFamily.ROUNDED, 0f)
+        }
+
+        backgroundBottomRadius?.let {
+            shapeBuilder.setBottomLeftCorner(CornerFamily.ROUNDED, it)
+            shapeBuilder.setBottomRightCorner(CornerFamily.ROUNDED, it)
+        } ?: run {
+            shapeBuilder.setBottomLeftCorner(CornerFamily.ROUNDED, 0f)
+            shapeBuilder.setBottomRightCorner(CornerFamily.ROUNDED, 0f)
+        }
+
+        cardView.shapeAppearanceModel = shapeBuilder.build()
+    }
+
+    var valueTextSize: Float? = null
+
 
     var titleTextSize: Float? = null
         set(value) {
@@ -868,6 +919,11 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                                 padding?.bottom.dpToPx())
                     }
                 }
+            }
+            if (value is MaterialCardView){
+                backgroundBottomRadius = backgroundBottomRadius
+                backgroundBottomRadius = backgroundBottomRadius
+                backgroundElevation =  backgroundElevation
             }
 
             if (this is FormHeader || this is FormLabelElement) {

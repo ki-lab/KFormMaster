@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
+import com.google.android.material.card.MaterialCardView
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder
@@ -28,7 +29,7 @@ class FormAutoCompleteViewRenderer(private val formBuilder: FormBuildHelper, @La
     val viewRenderer = ViewRenderer(layoutID
             ?: R.layout.form_element_auto_complete, FormAutoCompleteElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
-        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
+        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? MaterialCardView
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View

@@ -6,8 +6,6 @@ import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatButton
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
-import com.github.vivchar.rendererrecyclerviewadapter.ViewState
-import com.github.vivchar.rendererrecyclerviewadapter.ViewStateProvider
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder

@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
+import com.google.android.material.card.MaterialCardView
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder
@@ -25,7 +26,7 @@ import com.thejuki.kformmaster.widget.ClearableEditText
 class FormSingleLineEditTextViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
     val viewRenderer = ViewRenderer(layoutID ?: R.layout.form_element, FormSingleLineEditTextElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
-        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
+        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? MaterialCardView
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View

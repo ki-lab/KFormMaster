@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.caverock.androidsvg.SVG
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
+import com.google.android.material.card.MaterialCardView
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.extensions.dpToPx
 import com.thejuki.kformmaster.extensions.setBitmapImage
@@ -35,7 +36,7 @@ class FormImageViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes
     var viewRenderer = ViewRenderer(layoutID
         ?: R.layout.form_element_image, FormImageElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewError = finder.find(R.id.formElementError) as AppCompatTextView
-        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
+        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? MaterialCardView
         val itemView = finder.getRootView() as View
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val imageView = finder.find(R.id.formElementValue) as ImageView

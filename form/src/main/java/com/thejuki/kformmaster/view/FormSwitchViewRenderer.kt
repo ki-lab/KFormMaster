@@ -6,6 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SwitchCompat
 import com.github.vivchar.rendererrecyclerviewadapter.ViewRenderer
+import com.google.android.material.card.MaterialCardView
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.FormViewFinder
@@ -23,7 +24,7 @@ class FormSwitchViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRe
     val viewRenderer = ViewRenderer(layoutID
             ?: R.layout.form_element_switch, FormSwitchElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
-        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? LinearLayout
+        val mainViewLayout = finder.find(R.id.formElementMainLayout) as? MaterialCardView
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
