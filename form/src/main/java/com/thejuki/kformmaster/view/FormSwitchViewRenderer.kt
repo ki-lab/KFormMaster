@@ -28,7 +28,7 @@ class FormSwitchViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRe
         val dividerView = finder.find(R.id.formElementDivider) as? View
         val itemView = finder.getRootView() as View
         val switch = finder.find(R.id.formElementValue) as SwitchCompat
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView = switch)
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, editView = switch)
 
         switch.isChecked = model.isOn()
 
