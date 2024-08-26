@@ -7,7 +7,6 @@ import android.util.Base64
 import android.view.View
 import android.webkit.URLUtil
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import com.caverock.androidsvg.SVG

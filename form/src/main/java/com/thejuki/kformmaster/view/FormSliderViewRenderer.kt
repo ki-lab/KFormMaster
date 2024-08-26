@@ -1,7 +1,6 @@
 package com.thejuki.kformmaster.view
 
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.SeekBar
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView

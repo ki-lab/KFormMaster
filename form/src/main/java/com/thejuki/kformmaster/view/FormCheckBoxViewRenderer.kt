@@ -1,7 +1,6 @@
 package com.thejuki.kformmaster.view
 
 import android.view.View
-import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatTextView

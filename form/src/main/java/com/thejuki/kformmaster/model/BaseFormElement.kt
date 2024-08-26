@@ -405,7 +405,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             }
         }
 
-    var backgroundElevation: Float = 0f
+    var backgroundElevation: Float = 0F
         set(value) {
             field = value
             (mainLayoutView as? MaterialCardView)?.let {
@@ -413,7 +413,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             }
         }
 
-    var backgroundTopRadius: Float? = null
+    var backgroundTopRadius: Float = 0F
         set(value) {
             (mainLayoutView as? MaterialCardView)?.let { cardView ->
                 updateCornersBasedOnPosition(cardView)
@@ -421,7 +421,7 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             field = value
         }
 
-    var backgroundBottomRadius: Float? = null
+    var backgroundBottomRadius: Float = 0F
         set(value) {
             (mainLayoutView as? MaterialCardView)?.let { cardView ->
                 updateCornersBasedOnPosition(cardView)
@@ -432,21 +432,13 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     private fun updateCornersBasedOnPosition(cardView: MaterialCardView) {
         val shapeBuilder = cardView.shapeAppearanceModel.toBuilder()
 
-        backgroundTopRadius?.let {
-            shapeBuilder.setTopLeftCorner(CornerFamily.ROUNDED, it)
-            shapeBuilder.setTopRightCorner(CornerFamily.ROUNDED, it)
-        } ?: run {
-            shapeBuilder.setTopLeftCorner(CornerFamily.ROUNDED, 0f)
-            shapeBuilder.setTopRightCorner(CornerFamily.ROUNDED, 0f)
-        }
+        shapeBuilder.setTopLeftCorner(CornerFamily.ROUNDED, backgroundTopRadius)
+        shapeBuilder.setTopRightCorner(CornerFamily.ROUNDED, backgroundTopRadius)
 
-        backgroundBottomRadius?.let {
-            shapeBuilder.setBottomLeftCorner(CornerFamily.ROUNDED, it)
-            shapeBuilder.setBottomRightCorner(CornerFamily.ROUNDED, it)
-        } ?: run {
-            shapeBuilder.setBottomLeftCorner(CornerFamily.ROUNDED, 0f)
-            shapeBuilder.setBottomRightCorner(CornerFamily.ROUNDED, 0f)
-        }
+        shapeBuilder.setBottomLeftCorner(CornerFamily.ROUNDED, backgroundBottomRadius)
+        shapeBuilder.setBottomRightCorner(CornerFamily.ROUNDED, backgroundBottomRadius)
+
+        cardView.elevation = backgroundElevation
 
         cardView.shapeAppearanceModel = shapeBuilder.build()
     }
@@ -920,10 +912,9 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                     }
                 }
             }
-            if (value is MaterialCardView){
-                backgroundBottomRadius = backgroundBottomRadius
-                backgroundBottomRadius = backgroundBottomRadius
-                backgroundElevation =  backgroundElevation
+
+            (mainLayoutView as? MaterialCardView)?.let { cardView ->
+                updateCornersBasedOnPosition(cardView)
             }
 
             if (this is FormHeader || this is FormLabelElement) {
