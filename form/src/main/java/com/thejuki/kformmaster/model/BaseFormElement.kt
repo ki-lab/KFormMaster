@@ -340,6 +340,11 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                 }
             }
 
+            if(mainLayoutView is MaterialCardView) {
+                mainLayoutView?.setBackgroundColor(backgroundColor ?: 0)
+                return
+            }
+
             itemView?.let {
                 if (backgroundColor != null) {
                     it.setBackgroundColor(backgroundColor ?: 0)
