@@ -640,8 +640,23 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             field = value
             dividerView?.let {
                 it.visibility = if (displayDivider) View.VISIBLE else View.GONE
+                dividerColor?.let { dividerColor ->
+                    it.setBackgroundColor(dividerColor)
+                }
             }
         }
+    /**
+     * Form Element Divider color
+     */
+    @ColorInt
+    var dividerColor: Int? = null
+        set(value) {
+            field = value
+            value?.let { dividerColor ->
+                dividerView?.setBackgroundColor(dividerColor)
+            }
+        }
+
 
     /**
      * Form Element Display Title besides the value field
@@ -800,6 +815,9 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             field = value
             dividerView?.let {
                 it.visibility = if (displayDivider) View.VISIBLE else View.GONE
+                dividerColor?.let { dividerColor ->
+                    it.setBackgroundColor(dividerColor)
+                }
             }
         }
 
