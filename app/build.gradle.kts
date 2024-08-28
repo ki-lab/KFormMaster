@@ -4,11 +4,13 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    namespace = "com.thejuki.kformmasterexample"
+    compileSdk = 34
+
     defaultConfig {
-        applicationId = "com.thejuki.kformmasterexample"
+        applicationId = namespace
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 34
         multiDexEnabled = true
         versionCode = 1
         versionName = "1.0"

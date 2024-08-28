@@ -2,6 +2,12 @@ import io.deepmedia.tools.publisher.common.GithubScm
 import io.deepmedia.tools.publisher.common.License
 import io.deepmedia.tools.publisher.common.Release
 
+repositories {
+    mavenCentral()
+    google()
+    maven("https://jitpack.io")
+}
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -11,17 +17,27 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    namespace = "com.thejuki.kformmaster"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 34
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes["debug"].isTestCoverageEnabled = true
     buildTypes["release"].isMinifyEnabled = false
+
+    compileOptions {
+        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
 
     buildFeatures {
         viewBinding = true
