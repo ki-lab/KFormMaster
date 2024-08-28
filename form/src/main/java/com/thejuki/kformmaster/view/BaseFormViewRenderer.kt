@@ -51,8 +51,11 @@ abstract class BaseFormViewRenderer {
         formElement.dividerView = dividerView
         formElement.titleView = textViewTitle
         formElement.errorView = textViewError
-        formElement.mainLayoutView = mainViewLayout
         formElement.editView = editView
+
+        // mainLayoutView should be set after editView
+        formElement.mainLayoutView = mainViewLayout
+
         formElement.clearView = clearView
 
         val onTouchListener = View.OnTouchListener { view, event ->

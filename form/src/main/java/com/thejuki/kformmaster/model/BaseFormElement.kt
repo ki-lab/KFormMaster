@@ -15,16 +15,29 @@ import android.widget.RadioGroup
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import androidx.appcompat.widget.*
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatSeekBar
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.SwitchCompat
 import com.github.vivchar.rendererrecyclerviewadapter.ViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.thejuki.kformmaster.R
 import com.thejuki.kformmaster.extensions.dpToPx
 import com.thejuki.kformmaster.extensions.setMargins
 import com.thejuki.kformmaster.helper.FormDsl
 import com.thejuki.kformmaster.helper.InputMaskOptions
-import com.thejuki.kformmaster.widget.*
+import com.thejuki.kformmaster.widget.ClearableEditText
+import com.thejuki.kformmaster.widget.FormElementMargins
+import com.thejuki.kformmaster.widget.FormElementPadding
+import com.thejuki.kformmaster.widget.FormElementShape
+import com.thejuki.kformmaster.widget.IconButton
+import com.thejuki.kformmaster.widget.IconTextView
+import com.thejuki.kformmaster.widget.SegmentedGroup
 import kotlin.properties.Delegates
 
 
@@ -244,34 +257,20 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var padding: FormElementPadding? = null
         set(value) {
             field = value
-
-            if (!(editView is SwitchCompat || editView is AppCompatCheckBox)) {
-                editView?.let {
-                    if (padding != null) {
-                        it.setPadding(padding?.left.dpToPx(),
-                                padding?.top.dpToPx(),
-                                padding?.right.dpToPx(),
-                                padding?.bottom.dpToPx())
-                    }
+            if (padding != null) {
+                if (!(editView is SwitchCompat || editView is AppCompatCheckBox)) {
+                    editView?.setPadding(
+                        padding?.left.dpToPx(), padding?.top.dpToPx(), padding?.right.dpToPx(), padding?.bottom.dpToPx()
+                    )
+                } else {
+                    mainLayoutView?.setPadding(
+                        padding?.left.dpToPx(), padding?.top.dpToPx(), padding?.right.dpToPx(), padding?.bottom.dpToPx()
+                    )
                 }
-            } else {
-                mainLayoutView?.let {
-                    if (padding != null) {
-                        it.setPadding(padding?.left.dpToPx(),
-                                padding?.top.dpToPx(),
-                                padding?.right.dpToPx(),
-                                padding?.bottom.dpToPx())
-                    }
-                }
-            }
-            if (this is FormHeader) {
-                titleView?.let {
-                    if (padding != null) {
-                        it.setPadding(padding?.left.dpToPx(),
-                                padding?.top.dpToPx(),
-                                padding?.right.dpToPx(),
-                                padding?.bottom.dpToPx())
-                    }
+                if (this is FormHeader) {
+                    titleView?.setPadding(
+                        padding?.left.dpToPx(), padding?.top.dpToPx(), padding?.right.dpToPx(), padding?.bottom.dpToPx()
+                    )
                 }
             }
         }
@@ -283,46 +282,21 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var margins: FormElementMargins? = null
         set(value) {
             field = value
-            editView?.let {
-                if (it is SegmentedGroup) {
-                    if (margins != null) {
-                        it.setMargins(margins?.left.dpToPx(),
-                                margins?.top.dpToPx(),
-                                margins?.right.dpToPx(),
-                                margins?.bottom.dpToPx())
-                    }
+            if (margins != null) {
+                editView.takeIf { it is SegmentedGroup }?.let {
+                    it.setMargins(
+                        margins?.left.dpToPx(), margins?.top.dpToPx(), margins?.right.dpToPx(), margins?.bottom.dpToPx()
+                    )
                 }
-            }
-            if (editView == null || !(editView is SwitchCompat || editView is AppCompatCheckBox)) {
-                mainLayoutView?.let {
-                    if (margins != null) {
-                        it.setMargins(margins?.left.dpToPx(),
-                                margins?.top.dpToPx(),
-                                margins?.right.dpToPx(),
-                                margins?.bottom.dpToPx())
-                    }
-                }
-            }
-            // Switch and CheckBox are special. To keep the ripple the correct height,
-            // set the padding instead of the margins.
-            else if (editView is SwitchCompat || editView is AppCompatCheckBox) {
-                mainLayoutView?.let {
-                    if (margins != null) {
-                        it.setPadding(margins?.left.dpToPx(),
-                                margins?.top.dpToPx(),
-                                margins?.right.dpToPx(),
-                                margins?.bottom.dpToPx())
-                    }
-                }
-            }
-            if (this is FormHeader) {
-                titleView?.let {
-                    if (margins != null) {
-                        it.setMargins(margins?.left.dpToPx(),
-                                margins?.top.dpToPx(),
-                                margins?.right.dpToPx(),
-                                margins?.bottom.dpToPx())
-                    }
+
+                mainLayoutView?.setMargins(
+                    margins?.left.dpToPx(), margins?.top.dpToPx(), margins?.right.dpToPx(), margins?.bottom.dpToPx()
+                )
+
+                if (this is FormHeader) {
+                    titleView?.setMargins(
+                        margins?.left.dpToPx(), margins?.top.dpToPx(), margins?.right.dpToPx(), margins?.bottom.dpToPx()
+                    )
                 }
             }
         }
@@ -339,7 +313,6 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                     mainLayoutView?.setBackgroundColor(backgroundColor ?: 0)
                 }
             }
-
 
             itemView?.let {
                 if (backgroundColor != null) {
@@ -416,33 +389,24 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             }
         }
 
-    var backgroundTopRadius: Float = 0F
+    var backgroundShape: FormElementShape? = null
         set(value) {
-            (mainLayoutView as? MaterialCardView)?.let { cardView ->
-                updateCornersBasedOnPosition(cardView)
-            }
             field = value
+            (mainLayoutView as? MaterialCardView)?.let { cardView ->
+                updateBackgroundShape(backgroundShape, cardView)
+            }
         }
 
-    var backgroundBottomRadius: Float = 0F
-        set(value) {
-            (mainLayoutView as? MaterialCardView)?.let { cardView ->
-                updateCornersBasedOnPosition(cardView)
-            }
-            field = value
+    private fun updateBackgroundShape(backgroundShape: FormElementShape?, cardView: MaterialCardView) {
+        val shapeBuilder = ShapeAppearanceModel().toBuilder()
+        backgroundShape?.let {
+            shapeBuilder.setTopLeftCorner(CornerFamily.ROUNDED, it.topLeft.dpToPx())
+            shapeBuilder.setTopRightCorner(CornerFamily.ROUNDED, it.topRight.dpToPx())
+            shapeBuilder.setBottomLeftCorner(CornerFamily.ROUNDED, it.bottomLeft.dpToPx())
+            shapeBuilder.setBottomRightCorner(CornerFamily.ROUNDED, it.bottomRight.dpToPx())
+        } ?: run {
+            shapeBuilder.setAllCorners(CornerFamily.ROUNDED, 0f.dpToPx())
         }
-
-    private fun updateCornersBasedOnPosition(cardView: MaterialCardView) {
-        val shapeBuilder = cardView.shapeAppearanceModel.toBuilder()
-
-        shapeBuilder.setTopLeftCorner(CornerFamily.ROUNDED, backgroundTopRadius)
-        shapeBuilder.setTopRightCorner(CornerFamily.ROUNDED, backgroundTopRadius)
-
-        shapeBuilder.setBottomLeftCorner(CornerFamily.ROUNDED, backgroundBottomRadius)
-        shapeBuilder.setBottomRightCorner(CornerFamily.ROUNDED, backgroundBottomRadius)
-
-        cardView.elevation = backgroundElevation
-
         cardView.shapeAppearanceModel = shapeBuilder.build()
     }
 
@@ -720,6 +684,10 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
                     }
                 }
 
+                (it as? MaterialCardView)?.let { cardView ->
+                    updateBackgroundShape(backgroundShape, cardView)
+                }
+
                 if (layoutPaddingBottom != null) {
                     it.setPadding(0, 0, 0, layoutPaddingBottom.dpToPx())
                 }
@@ -901,43 +869,17 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
     var mainLayoutView: View? = null
         set(value) {
             field = value
-            if (editView == null || !(editView is SwitchCompat || editView is AppCompatCheckBox)) {
-                mainLayoutView?.let {
-                    it.isEnabled = enabled
-                    if (margins != null) {
-                        it.setMargins(margins?.left.dpToPx(),
-                                margins?.top.dpToPx(),
-                                margins?.right.dpToPx(),
-                                margins?.bottom.dpToPx())
-                    }
-                    if(it is LinearLayout){
-                        it.orientation = layoutOrientation
-                    }
+            mainLayoutView?.let {
+                it.isEnabled = enabled
+                if (margins != null) {
+                    it.setMargins(margins?.left.dpToPx(),
+                        margins?.top.dpToPx(),
+                        margins?.right.dpToPx(),
+                        margins?.bottom.dpToPx())
                 }
-            }
-            // Switch and CheckBox are special. To keep the ripple the correct height,
-            // set the padding instead of the margins.
-            else if (editView is SwitchCompat || editView is AppCompatCheckBox) {
-                mainLayoutView?.let {
-                    it.isEnabled = enabled
-                    if (margins != null) {
-                        it.setPadding(margins?.left.dpToPx(),
-                                margins?.top.dpToPx(),
-                                margins?.right.dpToPx(),
-                                margins?.bottom.dpToPx())
-                    }
-
-                    if (padding != null) {
-                        it.setPadding(padding?.left.dpToPx(),
-                                padding?.top.dpToPx(),
-                                padding?.right.dpToPx(),
-                                padding?.bottom.dpToPx())
-                    }
+                if (it is LinearLayout) {
+                    it.orientation = layoutOrientation
                 }
-            }
-
-            (mainLayoutView as? MaterialCardView)?.let { cardView ->
-                updateCornersBasedOnPosition(cardView)
             }
 
             if (this is FormHeader || this is FormLabelElement) {

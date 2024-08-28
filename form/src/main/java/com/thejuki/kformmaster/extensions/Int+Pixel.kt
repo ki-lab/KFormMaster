@@ -19,3 +19,8 @@ fun Int?.dpToPx(): Int {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
             this?.toFloat() ?: 0f, Resources.getSystem().displayMetrics).toInt()
 }
+
+fun Float?.dpToPx(): Float {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+        this ?: 0f, Resources.getSystem().displayMetrics)
+}

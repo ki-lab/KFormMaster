@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/formElementMainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="0dp"
-    android:id="@+id/formElementMainLayout">
+    android:elevation="0dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp">
+
         <View
             android:id="@+id/formElementDivider"
             android:layout_width="match_parent"
@@ -20,15 +22,15 @@
             android:background="@color/colorFormMasterDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.thejuki.kformmaster.widget.IconTextView
             android:id="@+id/formElementTitle"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
             android:gravity="start|center_vertical"
             android:maxLines="3"
             android:paddingTop="4dp"
@@ -37,9 +39,9 @@
             android:textColor="@color/colorFormMasterElementTextTitle"
             android:textSize="@dimen/elementTextTitleSize"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
             tools:text="Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qu'il est prêt ou que la mise en page est achevée." />
 
@@ -68,21 +70,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
             android:gravity="top|start"
             android:imeOptions="actionNext"
             android:padding="3sp"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toBottomOf="@+id/formElementTip"/>
+            app:layout_constraintTop_toBottomOf="@+id/formElementTip" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/formElementError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
             android:gravity="start|center_vertical"
             android:textColor="@color/colorFormMasterElementErrorTitle"
             android:textSize="@dimen/elementErrorTitleSize"

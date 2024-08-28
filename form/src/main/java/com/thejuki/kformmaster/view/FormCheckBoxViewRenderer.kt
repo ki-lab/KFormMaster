@@ -29,12 +29,9 @@ class FormCheckBoxViewRenderer(private val formBuilder: FormBuildHelper, @Layout
         val itemView = finder.getRootView() as View
         val checkBox = finder.find(R.id.formElementValue) as AppCompatCheckBox
         val tip = finder.find(R.id.formElementTip) as? AppCompatTextView
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView = checkBox)
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, checkBox)
 
         checkBox.isChecked = model.isChecked()
-
-        // Delay setting to make sure editView is set first
-        model.mainLayoutView = mainViewLayout
 
         setCheckBoxFocusEnabled(model, itemView, checkBox)
 

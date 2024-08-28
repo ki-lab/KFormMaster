@@ -1,125 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/formElementMainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="0dp"
-    android:id="@+id/formElementMainLayout">
+    android:elevation="0dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/linearLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="16dp">
-
-    <View
-        android:id="@+id/formElementDivider"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/colorFormMasterDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <com.thejuki.kformmaster.widget.IconTextView
-        android:id="@+id/formElementTitle"
-        android:layout_width="0sp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="start|center_vertical"
-        android:maxLines="3"
-        android:padding="3sp"
-        android:singleLine="false"
-        android:textColor="@color/colorFormMasterElementTextTitle"
-        android:textSize="@dimen/elementTextTitleSize"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
-        tools:text="Personal Info" />
+        android:paddingBottom="16dp">
 
-    <com.thejuki.kformmaster.widget.IconTextView
-        android:id="@+id/formElementTip"
-        android:layout_width="0sp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:drawableStart="@drawable/ic_info_outline_grey_mini_18dp"
-        android:drawablePadding="4dp"
-        android:gravity="start|center_vertical"
-        android:maxEms="45"
-        android:maxLines="4"
-        android:singleLine="false"
-        android:textColor="@color/colorFormMasterElementTextView"
-        android:textSize="@dimen/elementTextTipSize"
-        android:textStyle="italic"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="@+id/formElementTitle"
-        app:layout_constraintTop_toBottomOf="@+id/formElementTitle"
-        tools:text="Ceci est un tip"
-        tools:visibility="visible" />
+        <View
+            android:id="@+id/formElementDivider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/colorFormMasterDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TableLayout
-        android:id="@+id/formElementValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@null"
-        android:gravity="start"
-        android:imeOptions="actionNext"
-        android:inputType="textNoSuggestions"
-        android:padding="2dp"
-        android:textColor="@drawable/edit_text_selector"
-        android:textColorHint="@color/colorFormMasterElementHint"
-        android:textSize="@dimen/elementTextValueSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formElementTip" />
+        <com.thejuki.kformmaster.widget.IconTextView
+            android:id="@+id/formElementTitle"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="start|center_vertical"
+            android:maxLines="3"
+            android:padding="3sp"
+            android:singleLine="false"
+            android:textColor="@color/colorFormMasterElementTextTitle"
+            android:textSize="@dimen/elementTextTitleSize"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/formElementDivider"
+            tools:text="Personal Info" />
 
-    <ImageView
-        android:id="@+id/formElementDropIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_kb_arrow_right_black_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/formElementValue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/formElementTitle" />
+        <com.thejuki.kformmaster.widget.IconTextView
+            android:id="@+id/formElementTip"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:drawableStart="@drawable/ic_info_outline_grey_mini_18dp"
+            android:drawablePadding="4dp"
+            android:gravity="start|center_vertical"
+            android:maxEms="45"
+            android:maxLines="4"
+            android:singleLine="false"
+            android:textColor="@color/colorFormMasterElementTextView"
+            android:textSize="@dimen/elementTextTipSize"
+            android:textStyle="italic"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="@+id/formElementTitle"
+            app:layout_constraintTop_toBottomOf="@+id/formElementTitle"
+            tools:text="Ceci est un tip"
+            tools:visibility="visible" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/formElementError"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="2dp"
-        android:gravity="start|center_vertical"
-        android:textColor="@color/colorFormMasterElementErrorTitle"
-        android:textSize="@dimen/elementErrorTitleSize"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formElementValue"
-        tools:text="Personal Info"
-        tools:visibility="visible" />
+        <TableLayout
+            android:id="@+id/formElementValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@null"
+            android:gravity="start"
+            android:imeOptions="actionNext"
+            android:inputType="textNoSuggestions"
+            android:padding="2dp"
+            android:textColor="@drawable/edit_text_selector"
+            android:textColorHint="@color/colorFormMasterElementHint"
+            android:textSize="@dimen/elementTextValueSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/formElementTip" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="332dp" />
+        <ImageView
+            android:id="@+id/formElementDropIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_kb_arrow_right_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/formElementValue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/formElementTitle" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/formElementError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="2dp"
+            android:gravity="start|center_vertical"
+            android:textColor="@color/colorFormMasterElementErrorTitle"
+            android:textSize="@dimen/elementErrorTitleSize"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/formElementValue"
+            tools:text="Personal Info"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="332dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

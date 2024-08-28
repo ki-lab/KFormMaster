@@ -16,10 +16,10 @@
         android:paddingEnd="8dp"
         android:paddingRight="16dp"
         android:paddingBottom="10dp"
-        android:textStyle="bold"
         android:text="•"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@android:color/holo_orange_dark"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,10 +33,10 @@
         android:paddingEnd="?android:attr/expandableListPreferredItemPaddingLeft"
         android:paddingRight="?android:attr/expandableListPreferredItemPaddingLeft"
         android:paddingBottom="10dp"
-        android:textStyle="bold"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@android:color/holo_orange_dark"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/removeButton"
         app:layout_constraintStart_toEndOf="@id/listItemPuce"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,15 +45,15 @@
         android:id="@+id/removeButton"
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:paddingLeft="16dp"
         android:paddingStart="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
         android:paddingEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/listItem"
+        android:paddingRight="16dp"
+        android:src="@drawable/ic_close_black_24dp"
         android:tint="@android:color/darker_gray"
-        android:src="@drawable/ic_close_black_24dp" />
+        app:layout_constraintBottom_toBottomOf="@id/listItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

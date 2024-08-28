@@ -1,7 +1,5 @@
 package com.thejuki.kformmaster.model
 
-import android.graphics.Typeface
-
 /**
  * Form Number EditText Element
  *
@@ -18,21 +16,20 @@ class FormNumberEditTextElement(tag: Int = -1) : BaseFormElement<Number>(tag) {
      */
     var numbersOnly: Boolean = false
 
-    override fun setValue(rawValue: Any?): BaseFormElement<Number> {
-        var value = rawValue
-        if (value != null) {
-            if (value is String) {
-                if (value.contains(",")) {
-                    value = value.replace(",", ".")
+    override fun setValue(value: Any?): BaseFormElement<Number> {
+        var newValue = value
+        var isFloatingPointNumber = false
+        if (newValue != null) {
+            if (newValue is String) {
+                if (newValue.isBlank()) {
+                    newValue = null
+                } else if (newValue.contains(",")) {
+                    isFloatingPointNumber = true
+                    newValue = newValue.replace(",", ".")
                 }
             }
         }
 
-        return super.setValue(when{
-            (value as? String)?.isBlank() == true -> null
-            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.replace(",", ".")?.contains('.')==true -> (value as? String)?.toDoubleOrNull()?:""
-            value is String && (value as? String)?.isNotBlank() == true && (value as? String)?.replace(",", ".")?.contains('.')==false -> (value as? String)?.toIntOrNull()?:""
-            else -> value
-        })
+        return super.setValue(if (isFloatingPointNumber) (newValue as? String)?.toDoubleOrNull() else  (newValue as? String)?.toIntOrNull())
     }
 }

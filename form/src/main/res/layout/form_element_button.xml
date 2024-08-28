@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <View
         android:id="@+id/formElementDivider"
         android:layout_width="match_parent"
@@ -20,15 +21,15 @@
 
         <com.thejuki.kformmaster.widget.IconButton
             android:id="@+id/formElementValue"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:gravity="center_vertical"
             android:textColor="@drawable/button_selector"
-            android:background="?android:attr/selectableItemBackground"
             android:textSize="@dimen/elementTextValueSize"
-            tools:text="Edit Description"
-            android:layout_width="match_parent" />
+            tools:text="Edit Description" />
 
     </LinearLayout>
 

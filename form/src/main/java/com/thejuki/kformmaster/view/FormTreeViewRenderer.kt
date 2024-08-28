@@ -1,7 +1,6 @@
 package com.thejuki.kformmaster.view
 
 import android.content.Context
-import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,15 +39,12 @@ class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes 
         val button = finder.find(R.id.formElementAdd) as? AppCompatButton
         val itemView = finder.getRootView() as View
 
-        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, editView = recyclerView)
+        baseSetup(model, dividerView, textViewTitle, textViewError, itemView, mainViewLayout, recyclerView)
 
-        if(model.tip.isNotEmpty()) {
+        if (model.tip.isNotEmpty()) {
             tip?.text = model.tip
             tip?.visibility = View.VISIBLE
         }
-
-        // Delay setting to make sure editView is set first
-        model.mainLayoutView = mainViewLayout
 
         button?.setOnClickListener {
             openDialog(recyclerView, itemView.context)
@@ -65,12 +61,12 @@ class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes 
         val expandableListView = ExpandableListView(context)
 
         val expandableListAdapter = TreeAdapter(model.items)
-        builder.setPositiveButton("OK") { dialog: DialogInterface, _ : Int ->
+        builder.setPositiveButton("OK") { dialog, _ ->
             recyclerView?.adapter?.notifyDataSetChanged()
             model.callback()
             dialog.dismiss()
         }
-        builder.setNegativeButton("ANNULER") { dialog: DialogInterface, id: Int -> dialog.dismiss() }
+        builder.setNegativeButton("ANNULER") { dialog, _ -> dialog.dismiss() }
         expandableListView.setAdapter(expandableListAdapter)
         builder.setView(expandableListView)
         val dialog = builder.create()
@@ -118,15 +114,10 @@ class FormTreeViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes 
         override fun hasStableIds() = false // true
         override fun getGroup(groupPosition: Int) = input.getOrNull(groupPosition)
         override fun getChild(groupPosition: Int, childPosition: Int) = input.getOrNull(groupPosition)?.children?.getOrNull(childPosition)
-        override fun getGroupId(groupPosition: Int) = 0L // input.getOrNull(groupPosition)?.id?.toLong()
-                ?: 0L
-
-        override fun getChildId(groupPosition: Int, childPosition: Int) = 0L //input.getOrNull(groupPosition)?.children?.getOrNull(childPosition)?.id?.toLong()
-                ?: 0L
-
+        override fun getGroupId(groupPosition: Int) = 0L
+        override fun getChildId(groupPosition: Int, childPosition: Int) = 0L
         override fun getGroupCount() = input.size
-        override fun getChildrenCount(groupPosition: Int) = input.getOrNull(groupPosition)?.children?.size
-                ?: 0
+        override fun getChildrenCount(groupPosition: Int) = input.getOrNull(groupPosition)?.children?.size ?: 0
 
     }
 

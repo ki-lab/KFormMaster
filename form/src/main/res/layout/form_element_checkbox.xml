@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/formElementMainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="0dp"
-    android:id="@+id/formElementMainLayout">
+    android:elevation="0dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp">
+
         <View
             android:id="@+id/formElementDivider"
             android:layout_width="match_parent"
@@ -20,14 +22,14 @@
             android:background="@color/colorFormMasterDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.thejuki.kformmaster.widget.IconTextView
             android:id="@+id/formElementTitle"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:gravity="start|center_vertical"
             android:maxLines="3"
@@ -66,10 +68,9 @@
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/formElementValue"
-            android:layout_width="wrap_content"
+            android:layout_width="105dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@null"
             android:gravity="center"
@@ -77,18 +78,18 @@
             android:textColor="@drawable/edit_text_selector"
             android:textColorHint="@color/colorFormMasterElementHint"
             android:textSize="@dimen/elementTextValueSize"
-            app:layout_constraintBottom_toBottomOf="@+id/formElementTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/formElementTip"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/formElementTitle"
+            app:layout_constraintTop_toTopOf="@+id/formElementTitle"
             tools:text="Riddhiman Adib" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/formElementError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:gravity="start"
             android:textColor="@color/colorFormMasterElementErrorTitle"
@@ -106,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.50923485" />
+            app:layout_constraintEnd_toStartOf="@+id/formElementValue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

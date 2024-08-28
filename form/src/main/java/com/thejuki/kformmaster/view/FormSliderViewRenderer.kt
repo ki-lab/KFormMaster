@@ -69,7 +69,7 @@ class FormSliderViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRe
 
         slider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                updateSeekValue(model, slider, progress, progressValue, clearSlider)
+                updateSeekValue(model, progress, progressValue, clearSlider)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -83,11 +83,7 @@ class FormSliderViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRe
         }
     }
 
-    private fun updateSeekValue(model: FormSliderElement,
-                                slider: AppCompatSeekBar,
-                                sliderValue: Int,
-                                progressValue: AppCompatTextView,
-                                clearSlider: AppCompatImageView?) {
+    private fun updateSeekValue(model: FormSliderElement, sliderValue: Int, progressValue: AppCompatTextView, clearSlider: AppCompatImageView?) {
         if(model.value != null || sliderValue != 0) {
             var roundedValue = 0
             val minimumValue = 0
