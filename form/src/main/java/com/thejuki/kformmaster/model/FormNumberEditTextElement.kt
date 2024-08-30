@@ -18,18 +18,16 @@ class FormNumberEditTextElement(tag: Int = -1) : BaseFormElement<Number>(tag) {
 
     override fun setValue(value: Any?): BaseFormElement<Number> {
         var newValue = value
-        var isFloatingPointNumber = false
-        if (newValue != null) {
-            if (newValue is String) {
-                if (newValue.isBlank()) {
-                    newValue = null
-                } else if (newValue.contains(",")) {
-                    isFloatingPointNumber = true
-                    newValue = newValue.replace(",", ".")
-                }
+        if (newValue != null && newValue is String) {
+            newValue = if (newValue.isBlank()) {
+                null
+            } else if (newValue.contains(",") || newValue.contains(".")) {
+                newValue.replace(",", ".").toDoubleOrNull()
+            } else {
+                newValue.toIntOrNull()
             }
         }
 
-        return super.setValue(if (isFloatingPointNumber) (newValue as? String)?.toDoubleOrNull() else  (newValue as? String)?.toIntOrNull())
+        return super.setValue(newValue)
     }
 }
