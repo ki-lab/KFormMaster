@@ -131,13 +131,13 @@ dependencies {
 
     // Test dependencies
     testImplementation("io.mockk:mockk:1.12.3")
-    testImplementation("io.kotest:kotest-runner-junit5:5.2.3")
-    testImplementation("io.kotest:kotest-property:5.2.3")
-    androidTestImplementation("androidx.test:core:1.4.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test:rules:1.4.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0")
+    testImplementation("io.kotest:kotest-runner-junit5:5.3.2")
+    testImplementation("io.kotest:kotest-property:5.3.2")
+    androidTestImplementation("androidx.test:core:1.6.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test:rules:1.6.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.6.1")
 
     // RichEditor
     implementation("jp.wasabeef:richeditor-android:2.0.0")
