@@ -1,16 +1,15 @@
 package com.thejuki.kformmaster.model
 
-import android.util.TypedValue
-import android.view.Gravity
 import android.view.View
-import android.widget.TableLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.content.ContextCompat
 import com.thejuki.kformmaster.R
+import com.thejuki.kformmaster.extensions.dpToPx
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
-import kotlin.properties.Delegates
+
 
 /**
  * Form Picker MultiCheckBox Element
@@ -58,6 +57,12 @@ class FormPickerMultiCheckBoxElement<LI : Any?, T : List<LI>>(tag: Int = -1) : F
      * (optional - uses R.string.form_master_empty)
      */
     var dialogEmptyMessage: String? = null
+
+    /**
+     * Alert Dialog Divider
+     * If set to true, this will add a divider between each items of the alert dialog list
+     */
+    var displayDialogDivider: Boolean = true
 
     /**
      * Hold the [OnFormElementValueChangedListener] from [FormBuildHelper]
@@ -168,6 +173,11 @@ class FormPickerMultiCheckBoxElement<LI : Any?, T : List<LI>>(tag: Int = -1) : F
             }
 
             alertDialog = builder.create()
+
+            if (displayDialogDivider) {
+                alertDialog.listView.divider = ContextCompat.getDrawable(builder.context, R.drawable.list_item_divider)
+                alertDialog.listView.dividerHeight = 1.dpToPx()
+            }
         }
 
         // display the dialog on click

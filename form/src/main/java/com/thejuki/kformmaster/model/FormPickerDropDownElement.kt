@@ -5,7 +5,9 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.content.ContextCompat
 import com.thejuki.kformmaster.R
+import com.thejuki.kformmaster.extensions.dpToPx
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.listener.OnFormElementValueChangedListener
 
@@ -89,6 +91,12 @@ class FormPickerDropDownElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
      * If set, this will set the custom title for the alert dialog
      */
     var dialogTitleCustomView: View? = null
+
+    /**
+     * Alert Dialog Divider
+     * If set to true, this will add a divider between each items of the alert dialog list
+     */
+    var displayDialogDivider: Boolean = true
 
     /**
      * Re-initializes the dialog
@@ -188,6 +196,11 @@ class FormPickerDropDownElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
 
             if (dialogTitleCustomView != null) {
                 alertDialog.setCustomTitle(dialogTitleCustomView)
+            }
+
+            if (displayDialogDivider) {
+                alertDialog.listView.divider = ContextCompat.getDrawable(it.context, R.drawable.list_item_divider)
+                alertDialog.listView.dividerHeight = 1.dpToPx()
             }
         }
 
