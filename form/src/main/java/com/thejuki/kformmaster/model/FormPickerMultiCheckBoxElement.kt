@@ -82,29 +82,34 @@ class FormPickerMultiCheckBoxElement<LI : Any?, T : List<LI>>(tag: Int = -1) : F
         it?.toString() ?: ""
     }
 
+    var isOptionSelected: ((LI) -> Boolean) = {
+        value?.contains(it) ?: false
+    }
+
     /**
      * Re-initializes the dialog
      * Should be called after the options list changes
      */
-    fun reInitDialog(formBuilder: FormBuildHelper? = null) {
-        // reformat the options in format needed
-        val options = arrayOfNulls<CharSequence>(this.options?.size ?: 0)
-        val optionsSelected = BooleanArray(this.options?.size ?: 0)
-        val mSelectedItems = ArrayList<Int>()
+    fun reInitDialog(formBuilder: FormBuildHelper? = null) { // reformat the options in format needed
+        val items = arrayOfNulls<CharSequence>(this.options?.size ?: 0)
+        val checkedItems = BooleanArray(this.options?.size ?: 0)
+        val selectedItems = ArrayList<Int>()
 
         lateinit var alertDialog: AlertDialog
 
-        this.options?.let {
-            for (i in it.indices) {
-                val obj = it[i]
+        this.options?.let { options ->
+            options.forEachIndexed { index, option ->
+                items[index] = this.displayValueFor(option)
+                checkedItems[index] = false
 
-                options[i] = this.displayValueFor(it[i])
-                optionsSelected[i] = false
-
-                if (this.value?.contains(obj) == true) {
-                    optionsSelected[i] = true
-                    mSelectedItems.add(i)
+                if (isOptionSelected(option)) {
+                    checkedItems[index] = true
+                    selectedItems.add(index)
                 }
+            }
+
+            selectedItems.takeIf { it.isNotEmpty() }?.let { items ->
+                setValue(items.map { options[it] })
             }
         }
 
@@ -112,60 +117,45 @@ class FormPickerMultiCheckBoxElement<LI : Any?, T : List<LI>>(tag: Int = -1) : F
             listener = formBuilder.listener
         }
 
-        var selectedItems = ""
-        for (i in mSelectedItems.indices) {
-            selectedItems += options[mSelectedItems[i]]
-
-            if (i < mSelectedItems.size - 1) {
-                selectedItems += ", "
-            }
-        }
-
         val editTextView = this.editView as? AppCompatEditText
-
         if (alertDialogBuilder == null && editTextView?.context != null) {
             alertDialogBuilder = AlertDialog.Builder(editTextView.context, theme)
-            if (this.dialogTitle == null) {
-                this.dialogTitle = editTextView.context.getString(R.string.form_master_pick_one_or_more)
+            if (dialogTitle == null) {
+                dialogTitle = editTextView.context.getString(R.string.form_master_pick_one_or_more)
             }
-            if (this.dialogEmptyMessage == null) {
-                this.dialogEmptyMessage = editTextView.context.getString(R.string.form_master_empty)
+            if (dialogEmptyMessage == null) {
+                dialogEmptyMessage = editTextView.context.getString(R.string.form_master_empty)
             }
-            if (this.confirmTitle == null) {
-                this.confirmTitle = editTextView.context.getString(R.string.form_master_confirm_title)
+            if (confirmTitle == null) {
+                confirmTitle = editTextView.context.getString(R.string.form_master_confirm_title)
             }
-            if (this.confirmMessage == null) {
-                this.confirmMessage = editTextView.context.getString(R.string.form_master_confirm_message)
+            if (confirmMessage == null) {
+                confirmMessage = editTextView.context.getString(R.string.form_master_confirm_message)
             }
         }
 
         alertDialogBuilder?.let { builder ->
-            if (this.options?.isEmpty() == true) {
-                builder.setTitle(this.dialogTitle)
+            if (options?.isEmpty() == true) {
+                builder
+                    .setTitle(dialogTitle)
                     .setMessage(dialogEmptyMessage)
                     .setPositiveButton(null, null)
                     .setNegativeButton(null, null)
             } else {
-                builder.setTitle(this.dialogTitle)
+                builder
+                    .setTitle(dialogTitle)
                     .setMessage(null)
-                    .setMultiChoiceItems(options, optionsSelected) { _, which, isChecked ->
-                        if (isChecked) {
-                            // If the user checked the item, add it to the selected items
-                            mSelectedItems.add(which)
-                        } else if (mSelectedItems.contains(which)) {
-                            // Else, if the item is already in the array, remove it
-                            mSelectedItems.remove(which)
+                    .setMultiChoiceItems(items, checkedItems) { _, which, isChecked ->
+                        if (isChecked) { // If the user checked the item, add it to the selected items
+                            selectedItems.add(which)
+                        } else if (selectedItems.contains(which)) { // Else, if the item is already in the array, remove it
+                            selectedItems.remove(which)
                         }
-                    }
-                    // Set the action buttons
+                    } // Set the action buttons
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        this.options?.let { option ->
-                            val selectedOptions = mSelectedItems.indices
-                                .map { mSelectedItems[it] }
-                                .map { x -> option[x] }
-
-                            this.error = null
-                            this.setValue(selectedOptions)
+                        options?.let { options ->
+                            error = null
+                            setValue(selectedItems.map { options[it] })
                             listener?.onValueChanged(this)
                         }
                     }
@@ -181,9 +171,8 @@ class FormPickerMultiCheckBoxElement<LI : Any?, T : List<LI>>(tag: Int = -1) : F
         }
 
         // display the dialog on click
-        val listener = View.OnClickListener {
-            // Invoke onClick Unit
-            this.onClick?.invoke()
+        val listener = View.OnClickListener { // Invoke onClick Unit
+            onClick?.invoke()
 
             if (!confirmEdit || value == null || value?.isEmpty() == true) {
                 alertDialog.show()
@@ -193,7 +182,8 @@ class FormPickerMultiCheckBoxElement<LI : Any?, T : List<LI>>(tag: Int = -1) : F
                     ?.setMessage(confirmMessage)
                     ?.setPositiveButton(android.R.string.ok) { _, _ ->
                         alertDialog.show()
-                    }?.setNegativeButton(android.R.string.cancel) { _, _ -> }?.show()
+                    }
+                    ?.setNegativeButton(android.R.string.cancel) { _, _ -> }?.show()
             }
         }
 
@@ -201,9 +191,9 @@ class FormPickerMultiCheckBoxElement<LI : Any?, T : List<LI>>(tag: Int = -1) : F
         editTextView?.setOnClickListener(listener)
     }
 
-    private fun getSelectedItemsText(): String =
-        this.options?.filter { this.value?.contains(it) ?: false }
-            ?.joinToString(", ") { it.toString() } ?: ""
+    private fun getSelectedItemsText(): String {
+        return value?.joinToString(", ") { it.toString() } ?: ""
+    }
 
     var valueAsStringOverride: ((T?) -> String?)? = null
 
