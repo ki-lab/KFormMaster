@@ -204,6 +204,7 @@ class FormPickerMultiCheckBoxElement<LI : Any?, T : List<LI>>(tag: Int = -1) : F
         editView?.let {
             if (it is TextView) {
                 it.text = valueAsString
+                it.visibility = if (it.text.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
         }
     }

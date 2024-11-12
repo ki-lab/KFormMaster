@@ -35,7 +35,7 @@ class FormPickerMultiCheckBoxViewRenderer(private val formBuilder: FormBuildHelp
         editTextValue.hint = model.hint ?: ""
         editTextValue.alwaysShowClear = true
 
-        if(model.tip.isNotEmpty()) {
+        if (model.tip.isNotEmpty()) {
             tip?.text = model.tip
             tip?.visibility = View.VISIBLE
         }
@@ -45,6 +45,7 @@ class FormPickerMultiCheckBoxViewRenderer(private val formBuilder: FormBuildHelp
 
         model.reInitDialog(formBuilder)
         setClearableListener(model)
-        editTextValue.setText(model.valueAsString)
+
+        model.displayNewValue()
     }
 }
