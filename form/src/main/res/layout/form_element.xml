@@ -26,6 +26,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="6dp"
             android:layout_marginRight="16dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <com.thejuki.kformmaster.widget.IconTextView
@@ -33,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:textColor="@color/colorFormMasterElementTextTitle"
                 android:textSize="@dimen/elementTextTitleSize"
                 android:textStyle="bold"
@@ -44,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:background="@null"
                 android:gravity="end"
                 android:imeOptions="actionNext"
