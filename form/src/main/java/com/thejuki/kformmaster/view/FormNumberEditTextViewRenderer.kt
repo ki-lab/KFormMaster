@@ -26,7 +26,7 @@ import com.thejuki.kformmaster.model.FormNumberEditTextElement
  */
 class FormNumberEditTextViewRenderer(private val formBuilder: FormBuildHelper, @LayoutRes private val layoutID: Int?) : BaseFormViewRenderer() {
     val viewRenderer = ViewRenderer(layoutID
-            ?: R.layout.form_element, FormNumberEditTextElement::class.java) { model, finder: FormViewFinder, _ ->
+            ?: R.layout.form_element_number, FormNumberEditTextElement::class.java) { model, finder: FormViewFinder, _ ->
         val textViewTitle = finder.find(R.id.formElementTitle) as? AppCompatTextView
         val mainViewLayout = finder.find(R.id.formElementMainLayout) as? MaterialCardView
         val textViewError = finder.find(R.id.formElementError) as? AppCompatTextView
