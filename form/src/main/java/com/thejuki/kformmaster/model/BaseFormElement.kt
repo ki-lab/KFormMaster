@@ -155,6 +155,16 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
         }
 
     /**
+     * Form Element Title Max Lines
+     */
+    var titleMaxLines: Int? = null
+        set(value) {
+            field = value
+            field?.let {
+                titleView?.maxLines = it
+            }
+        }
+    /**
      * Form Element Max Lines
      */
     var maxLines: Int = 1
@@ -798,6 +808,9 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             titleView?.let {
                 it.isEnabled = enabled
                 it.text = title
+                titleMaxLines?.let { maxLines ->
+                    it.maxLines = maxLines
+                }
                 if (titleTextColor != null) {
                     it.setTextColor(titleTextColor ?: 0)
                 }
