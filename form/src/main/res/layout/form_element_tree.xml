@@ -40,7 +40,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="start|center_vertical"
-                android:maxLines="3"
                 android:padding="3sp"
                 android:singleLine="false"
                 android:textColor="@color/colorFormMasterElementTextTitle"

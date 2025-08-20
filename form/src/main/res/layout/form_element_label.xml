@@ -34,7 +34,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="1dp"
             android:gravity="start|center_vertical"
-            android:maxLines="3"
             android:padding="3sp"
             android:singleLine="false"
             android:textColor="@color/colorFormMasterElementTextTitle"
