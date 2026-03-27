@@ -199,8 +199,11 @@ class FormPickerDropDownElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
             }
 
             if (displayDialogDivider) {
-                alertDialog.listView.divider = ContextCompat.getDrawable(it.context, R.drawable.list_item_divider)
-                alertDialog.listView.dividerHeight = 1.dpToPx()
+                val listView = alertDialog.listView
+                if (listView != null) {
+                    listView.divider = ContextCompat.getDrawable(it.context, R.drawable.list_item_divider)
+                    listView.dividerHeight = 1.dpToPx()
+                }
             }
         }
 
@@ -234,4 +237,3 @@ class FormPickerDropDownElement<T>(tag: Int = -1) : FormPickerElement<T>(tag) {
         }
     }
 }
-
