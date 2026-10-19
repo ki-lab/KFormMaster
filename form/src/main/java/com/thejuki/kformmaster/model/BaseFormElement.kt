@@ -35,6 +35,7 @@ import com.thejuki.kformmaster.widget.ClearableEditText
 import com.thejuki.kformmaster.widget.FormElementMargins
 import com.thejuki.kformmaster.widget.FormElementPadding
 import com.thejuki.kformmaster.widget.FormElementShape
+import com.thejuki.kformmaster.widget.FormElementShapeOutlineProvider
 import com.thejuki.kformmaster.widget.IconButton
 import com.thejuki.kformmaster.widget.IconTextView
 import com.thejuki.kformmaster.widget.SegmentedGroup
@@ -418,6 +419,13 @@ open class BaseFormElement<T>(var tag: Int = -1) : ViewModel {
             shapeBuilder.setAllCorners(CornerFamily.ROUNDED, 0f.dpToPx())
         }
         cardView.shapeAppearanceModel = shapeBuilder.build()
+
+        // The card does not clip its content when its corners differ: the content clips itself to the shape
+        cardView.getChildAt(0)?.let { content ->
+            content.outlineProvider = FormElementShapeOutlineProvider(backgroundShape)
+            content.clipToOutline = true
+            content.invalidateOutline()
+        }
     }
 
     var valueTextSize: Float? = null
